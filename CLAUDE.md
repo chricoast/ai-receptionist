@@ -113,7 +113,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 
 ## Status
 
-- [x] Milestone 1 — Accounts & business profile (built and tested locally; live check on Vercel pending, see README)
+- [x] Milestone 1 — Accounts & business profile (live at https://ai-receptionist-lac-mu.vercel.app, sign-up and onboarding confirmed working on the founder's phone)
 - [ ] Milestone 2 — Website chat widget
 - [ ] Milestone 3 — Owner inbox
 - [ ] Milestone 4 — Handoff & notifications
