@@ -47,6 +47,7 @@
     "acceptPrivacy": "Registrací souhlasíte se <link>zásadami ochrany soukromí</link>.",
     "checkEmailTitle": "Zkontrolujte svůj e-mail",
     "checkEmailBody": "Na adresu {email} jsme poslali potvrzovací odkaz. Kliknutím na něj účet aktivujete. Otevřít ho můžete na jakémkoli zařízení.",
+    "emailConfirmed": "Váš e-mail je potvrzený. Přihlaste se prosím.",
     "forgotTitle": "Obnovení hesla",
     "forgotBody": "Zadejte svůj e-mail a pošleme vám odkaz pro nastavení nového hesla.",
     "forgotSubmit": "Poslat odkaz",

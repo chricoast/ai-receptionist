@@ -40,7 +40,7 @@ function EmailField() {
   );
 }
 
-export function LoginForm({ next }: { next?: string }) {
+export function LoginForm({ next, confirmed }: { next?: string; confirmed?: boolean }) {
   const t = useTranslations("auth");
   const [state, action] = useActionState(login, idle);
   return (
@@ -48,6 +48,7 @@ export function LoginForm({ next }: { next?: string }) {
       <h1 className="text-2xl font-semibold">{t("loginTitle")}</h1>
       <form action={action} className="mt-6 space-y-4">
         <input type="hidden" name="next" value={next ?? ""} />
+        {confirmed && state.status === "idle" ? <Alert tone="success">{t("emailConfirmed")}</Alert> : null}
         <ErrorMessage state={state} />
         <EmailField />
         <Field label={t("password")} htmlFor="password">

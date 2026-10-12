@@ -17,15 +17,30 @@ export async function GET(request: NextRequest) {
   const code = searchParams.get("code");
 
   const supabase = await createClient();
-  let ok = false;
-  if (tokenHash && type) {
-    ok = !(await supabase.auth.verifyOtp({ type, token_hash: tokenHash })).error;
-  } else if (code) {
-    ok = !(await supabase.auth.exchangeCodeForSession(code)).error;
-  }
-
   const target = request.nextUrl.clone();
   target.search = "";
-  target.pathname = ok ? next : "/auth/error";
+
+  if (tokenHash && type) {
+    const { error } = await supabase.auth.verifyOtp({ type, token_hash: tokenHash });
+    target.pathname = error ? "/auth/error" : next;
+    return NextResponse.redirect(target);
+  }
+
+  if (code) {
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (!error) {
+      target.pathname = next;
+    } else if (next === "/reset-password") {
+      target.pathname = "/auth/error";
+    } else {
+      // A ?code= link means Supabase already confirmed the email; only the
+      // automatic login failed (link opened in another browser). Ask to log in.
+      target.pathname = "/login";
+      target.searchParams.set("confirmed", "1");
+    }
+    return NextResponse.redirect(target);
+  }
+
+  target.pathname = "/auth/error";
   return NextResponse.redirect(target);
 }

@@ -47,6 +47,7 @@
     "acceptPrivacy": "By signing up you agree to our <link>privacy policy</link>.",
     "checkEmailTitle": "Check your email",
     "checkEmailBody": "We sent a confirmation link to {email}. Click it to activate your account. You can open it on any device.",
+    "emailConfirmed": "Your email is confirmed. Please log in.",
     "forgotTitle": "Reset your password",
     "forgotBody": "Enter your email and we'll send you a link to choose a new password.",
     "forgotSubmit": "Send reset link",

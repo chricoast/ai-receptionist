@@ -24,9 +24,7 @@ Under **Authentication**:
   - **Site URL:** your live address, e.g. `https://ai-receptionist.vercel.app` (once Vercel gives you one, see step 3). Email links point here.
   - **Redirect URLs:** add `http://localhost:3000/**` and `https://*.vercel.app/**`.
 - **Sign In / Providers → Email:** keep **Confirm email** on. Set the minimum password length to **8**.
-- **Emails → Templates:** replace two templates so that email links work even when opened on a different device (e.g. sign up on a laptop, click the link on a phone):
-  - **Confirm signup:** subject `Potvrďte svůj e-mail / Confirm your email`, body: the contents of [`supabase/templates/confirmation.html`](supabase/templates/confirmation.html)
-  - **Reset password:** subject `Nové heslo / Reset your password`, body: the contents of [`supabase/templates/recovery.html`](supabase/templates/recovery.html)
+- **Emails → Templates:** leave the defaults for now. Supabase only allows editing templates once you connect your own email sender (SMTP), which we'll do with Resend in Milestone 4. Then paste in [`supabase/templates/confirmation.html`](supabase/templates/confirmation.html) and [`supabase/templates/recovery.html`](supabase/templates/recovery.html), so email links also log people in when opened on another device. Until then: if someone opens the confirmation link in a different browser, their email is still confirmed and the app asks them to log in.
 
 > Supabase's built-in email sender only allows a few emails per hour. That's fine for testing; before real clients we'll connect Resend (Authentication → Emails → SMTP).
 
