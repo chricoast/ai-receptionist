@@ -102,6 +102,10 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - **Login:** Supabase email + password with email confirmation. Email links go to `/auth/confirm`, which accepts both `token_hash` links (custom templates in `supabase/templates/`, work across devices) and `code` links (Supabase default). The live project still uses Supabase's default templates (editing needs custom SMTP, planned with Resend in Milestone 4), so a `code` link opened in another browser confirms the email and then sends the user to `/login?confirmed=1`.
 - **Security:** every table has RLS. Members read, owners write. The browser only ever gets the publishable key. Businesses are created only via the `create_business()` database function. The service role key is not used anywhere yet.
 - **Forms** keep values in React state and submit one JSON `payload` field to a Server Action, which validates with `zod` (`src/lib/profile/schemas.ts`). Lists (services, FAQs, hours, rules) are saved as "make the database match this list".
+- **AI model:** Claude Opus 5.5 (`claude-opus-5-5`) to start, low effort, set in one config constant. Keep evaluating cheaper models (Sonnet 5.5, Haiku 5.5) against the receptionist test set and switch if they pass.
+- **Chat widget:** `public/widget.js` adds a button and an iframe to `/widget/[key]` (our origin, so no CORS, isolated styles). The visitor's browser keeps a random conversation token (only its SHA-256 is stored). Visitors are anonymous, so `/api/widget/messages` uses the server-only Supabase secret key (`src/lib/supabase/admin.ts`, used only in `src/lib/chat/`) after checking the widget key, token and rate limits (`CHAT_LIMITS` in `src/config/app.ts`). App pages send `X-Frame-Options: DENY`; only `/widget/*` may be embedded.
+- **Receptionist prompt:** the business profile goes into a cached system prompt (no date in it); the current local time is appended as a mid-conversation system message. Claude returns structured JSON (`decision` answer/handoff, `reply`, `handoff_reason`, extracted contact details). Any failure (no key, API error, refusal, daily cap) falls back to a polite holding message and marks the conversation `needs_human`. Server-side refusal fallback (`fallbacks: "default"`) is on. The widget tells customers they are chatting with an AI (EU AI Act transparency).
+- **Gotcha:** during one server render Next.js reuses the result of an identical earlier GET (Supabase reads are fetches). Don't "re-read to check" with the same query in the same render; take the row from the insert (`.insert().select()`).
 - **Suggestions** per business type (`src/lib/profile/suggestions.ts`) only propose names and questions, never prices or answers.
 
 ## Known limitations (fix when relevant)
@@ -109,7 +113,9 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - Saving a list (`replaceList` in `src/lib/profile/actions.ts`) is two requests (upsert, then delete the rest), not one transaction, and has no protection against two tabs editing at once. Move to a database function if it ever matters.
 - Email links are used on a plain GET, so corporate link scanners could use up a password-reset link. Switch to a "click to confirm" page when the custom email templates go live (Milestone 4, with Resend SMTP).
 - There is no "delete my account" feature yet; deletion is by request (see the privacy page). Deleting a user leaves their business behind; add cleanup together with account deletion.
-- RLS helpers (`private.is_business_member`) run once per row. Fine for profile tables; for the big `messages` table (Milestone 2/3) prefer `business_id in (select private.my_business_ids())` style policies.
+- RLS helpers (`private.is_business_member`) run once per row. Fine for profile tables; the chat tables already use `business_id in (select private.my_business_ids())`.
+- The widget doesn't poll for new messages yet; owner replies (Milestone 3) will need polling or Supabase realtime in the widget.
+- The receptionist test set (`npm run eval`) has not been run against the real API yet (no key in the sandbox).
 - The privacy page is a draft: fill in `OPERATOR` in `src/config/app.ts` (legal name, IČO, address, contact email) and have it reviewed before paying customers.
 
 ## Commands
@@ -122,7 +128,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 ## Status
 
 - [x] Milestone 1 — Accounts & business profile (live at https://ai-receptionist-lac-mu.vercel.app, sign-up and onboarding confirmed working on the founder's phone)
-- [ ] Milestone 2 — Website chat widget
+- [x] Milestone 2 — Website chat widget (built and tested locally with a stand-in AI; live test with real Claude pending: needs ANTHROPIC_API_KEY + SUPABASE_SECRET_KEY in Vercel and the third migration)
 - [ ] Milestone 3 — Owner inbox
 - [ ] Milestone 4 — Handoff & notifications
 - [ ] Milestone 5 — Instagram & Facebook DMs
@@ -132,5 +138,6 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 ## Open questions
 
 - Final product name and domain
-- Pricing (to be informed by client interviews — "what would answering every message within a minute be worth to you per month?")
+- Pricing (to be informed by client interviews — "what would answering every message within a minute be worth to you per month?"). Founder's direction: premium positioning, around 10,000 Kč/month (possibly plus a setup fee). Pilot: the 4 test clients free for 2–3 months in exchange for feedback.
+- Product name, logo and brand colours: decide later. Plan: brand basics before the widget goes to real customers, full design/UX pass after Milestone 3.
 - Which booking systems the test clients use

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { buttonClass, Card } from "@/components/ui";
 import { getBusinessProfile, requireBusiness } from "@/lib/business";
+import { createClient } from "@/lib/supabase/server";
 import type { Section } from "@/lib/profile/constants";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -14,6 +15,7 @@ export default async function DashboardPage() {
   const { business, role } = await requireBusiness();
   const profile = await getBusinessProfile(business.id);
   const t = await getTranslations("dashboard");
+  const chat = await getChatStats(business.id);
   const types = await getTranslations("businessTypes");
 
   const openDays = new Set(profile.hours.map((h) => h.weekday)).size;
@@ -84,10 +86,44 @@ export default async function DashboardPage() {
         </ul>
       </Card>
 
-      <Card className="bg-stone-100/60">
-        <h2 className="font-semibold">{t("comingTitle")}</h2>
-        <p className="mt-1 text-sm text-stone-600">{t("comingBody")}</p>
+      <Card className="space-y-2">
+        <h2 className="font-semibold">{t("chat.title")}</h2>
+        {chat.channel ? (
+          <>
+            {chat.channel.enabled ? null : <p className="text-sm text-stone-600">{t("chat.off")}</p>}
+            <p className="text-stone-800">{t("chat.last7", { count: chat.last7 })}</p>
+            <p className={chat.needsHuman ? "font-medium text-amber-700" : "text-stone-600"}>
+              {t("chat.needsHuman", { count: chat.needsHuman })}
+            </p>
+            {chat.needsHuman ? <p className="text-sm text-stone-500">{t("chat.inboxSoon")}</p> : null}
+          </>
+        ) : null}
+        <Link href="/settings/widget" className={buttonClass(chat.channel ? "secondary" : "primary", "mt-2")}>
+          {t("chat.setup")}
+        </Link>
       </Card>
     </div>
   );
+}
+
+/** Website chat numbers for the dashboard (test conversations excluded). */
+async function getChatStats(businessId: string) {
+  const supabase = await createClient();
+  const weekAgo = new Date(Date.now() - 7 * 24 * 3600_000).toISOString();
+  const [channel, last7, needsHuman] = await Promise.all([
+    supabase.from("channels").select("enabled").eq("business_id", businessId).eq("type", "web_chat").maybeSingle(),
+    supabase
+      .from("conversations")
+      .select("id", { count: "exact", head: true })
+      .eq("business_id", businessId)
+      .eq("is_test", false)
+      .gte("created_at", weekAgo),
+    supabase
+      .from("conversations")
+      .select("id", { count: "exact", head: true })
+      .eq("business_id", businessId)
+      .eq("is_test", false)
+      .eq("status", "needs_human"),
+  ]);
+  return { channel: channel.data, last7: last7.count ?? 0, needsHuman: needsHuman.count ?? 0 };
 }

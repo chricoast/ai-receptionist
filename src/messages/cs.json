@@ -89,15 +89,32 @@
   },
   "settings": {
     "title": "Nastavení",
-    "readOnly": "Tato nastavení může měnit jen majitel podniku."
+    "readOnly": "Tato nastavení může měnit jen majitel podniku.",
+    "widget": {
+      "tab": "Chat na webu",
+      "title": "Chat na váš web",
+      "intro": "Přidejte na svůj web chatovací bublinu, ať tam vaše recepční může odpovídat zákazníkům.",
+      "status": "Chat na vašem webu",
+      "on": "Zapnuto",
+      "off": "Vypnuto",
+      "turnOn": "Zapnout",
+      "turnOff": "Vypnout",
+      "offHint": "Když je vypnutý, bublina zákazníkům ukáže, že chat není k dispozici.",
+      "snippetTitle": "1. Zkopírujte tento kód",
+      "snippetHint": "Vložte ho do svého webu těsně před uzavírací značku '</body>'. Ve Wixu, WordPressu nebo Webflow použijte v nastavení webu „vlastní kód“ / „kód v patičce“. Pokud vám web spravuje někdo jiný, pošlete mu tento kód.",
+      "copy": "Zkopírovat kód",
+      "copied": "Zkopírováno",
+      "tryTitle": "2. Vyzkoušejte svou recepční",
+      "tryHint": "Zeptejte se na to, na co se ptají vaši zákazníci. Testovací konverzace jsou označené, takže se nepočítají do statistik.",
+      "staffOnly": "Chat na webu může nastavit jen majitel.",
+      "notReady": "Nejdřív vyplňte základní údaje o podniku."
+    }
   },
   "dashboard": {
     "finishSetupTitle": "Dokončete nastavení",
     "finishSetupBody": "Zbývá pár kroků, než bude vaše recepční vědět dost na to, aby mohla pomáhat.",
     "finishSetupCta": "Pokračovat v nastavení",
     "profileTitle": "Co vaše recepční ví",
-    "comingTitle": "Co přijde dál",
-    "comingBody": "Jako další připravíme chatovací okno na váš web, aby vaše recepční mohla začít odpovídat skutečným zákazníkům.",
     "edit": "Upravit",
     "checklist": {
       "services": "{count, plural, =0 {Zatím žádné služby} one {# služba} few {# služby} other {# služeb}}",
@@ -107,6 +124,14 @@
       "booking": "Odkaz na rezervace",
       "bookingMissing": "Zatím bez odkazu na rezervace",
       "rules": "{count, plural, =0 {Žádná témata „nikdy neodpovídat“} one {# téma „nikdy neodpovídat“} few {# témata „nikdy neodpovídat“} other {# témat „nikdy neodpovídat“}}"
+    },
+    "chat": {
+      "title": "Chat na webu",
+      "last7": "{count, plural, =0 {Za posledních 7 dní žádná konverzace} one {# konverzace za posledních 7 dní} few {# konverzace za posledních 7 dní} other {# konverzací za posledních 7 dní}}",
+      "needsHuman": "{count, plural, =0 {Nic na vás nečeká} one {# konverzace čeká na vás} few {# konverzace čekají na vás} other {# konverzací čeká na vás}}",
+      "inboxSoon": "Číst a odpovídat na ně budete moct ve schránce zpráv (přijde v dalším kroku).",
+      "setup": "Nastavit chat na webu",
+      "off": "Chat je vypnutý."
     }
   },
   "errors": {
@@ -252,5 +277,24 @@
     "body": "Možná vypršelo přihlášení. Zkuste to znovu, nebo se znovu přihlaste.",
     "retry": "Zkusit znovu",
     "login": "Přihlásit se"
+  },
+  "widget": {
+    "title": "{business}",
+    "subtitle": "AI asistent · obvykle odpoví během pár sekund",
+    "greeting": "Dobrý den! 👋 Jsem AI asistent podniku {business}. S čím vám mohu pomoci?",
+    "placeholder": "Napište zprávu…",
+    "send": "Odeslat",
+    "close": "Zavřít chat",
+    "typing": "Píše…",
+    "disclaimer": "Píšete si s umělou inteligencí. Může se splést; důležité věci vám potvrdí tým.",
+    "unavailable": "Chat teď není k dispozici.",
+    "errors": {
+      "rate_limited": "Příliš mnoho zpráv. Chvíli počkejte a zkuste to znovu.",
+      "generic": "Něco se pokazilo. Zkuste to prosím znovu.",
+      "disabled": "Chat je momentálně vypnutý."
+    },
+    "you": "Vy",
+    "assistant": "Asistent",
+    "team": "Tým"
   }
 }

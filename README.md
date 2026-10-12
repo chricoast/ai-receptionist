@@ -4,6 +4,8 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 
 **Milestone 1 (done):** accounts, a business profile, a 6-step onboarding wizard (basics, contact & booking link, services & prices, opening hours, FAQs, tone & "never answer" rules), settings to edit it all later, and a dashboard. Czech and English UI.
 
+**Milestone 2 (done, waiting for the live test):** a chat bubble for the business's website. Customers ask, Claude answers from the business profile, and hands over to the team when it isn't sure (the conversation is marked "needs a human" and the customer is asked for contact details). Settings → **Chat na webu** has the code to paste and a live test chat.
+
 ---
 
 ## One-time setup (by hand)
@@ -14,12 +16,13 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 2. Open [`supabase/migrations/20261012120000_business_profile.sql`](supabase/migrations/20261012120000_business_profile.sql), copy **all** of it, paste it into the editor and click **Run**. It should say "Success. No rows returned".
 3. Check under **Table Editor**: you should see `businesses`, `business_members`, `services`, `opening_hours`, `opening_hour_exceptions`, `faqs`, `rules`. Each one should be marked as protected by RLS.
 
-Run each migration file **once**, in date order. Future milestones will add new files. So far there are two:
+Run each migration file **once**, in date order. Future milestones will add new files. So far there are three:
 
 | File | What it does |
 |---|---|
 | `20261012120000_business_profile.sql` | Creates the tables and their security rules |
 | `20261012180000_profile_hardening.sql` | Extra checks: web addresses must start with http(s), plan values, safe "create business" |
+| `20261013090000_web_chat.sql` | Chat tables: channels, contacts, conversations, messages (with security rules) |
 
 ### 2. Login settings in Supabase
 
@@ -40,10 +43,12 @@ Under **Authentication**:
    - `NEXT_PUBLIC_SUPABASE_URL`: `https://dfavqhhjkbkothdybtkb.supabase.co`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: your `sb_publishable_…` key
    - `NEXT_PUBLIC_SITE_URL`: your live address, e.g. `https://ai-receptionist-lac-mu.vercel.app` (used in email links)
+   - `ANTHROPIC_API_KEY` **(secret)**: from console.anthropic.com → API Keys. Set a monthly spend limit there (Settings → Billing).
+   - `SUPABASE_SECRET_KEY` **(secret)**: Supabase → Project Settings → API Keys → Secret keys (`sb_secret_…`). Used only by the server for the public chat widget.
 3. Deploy. Every branch also gets its own preview address. The main address follows the `main` branch.
 4. Put the main address into Supabase as the **Site URL** (step 2).
 
-**Never add the Supabase secret / service_role key to Vercel or anywhere with `NEXT_PUBLIC_` in its name.**
+**The two secret keys must never get a `NEXT_PUBLIC_` name, be pasted into a chat, or be committed to the code.** `NEXT_PUBLIC_` values are sent to every visitor's browser.
 
 ---
 
@@ -60,6 +65,13 @@ On your phone and on a computer:
 7. **Forgot password:** log out, request a reset link, set a new password, log in with it.
 8. **Data isolation:** sign up with a second email (in a private window) and create another business. Neither account should ever see the other's data.
 
+## How to test Milestone 2 (chat widget)
+
+1. Settings → **Chat na webu**. In "Vyzkoušejte svou recepční" ask what customers ask: prices, opening hours ("máte teď otevřeno?"), booking, something that is NOT in your profile, a "never answer" topic, and something in English.
+2. Check: answers use only your information; unknown things are handed over ("ověřím s kolegy") with a request for your name and phone; English questions get English answers.
+3. Paste the code into a real website (or costahub.co) and try it on your phone.
+4. The dashboard shows the number of website conversations and how many are waiting for you (test chats from settings don't count).
+
 ---
 
 ## For developers
@@ -70,7 +82,7 @@ npm install
 npm run dev                  # http://localhost:3000
 ```
 
-Checks: `npm run typecheck`, `npm run lint`, `npm test` (unit tests), `npm run test:db` (migrations and RLS isolation tests on a throwaway local Postgres).
+Checks: `npm run typecheck`, `npm run lint`, `npm test` (unit tests), `npm run test:db` (migrations and RLS isolation tests on a throwaway local Postgres), `npm run eval` (the receptionist test set against the real Claude API: needs `ANTHROPIC_API_KEY`, costs roughly 10–50 Kč per run).
 
 With Docker you can run a full local Supabase: `npx supabase start` (emails go to Mailpit at http://localhost:54324), then point `.env.local` at the URL and key it prints.
 
@@ -81,4 +93,7 @@ Project layout:
 - `src/lib/profile/`: section list, validation (`schemas.ts`), saving (`actions.ts`), per-type suggestions.
 - `src/lib/supabase/`: Supabase clients. `src/proxy.ts` refreshes the login session and protects pages.
 - `src/messages/`: Czech and English UI texts.
+- `src/lib/ai/`: the receptionist: instructions + business info for Claude (`prompt.ts`) and the Claude call (`receptionist.ts`).
+- `src/lib/chat/`: chat logic for the widget (visitor tokens, rate limits, handover). `src/app/api/widget/` is its API; `src/app/widget/[key]` the chat window; `public/widget.js` the snippet that shows the bubble.
+- `evals/`: the receptionist test set (4 test businesses, ~30 customer questions).
 - `supabase/migrations/`: database changes (run in order). `supabase/tests/`: RLS tests.

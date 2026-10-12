@@ -38,7 +38,10 @@ for f in "$ROOT"/supabase/migrations/*.sql; do
   echo "Applying $(basename "$f")"
   "${PSQL[@]}" -f "$f"
 done
-for f in "$ROOT"/supabase/tests/*.test.sql; do
-  echo "Running $(basename "$f")"
-  "${PSQL[@]}" -tA -f "$f" 2>&1 | sed -e '/^$/d' -e 's/^psql:[^ ]* NOTICE:  /  /' | grep -v '^[0-9a-f-]\{36\}$'
-done
+# All test files run in one database session, in order, so later files can
+# reuse the fixtures and helpers of earlier ones.
+TEST_FILES=("$ROOT/supabase/tests/rls_isolation.test.sql" "$ROOT/supabase/tests/chat_isolation.test.sql")
+for f in "${TEST_FILES[@]}"; do echo "Running $(basename "$f")"; done
+cat "${TEST_FILES[@]}" | "${PSQL[@]}" -tA 2>&1 \
+  | sed -e '/^$/d' -e 's/^psql:[^ ]* NOTICE:  /  /' -e 's/^NOTICE:  /  /' \
+  | grep -v -e '^[0-9a-f-]\{36\}$' -e '^wc_'

@@ -85,6 +85,45 @@ export type RuleRow = {
   position: number;
 } & Timestamps;
 
+export type ChannelRow = {
+  id: string;
+  business_id: string;
+  type: string;
+  public_key: string;
+  enabled: boolean;
+  config: Json;
+} & Timestamps;
+
+export type ContactRow = {
+  id: string;
+  business_id: string;
+  name: string;
+  email: string;
+  phone: string;
+} & Timestamps;
+
+export type ConversationRow = {
+  id: string;
+  business_id: string;
+  channel_id: string;
+  contact_id: string;
+  status: "ai_active" | "needs_human" | "human_active" | "closed";
+  visitor_token_hash: string;
+  client_ip_hash: string;
+  is_test: boolean;
+  last_message_at: string;
+} & Timestamps;
+
+export type MessageRow = {
+  id: string;
+  conversation_id: string;
+  business_id: string;
+  sender: "customer" | "ai" | "human" | "system";
+  content: string;
+  metadata: Json;
+  created_at: string;
+};
+
 type Table<Row, Required extends keyof Row> = {
   Row: Row;
   Insert: Partial<Row> & Pick<Row, Required>;
@@ -102,6 +141,10 @@ export type Database = {
       opening_hour_exceptions: Table<OpeningHourExceptionRow, "business_id" | "date">;
       faqs: Table<FaqRow, "business_id" | "question" | "answer">;
       rules: Table<RuleRow, "business_id" | "kind" | "content">;
+      channels: Table<ChannelRow, "business_id" | "type">;
+      contacts: Table<ContactRow, "business_id">;
+      conversations: Table<ConversationRow, "business_id" | "channel_id" | "contact_id" | "visitor_token_hash">;
+      messages: Table<MessageRow, "conversation_id" | "business_id" | "sender" | "content">;
     };
     Views: { [_ in never]: never };
     Functions: {

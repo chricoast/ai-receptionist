@@ -9,14 +9,18 @@ import { cn } from "./ui";
 export function SettingsTabs() {
   const pathname = usePathname();
   const t = useTranslations("onboarding.steps");
+  const tw = useTranslations("settings.widget");
+  const tabs = [
+    ...SECTIONS.map((section) => ({ href: `/settings/${section}`, label: t(section) })),
+    { href: "/settings/widget", label: tw("tab") },
+  ];
   return (
     <nav className="-mx-4 overflow-x-auto px-4">
       <ul className="flex min-w-max gap-1 border-b border-stone-200">
-        {SECTIONS.map((section) => {
-          const href = `/settings/${section}`;
+        {tabs.map(({ href, label }) => {
           const active = pathname === href;
           return (
-            <li key={section}>
+            <li key={href}>
               <Link
                 href={href}
                 aria-current={active ? "page" : undefined}
@@ -25,7 +29,7 @@ export function SettingsTabs() {
                   active ? "border-brand-600 text-brand-700" : "border-transparent text-stone-600 hover:text-stone-900",
                 )}
               >
-                {t(section)}
+                {label}
               </Link>
             </li>
           );

@@ -89,15 +89,32 @@
   },
   "settings": {
     "title": "Settings",
-    "readOnly": "Only the owner of the business can change these settings."
+    "readOnly": "Only the owner of the business can change these settings.",
+    "widget": {
+      "tab": "Chat widget",
+      "title": "Chat widget for your website",
+      "intro": "Add the chat bubble to your website, so your receptionist can answer customers there.",
+      "status": "Chat on your website",
+      "on": "On",
+      "off": "Off",
+      "turnOn": "Turn on",
+      "turnOff": "Turn off",
+      "offHint": "While it's off, the chat bubble shows that the chat is unavailable.",
+      "snippetTitle": "1. Copy this code",
+      "snippetHint": "Paste it into your website, just before the closing '</body>' tag. On Wix, WordPress or Webflow use \"custom code\" / \"footer code\" in the site settings. If someone else manages your website, send them this code.",
+      "copy": "Copy code",
+      "copied": "Copied",
+      "tryTitle": "2. Try your receptionist",
+      "tryHint": "Ask what your customers usually ask. Test conversations are marked so they don't count in your statistics.",
+      "staffOnly": "Only the owner can set up the chat widget.",
+      "notReady": "Finish the basics of your business profile first."
+    }
   },
   "dashboard": {
     "finishSetupTitle": "Finish setting up",
     "finishSetupBody": "A few steps are left before your receptionist knows enough to help.",
     "finishSetupCta": "Continue setup",
     "profileTitle": "What your receptionist knows",
-    "comingTitle": "Coming next",
-    "comingBody": "Next we'll build the chat widget for your website, so your receptionist can start answering real customers.",
     "edit": "Edit",
     "checklist": {
       "services": "{count, plural, =0 {No services yet} one {# service} other {# services}}",
@@ -107,6 +124,14 @@
       "booking": "Booking link",
       "bookingMissing": "No booking link yet",
       "rules": "{count, plural, =0 {No \"never answer\" topics} one {# \"never answer\" topic} other {# \"never answer\" topics}}"
+    },
+    "chat": {
+      "title": "Website chat",
+      "last7": "{count, plural, =0 {No conversations in the last 7 days} one {# conversation in the last 7 days} other {# conversations in the last 7 days}}",
+      "needsHuman": "{count, plural, =0 {Nothing waiting for you} one {# conversation needs you} other {# conversations need you}}",
+      "inboxSoon": "You'll be able to read and answer them in the inbox (coming in the next milestone).",
+      "setup": "Set up the chat widget",
+      "off": "The chat is switched off."
     }
   },
   "errors": {
@@ -252,5 +277,24 @@
     "body": "Your session may have expired. Try again, or log in again.",
     "retry": "Try again",
     "login": "Log in"
+  },
+  "widget": {
+    "title": "{business}",
+    "subtitle": "AI assistant · usually replies in seconds",
+    "greeting": "Hi! 👋 I'm the AI assistant of {business}. How can I help you?",
+    "placeholder": "Write a message…",
+    "send": "Send",
+    "close": "Close chat",
+    "typing": "Writing…",
+    "disclaimer": "You're chatting with an AI. It can make mistakes; for anything important the team will confirm.",
+    "unavailable": "The chat is not available right now.",
+    "errors": {
+      "rate_limited": "Too many messages. Please wait a little and try again.",
+      "generic": "Something went wrong. Please try again.",
+      "disabled": "The chat is switched off at the moment."
+    },
+    "you": "You",
+    "assistant": "Assistant",
+    "team": "Team"
   }
 }

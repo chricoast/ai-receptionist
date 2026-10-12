@@ -9,9 +9,11 @@
     "lint": "eslint",
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
-    "test:db": "./scripts/test-db.sh"
+    "test:db": "./scripts/test-db.sh",
+    "eval": "vitest run --config vitest.eval.config.mts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.133.0",
     "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.117.3",
     "next": "16.4.0",
