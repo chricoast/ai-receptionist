@@ -1,0 +1,23 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --color-brand-50: #eefbf7;
+  --color-brand-100: #d5f5ea;
+  --color-brand-200: #aeead8;
+  --color-brand-500: #14a37f;
+  --color-brand-600: #0b8467;
+  --color-brand-700: #0a6a54;
+  --color-brand-900: #08392f;
+}
+
+body {
+  @apply bg-stone-50 text-stone-900 antialiased;
+}
+
+/* Bigger tap targets and no zoom-on-focus on iPhone (needs >= 16px text). */
+input,
+select,
+textarea {
+  font-size: 16px;
+}

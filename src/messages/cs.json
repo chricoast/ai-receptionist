@@ -1,0 +1,233 @@
+{
+  "common": {
+    "save": "Uložit",
+    "saving": "Ukládám…",
+    "saved": "Uloženo",
+    "back": "Zpět",
+    "continue": "Pokračovat",
+    "add": "Přidat",
+    "remove": "Odebrat",
+    "optional": "nepovinné",
+    "logout": "Odhlásit se",
+    "language": "Jazyk",
+    "languageNames": {
+      "cs": "Čeština",
+      "en": "English"
+    }
+  },
+  "nav": {
+    "dashboard": "Přehled",
+    "settings": "Nastavení",
+    "privacy": "Ochrana soukromí"
+  },
+  "home": {
+    "title": "Recepční, která nikdy nespí",
+    "subtitle": "Odpoví na zprávy vašich zákazníků okamžitě, česky i anglicky, a jen z informací, které jí dáte. Když si není jistá, předá konverzaci vám.",
+    "signup": "Vytvořit účet",
+    "login": "Přihlásit se",
+    "points": {
+      "instant": "Odpovídá během pár sekund, ve dne i v noci",
+      "honest": "Nic si nevymýšlí: odpovídá jen z vašich informací",
+      "control": "Vidíte každou konverzaci a můžete kdykoli převzít slovo"
+    }
+  },
+  "auth": {
+    "email": "E-mail",
+    "password": "Heslo",
+    "loginTitle": "Přihlášení",
+    "loginSubmit": "Přihlásit se",
+    "noAccount": "Ještě nemáte účet?",
+    "signupLink": "Zaregistrujte se",
+    "forgotLink": "Zapomněli jste heslo?",
+    "signupTitle": "Vytvořte si účet",
+    "signupSubmit": "Vytvořit účet",
+    "passwordHint": "Alespoň 8 znaků.",
+    "haveAccount": "Už máte účet?",
+    "loginLink": "Přihlaste se",
+    "acceptPrivacy": "Registrací souhlasíte se <link>zásadami ochrany soukromí</link>.",
+    "checkEmailTitle": "Zkontrolujte svůj e-mail",
+    "checkEmailBody": "Na adresu {email} jsme poslali potvrzovací odkaz. Kliknutím na něj účet aktivujete. Otevřít ho můžete na jakémkoli zařízení.",
+    "forgotTitle": "Obnovení hesla",
+    "forgotBody": "Zadejte svůj e-mail a pošleme vám odkaz pro nastavení nového hesla.",
+    "forgotSubmit": "Poslat odkaz",
+    "forgotSent": "Pokud k tomuto e-mailu existuje účet, odkaz je na cestě.",
+    "resetTitle": "Nastavte si nové heslo",
+    "newPassword": "Nové heslo",
+    "resetSubmit": "Uložit nové heslo",
+    "confirmFailedTitle": "Tento odkaz nefunguje",
+    "confirmFailedBody": "Platnost odkazu vypršela, nebo už byl použit. Zkuste se přihlásit, nebo si nechte poslat nový odkaz.",
+    "errors": {
+      "invalidCredentials": "Nesprávný e-mail nebo heslo.",
+      "emailNotConfirmed": "Nejdřív prosím potvrďte svůj e-mail. Odkaz najdete ve schránce.",
+      "weakPassword": "Heslo je příliš slabé. Použijte alespoň 8 znaků.",
+      "rateLimited": "Příliš mnoho pokusů. Počkejte prosím pár minut a zkuste to znovu.",
+      "invalidEmail": "Zadejte prosím platnou e-mailovou adresu.",
+      "userExists": "Účet s tímto e-mailem už existuje. Přihlaste se, nebo si obnovte heslo, pokud jste ho zapomněli.",
+      "generic": "Něco se pokazilo. Zkuste to prosím znovu."
+    }
+  },
+  "onboarding": {
+    "title": "Nastavení vaší recepční",
+    "stepOf": "Krok {current} z {total}",
+    "changeLater": "Vše můžete později změnit v Nastavení.",
+    "doneTitle": "Profil vašeho podniku je hotový",
+    "doneBody": "Tohle je vše, co bude vaše recepční o vašem podniku vědět. Čím víc častých dotazů přidáte, tím víc otázek zvládne zodpovědět sama.",
+    "doneCta": "Přejít na přehled",
+    "steps": {
+      "basics": "Základní údaje",
+      "contact": "Kontakt a rezervace",
+      "services": "Služby a ceny",
+      "hours": "Otevírací doba",
+      "faqs": "Časté dotazy",
+      "assistant": "Tón a pravidla"
+    }
+  },
+  "settings": {
+    "title": "Nastavení",
+    "readOnly": "Tato nastavení může měnit jen majitel podniku."
+  },
+  "dashboard": {
+    "finishSetupTitle": "Dokončete nastavení",
+    "finishSetupBody": "Zbývá pár kroků, než bude vaše recepční vědět dost na to, aby mohla pomáhat.",
+    "finishSetupCta": "Pokračovat v nastavení",
+    "profileTitle": "Co vaše recepční ví",
+    "comingTitle": "Co přijde dál",
+    "comingBody": "Jako další připravíme chatovací okno na váš web, aby vaše recepční mohla začít odpovídat skutečným zákazníkům.",
+    "edit": "Upravit",
+    "checklist": {
+      "services": "{count, plural, =0 {Zatím žádné služby} one {# služba} few {# služby} other {# služeb}}",
+      "hours": "{count, plural, =0 {Otevírací doba není nastavená} one {Otevřeno # den v týdnu} few {Otevřeno # dny v týdnu} other {Otevřeno # dní v týdnu}}",
+      "faqs": "{count, plural, =0 {Zatím žádné časté dotazy} one {# častý dotaz} few {# časté dotazy} other {# častých dotazů}}",
+      "faqsTip": "Tip: přidejte alespoň 5 častých dotazů.",
+      "booking": "Odkaz na rezervace",
+      "bookingMissing": "Zatím bez odkazu na rezervace",
+      "rules": "{count, plural, =0 {Žádná témata „nikdy neodpovídat“} one {# téma „nikdy neodpovídat“} few {# témata „nikdy neodpovídat“} other {# témat „nikdy neodpovídat“}}"
+    }
+  },
+  "errors": {
+    "invalid": "Některá pole nejsou vyplněná správně. Zkontrolujte je prosím a zkuste to znovu.",
+    "notOwner": "Změny může dělat jen majitel podniku.",
+    "saveFailed": "Změny se nepodařilo uložit. Zkuste to prosím znovu.",
+    "tooManyBusinesses": "Tento účet už má maximální počet podniků."
+  },
+  "businessTypes": {
+    "salon": "Kadeřnictví nebo kosmetika",
+    "barber": "Barber",
+    "clinic": "Klinika (fyzioterapie, masáže, …)",
+    "tattoo": "Tetovací studio",
+    "studio": "Pilates, jóga nebo fitness studio",
+    "cafe": "Kavárna",
+    "restaurant": "Restaurace",
+    "service_shop": "Servis nebo e-shop",
+    "other": "Jiné"
+  },
+  "weekdays": {
+    "1": "Pondělí",
+    "2": "Úterý",
+    "3": "Středa",
+    "4": "Čtvrtek",
+    "5": "Pátek",
+    "6": "Sobota",
+    "7": "Neděle"
+  },
+  "sections": {
+    "basics": {
+      "title": "O vašem podniku",
+      "intro": "Základní informace, aby vaše recepční mohla váš podnik představit.",
+      "name": "Název podniku",
+      "type": "Typ podniku",
+      "languages": "Jazyky, ve kterých komunikujete se zákazníky",
+      "languagesHint": "Recepční odpovídá v jazyce, ve kterém zákazník píše.",
+      "description": "Krátký popis",
+      "descriptionHint": "Čím se zabýváte, čím jste výjimeční, kde vás najít. Stačí pár vět.",
+      "descriptionPlaceholder": "např. Útulná výběrová kavárna na Vinohradech s domácími dorty a klidnou zadní místností na práci s notebookem."
+    },
+    "contact": {
+      "title": "Kontakt a rezervace",
+      "intro": "Kde vás zákazníci najdou a jak si u vás rezervují.",
+      "address": "Adresa",
+      "phone": "Telefon",
+      "email": "E-mail pro zákazníky",
+      "website": "Web",
+      "bookingUrl": "Odkaz na rezervace",
+      "bookingUrlHint": "Recepční pošle tento odkaz, když si někdo chce rezervovat termín (Reservio, Fresha, vlastní stránka, …)."
+    },
+    "services": {
+      "title": "Služby a ceny",
+      "intro": "Vypište, co nabízíte. Recepční cenu nikdy neodhaduje: když tu cena není, řekne, že ji s vámi ověří.",
+      "suggestions": "Běžné pro váš typ podniku: klepnutím přidáte",
+      "empty": "Zatím žádné služby. Přidejte první.",
+      "addService": "Přidat službu",
+      "name": "Název",
+      "description": "Popis",
+      "priceFrom": "Cena od",
+      "priceTo": "Cena do",
+      "priceHint": "Pro pevnou cenu nechte „do“ prázdné. Když je cena na dotaz, nechte prázdné obojí.",
+      "currency": "Měna",
+      "priceNote": "Poznámka k ceně",
+      "priceNotePlaceholder": "např. podle velikosti, záloha 1 000 Kč",
+      "duration": "Délka (minuty)",
+      "active": "Aktuálně nabízíme"
+    },
+    "hours": {
+      "title": "Otevírací doba",
+      "intro": "Kdy máte otevřeno. Recepční podle toho odpoví na otázku „máte teď otevřeno?“",
+      "closed": "Zavřeno",
+      "open": "Otevřeno",
+      "addInterval": "Přidat časový úsek",
+      "copyToWeekdays": "Zkopírovat pondělí na úterý–pátek",
+      "from": "Od",
+      "to": "Do",
+      "overnightHint": "Když je konec dřív než začátek, znamená to po půlnoci.",
+      "exceptionsTitle": "Svátky a výjimečné dny",
+      "exceptionsIntro": "Dny, kdy máte zavřeno nebo jinou otevírací dobu.",
+      "addException": "Přidat výjimečný den",
+      "date": "Datum",
+      "closedAllDay": "Celý den zavřeno",
+      "note": "Poznámka",
+      "notePlaceholder": "např. Vánoce"
+    },
+    "faqs": {
+      "title": "Časté dotazy",
+      "intro": "Otázky, na které se vás zákazníci ptají nejčastěji, a vaše odpovědi. Tohle recepční využívá nejvíc.",
+      "suggestions": "Na tohle se zákazníci podobných podniků často ptají: klepnutím přidáte a pak napíšete odpověď",
+      "empty": "Zatím žádné časté dotazy.",
+      "addFaq": "Přidat dotaz",
+      "question": "Otázka",
+      "answer": "Vaše odpověď"
+    },
+    "assistant": {
+      "title": "Tón a pravidla",
+      "intro": "Jak má vaše recepční znít a na co nikdy nesmí odpovídat sama.",
+      "tone": "Tón komunikace",
+      "tones": {
+        "friendly": "Přátelský",
+        "friendlyHint": "Vřelý a osobní.",
+        "professional": "Profesionální",
+        "professionalHint": "Zdvořilý a věcný.",
+        "casual": "Neformální",
+        "casualHint": "Uvolněný, klidně i s emoji."
+      },
+      "toneNotes": "Ještě něco k tomu, jak komunikujete?",
+      "toneNotesPlaceholder": "např. Se zákazníky si tykáme. Podepisujeme se „Tým Kavárny“.",
+      "neverAnswerTitle": "Nikdy neodpovídat: vždy předat mně",
+      "neverAnswerIntro": "Témata, která recepční nesmí řešit. Zdvořile odpoví, že to ověří s týmem, a dá vám vědět.",
+      "suggestions": "Návrhy: klepnutím přidáte",
+      "addTopic": "Přidat téma",
+      "topicPlaceholder": "např. stížnosti a vracení peněz",
+      "instructionsTitle": "Další pokyny",
+      "instructionsIntro": "Cokoli dalšího, na co má recepční vždy myslet.",
+      "addInstruction": "Přidat pokyn",
+      "instructionPlaceholder": "např. Vždy zmínit, že bereme jen platby kartou.",
+      "approveReplies": "Chci odpovědi před odesláním schvalovat",
+      "approveRepliesHint": "Hodí se, dokud recepční teprve poznáváte. Bude k dispozici spolu se schránkou zpráv."
+    }
+  },
+  "privacy": {
+    "title": "Zásady ochrany soukromí"
+  },
+  "notFound": {
+    "title": "Stránka nenalezena",
+    "back": "Zpět na začátek"
+  }
+}

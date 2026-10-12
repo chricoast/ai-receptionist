@@ -1,0 +1,116 @@
+/**
+ * TypeScript description of the database (mirrors supabase/migrations).
+ * Keep in sync by hand, or regenerate with:
+ *   npx supabase gen types typescript --project-id dfavqhhjkbkothdybtkb > src/lib/database.types.ts
+ */
+
+export type Json = string | number | boolean | null | { [key: string]: Json | undefined } | Json[];
+
+type Timestamps = { created_at: string; updated_at: string };
+
+export type BusinessRow = {
+  id: string;
+  name: string;
+  type: string;
+  description: string;
+  address: string;
+  phone: string;
+  email: string;
+  website: string;
+  booking_url: string;
+  languages: string[];
+  timezone: string;
+  tone: string;
+  tone_notes: string;
+  approve_replies: boolean;
+  plan: string;
+  onboarding_step: string;
+  onboarding_completed_at: string | null;
+} & Timestamps;
+
+export type BusinessMemberRow = {
+  business_id: string;
+  user_id: string;
+  role: string;
+  created_at: string;
+};
+
+export type ServiceRow = {
+  id: string;
+  business_id: string;
+  name: string;
+  description: string;
+  price_from: number | null;
+  price_to: number | null;
+  currency: string;
+  price_note: string;
+  duration_minutes: number | null;
+  position: number;
+  active: boolean;
+} & Timestamps;
+
+export type OpeningHourRow = {
+  id: string;
+  business_id: string;
+  weekday: number;
+  opens_at: string;
+  closes_at: string;
+  created_at: string;
+};
+
+export type OpeningHourExceptionRow = {
+  id: string;
+  business_id: string;
+  date: string;
+  closed: boolean;
+  opens_at: string | null;
+  closes_at: string | null;
+  note: string;
+  created_at: string;
+};
+
+export type FaqRow = {
+  id: string;
+  business_id: string;
+  question: string;
+  answer: string;
+  position: number;
+} & Timestamps;
+
+export type RuleRow = {
+  id: string;
+  business_id: string;
+  kind: string;
+  content: string;
+  position: number;
+} & Timestamps;
+
+type Table<Row, Required extends keyof Row> = {
+  Row: Row;
+  Insert: Partial<Row> & Pick<Row, Required>;
+  Update: Partial<Row>;
+  Relationships: [];
+};
+
+export type Database = {
+  public: {
+    Tables: {
+      businesses: Table<BusinessRow, "name">;
+      business_members: Table<BusinessMemberRow, "business_id" | "user_id">;
+      services: Table<ServiceRow, "business_id" | "name">;
+      opening_hours: Table<OpeningHourRow, "business_id" | "weekday" | "opens_at" | "closes_at">;
+      opening_hour_exceptions: Table<OpeningHourExceptionRow, "business_id" | "date">;
+      faqs: Table<FaqRow, "business_id" | "question" | "answer">;
+      rules: Table<RuleRow, "business_id" | "kind" | "content">;
+    };
+    Views: { [_ in never]: never };
+    Functions: {
+      create_business: {
+        Args: { p_name: string; p_type: string; p_languages: string[] };
+        Returns: string;
+      };
+    };
+    Enums: { [_ in never]: never };
+    CompositeTypes: { [_ in never]: never };
+  };
+};

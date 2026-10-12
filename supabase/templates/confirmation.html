@@ -1,0 +1,9 @@
+<h2>Potvrďte svůj e-mail / Confirm your email</h2>
+<p>Dobrý den, děkujeme za registraci. Kliknutím na odkaz níže potvrdíte svůj e-mail a můžete začít.</p>
+<p>Hi, thanks for signing up. Click the link below to confirm your email and get started.</p>
+<p>
+  <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type=email&next=/onboarding/basics">
+    Potvrdit e-mail / Confirm email
+  </a>
+</p>
+<p>Pokud jste se neregistrovali, tento e-mail ignorujte. / If you didn't sign up, ignore this email.</p>

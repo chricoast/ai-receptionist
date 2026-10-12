@@ -1,0 +1,233 @@
+{
+  "common": {
+    "save": "Save",
+    "saving": "Saving…",
+    "saved": "Saved",
+    "back": "Back",
+    "continue": "Continue",
+    "add": "Add",
+    "remove": "Remove",
+    "optional": "optional",
+    "logout": "Log out",
+    "language": "Language",
+    "languageNames": {
+      "cs": "Čeština",
+      "en": "English"
+    }
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "privacy": "Privacy"
+  },
+  "home": {
+    "title": "Your receptionist that never sleeps",
+    "subtitle": "Answers your customers' messages instantly, in Czech and English, using only your own information. When it isn't sure, it hands over to you.",
+    "signup": "Create an account",
+    "login": "Log in",
+    "points": {
+      "instant": "Replies within seconds, day and night",
+      "honest": "Never makes things up: answers only from your info",
+      "control": "You see every conversation and can step in any time"
+    }
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "loginTitle": "Log in",
+    "loginSubmit": "Log in",
+    "noAccount": "Don't have an account?",
+    "signupLink": "Sign up",
+    "forgotLink": "Forgot your password?",
+    "signupTitle": "Create your account",
+    "signupSubmit": "Create account",
+    "passwordHint": "At least 8 characters.",
+    "haveAccount": "Already have an account?",
+    "loginLink": "Log in",
+    "acceptPrivacy": "By signing up you agree to our <link>privacy policy</link>.",
+    "checkEmailTitle": "Check your email",
+    "checkEmailBody": "We sent a confirmation link to {email}. Click it to activate your account. You can open it on any device.",
+    "forgotTitle": "Reset your password",
+    "forgotBody": "Enter your email and we'll send you a link to choose a new password.",
+    "forgotSubmit": "Send reset link",
+    "forgotSent": "If an account exists for that email, a reset link is on its way.",
+    "resetTitle": "Choose a new password",
+    "newPassword": "New password",
+    "resetSubmit": "Save new password",
+    "confirmFailedTitle": "This link doesn't work",
+    "confirmFailedBody": "The link has expired or was already used. Try logging in, or request a new link.",
+    "errors": {
+      "invalidCredentials": "Wrong email or password.",
+      "emailNotConfirmed": "Please confirm your email first. Check your inbox for the link.",
+      "weakPassword": "This password is too weak. Use at least 8 characters.",
+      "rateLimited": "Too many attempts. Please wait a few minutes and try again.",
+      "invalidEmail": "Please enter a valid email address.",
+      "userExists": "An account with this email already exists. Log in, or reset your password if you forgot it.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "onboarding": {
+    "title": "Set up your receptionist",
+    "stepOf": "Step {current} of {total}",
+    "changeLater": "You can change everything later in Settings.",
+    "doneTitle": "Your business profile is ready",
+    "doneBody": "This is everything your receptionist will know about your business. The more FAQs you add, the more questions it can answer on its own.",
+    "doneCta": "Go to dashboard",
+    "steps": {
+      "basics": "Basics",
+      "contact": "Contact & booking",
+      "services": "Services & prices",
+      "hours": "Opening hours",
+      "faqs": "FAQs",
+      "assistant": "Tone & rules"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "readOnly": "Only the owner of the business can change these settings."
+  },
+  "dashboard": {
+    "finishSetupTitle": "Finish setting up",
+    "finishSetupBody": "A few steps are left before your receptionist knows enough to help.",
+    "finishSetupCta": "Continue setup",
+    "profileTitle": "What your receptionist knows",
+    "comingTitle": "Coming next",
+    "comingBody": "Next we'll build the chat widget for your website, so your receptionist can start answering real customers.",
+    "edit": "Edit",
+    "checklist": {
+      "services": "{count, plural, =0 {No services yet} one {# service} few {# services} other {# services}}",
+      "hours": "{count, plural, =0 {Opening hours not set} one {Open # day a week} few {Open # days a week} other {Open # days a week}}",
+      "faqs": "{count, plural, =0 {No FAQs yet} one {# FAQ} few {# FAQs} other {# FAQs}}",
+      "faqsTip": "Tip: aim for at least 5 FAQs.",
+      "booking": "Booking link",
+      "bookingMissing": "No booking link yet",
+      "rules": "{count, plural, =0 {No \"never answer\" topics} one {# \"never answer\" topic} few {# \"never answer\" topics} other {# \"never answer\" topics}}"
+    }
+  },
+  "errors": {
+    "invalid": "Some fields are not filled in correctly. Please check them and try again.",
+    "notOwner": "Only the owner of the business can make changes.",
+    "saveFailed": "We couldn't save your changes. Please try again.",
+    "tooManyBusinesses": "This account already has the maximum number of businesses."
+  },
+  "businessTypes": {
+    "salon": "Hair or beauty salon",
+    "barber": "Barber",
+    "clinic": "Clinic (physio, massage, …)",
+    "tattoo": "Tattoo studio",
+    "studio": "Pilates, yoga or fitness studio",
+    "cafe": "Café",
+    "restaurant": "Restaurant",
+    "service_shop": "Service shop or e-shop",
+    "other": "Other"
+  },
+  "weekdays": {
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday",
+    "7": "Sunday"
+  },
+  "sections": {
+    "basics": {
+      "title": "About your business",
+      "intro": "The basics your receptionist needs to introduce your business.",
+      "name": "Business name",
+      "type": "Type of business",
+      "languages": "Languages you talk to customers in",
+      "languagesHint": "Your receptionist replies in the language the customer writes in.",
+      "description": "Short description",
+      "descriptionHint": "What you do, what makes you special, where to find you. A few sentences is enough.",
+      "descriptionPlaceholder": "e.g. A cosy specialty coffee café in Vinohrady with homemade cakes and a quiet back room for laptop work."
+    },
+    "contact": {
+      "title": "Contact & booking",
+      "intro": "Where customers can find you and how they book.",
+      "address": "Address",
+      "phone": "Phone",
+      "email": "Email for customers",
+      "website": "Website",
+      "bookingUrl": "Booking link",
+      "bookingUrlHint": "Your receptionist shares this link when someone wants to book (Reservio, Fresha, your own page, …)."
+    },
+    "services": {
+      "title": "Services & prices",
+      "intro": "List what you offer. Your receptionist will never guess a price: if a price isn't here, it says it will check with you.",
+      "suggestions": "Common for your type of business: tap to add",
+      "empty": "No services yet. Add your first one.",
+      "addService": "Add service",
+      "name": "Name",
+      "description": "Description",
+      "priceFrom": "Price from",
+      "priceTo": "Price to",
+      "priceHint": "Leave \"to\" empty for a fixed price. Leave both empty if the price is on request.",
+      "currency": "Currency",
+      "priceNote": "Price note",
+      "priceNotePlaceholder": "e.g. depends on size, deposit 1,000 CZK",
+      "duration": "Duration (minutes)",
+      "active": "Offered right now"
+    },
+    "hours": {
+      "title": "Opening hours",
+      "intro": "When you are open. Your receptionist uses this to answer \"are you open now?\"",
+      "closed": "Closed",
+      "open": "Open",
+      "addInterval": "Add time range",
+      "copyToWeekdays": "Copy Monday to Tuesday–Friday",
+      "from": "From",
+      "to": "To",
+      "overnightHint": "If the end time is earlier than the start, it means after midnight.",
+      "exceptionsTitle": "Holidays & special days",
+      "exceptionsIntro": "Days when you are closed or open at different times.",
+      "addException": "Add special day",
+      "date": "Date",
+      "closedAllDay": "Closed all day",
+      "note": "Note",
+      "notePlaceholder": "e.g. Christmas"
+    },
+    "faqs": {
+      "title": "Frequently asked questions",
+      "intro": "The questions customers ask you most, with your answers. This is what your receptionist uses most often.",
+      "suggestions": "Questions customers often ask businesses like yours: tap to add, then write your answer",
+      "empty": "No FAQs yet.",
+      "addFaq": "Add question",
+      "question": "Question",
+      "answer": "Your answer"
+    },
+    "assistant": {
+      "title": "Tone & rules",
+      "intro": "How your receptionist should sound, and what it must never answer on its own.",
+      "tone": "Tone of voice",
+      "tones": {
+        "friendly": "Friendly",
+        "friendlyHint": "Warm and personal.",
+        "professional": "Professional",
+        "professionalHint": "Polite and to the point.",
+        "casual": "Casual",
+        "casualHint": "Relaxed and informal, emojis welcome."
+      },
+      "toneNotes": "Anything else about how you talk?",
+      "toneNotesPlaceholder": "e.g. We use informal \"ty\" with customers. Sign off with \"Tým Kavárny\".",
+      "neverAnswerTitle": "Never answer: always hand over to me",
+      "neverAnswerIntro": "Topics your receptionist must not handle. It will politely say it will check with the team and notify you.",
+      "suggestions": "Suggestions: tap to add",
+      "addTopic": "Add topic",
+      "topicPlaceholder": "e.g. complaints and refunds",
+      "instructionsTitle": "Other instructions",
+      "instructionsIntro": "Anything else your receptionist should always keep in mind.",
+      "addInstruction": "Add instruction",
+      "instructionPlaceholder": "e.g. Always mention we only accept card payments.",
+      "approveReplies": "Let me approve replies before they are sent",
+      "approveRepliesHint": "Good while you get to know your receptionist. It will be available together with the inbox."
+    }
+  },
+  "privacy": {
+    "title": "Privacy policy"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to the start"
+  }
+}
