@@ -21,8 +21,8 @@ Run each migration file **once**, in date order. Future milestones will add new 
 Under **Authentication**:
 
 - **URL Configuration**
-  - **Site URL:** your live address, e.g. `https://ai-receptionist.vercel.app` (once Vercel gives you one, see step 3). Email links point here.
-  - **Redirect URLs:** add `http://localhost:3000/**` and `https://*.vercel.app/**`.
+  - **Site URL:** your live address, e.g. `https://ai-receptionist-lac-mu.vercel.app`, without a `/` at the end (once Vercel gives you one, see step 3). Email links point here.
+  - **Redirect URLs:** add `http://localhost:3000/**` and your exact live address with `/**` at the end, e.g. `https://ai-receptionist-lac-mu.vercel.app/**`. Don't use `https://*.vercel.app/**`: that would allow login links to point to anyone's Vercel site.
 - **Sign In / Providers → Email:** keep **Confirm email** on. Set the minimum password length to **8**.
 - **Emails → Templates:** leave the defaults for now. Supabase only allows editing templates once you connect your own email sender (SMTP), which we'll do with Resend in Milestone 4. Then paste in [`supabase/templates/confirmation.html`](supabase/templates/confirmation.html) and [`supabase/templates/recovery.html`](supabase/templates/recovery.html), so email links also log people in when opened on another device. Until then: if someone opens the confirmation link in a different browser, their email is still confirmed and the app asks them to log in.
 
