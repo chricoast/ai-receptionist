@@ -106,7 +106,7 @@ const byType: Record<BusinessType, Suggestions> = {
         "Jak dlouho dopředu se musím objednat?",
         "Můžu si přinést vlastní návrh?",
         "Jak se o tetování starat po zákroku?",
-        "Od kolika let u vás můžu tetovat?",
+        "Od kolika let se u vás můžu nechat tetovat?",
       ],
       en: [
         "How much is the deposit and how do I pay it?",
@@ -206,16 +206,14 @@ const byType: Record<BusinessType, Suggestions> = {
       cs: [
         "Jak dlouho trvá oprava?",
         "Musím se na servis objednat?",
-        "Kde je moje objednávka z e-shopu?",
         "Jak můžu zboží vrátit nebo vyměnit?",
-        "Je zboží skladem?",
+        "Jak dlouho trvá doručení objednávky?",
       ],
       en: [
         "How long does a repair take?",
         "Do I need to book a service?",
-        "Where is my online order?",
         "How can I return or exchange an item?",
-        "Is this item in stock?",
+        "How long does delivery take?",
       ],
     },
     neverAnswer: {

@@ -14,6 +14,7 @@ export type AuthErrorKey =
   | "rateLimited"
   | "invalidEmail"
   | "userExists"
+  | "samePassword"
   | "generic";
 
 export type AuthState =
@@ -37,6 +38,8 @@ function toErrorKey(error: AuthError): AuthErrorKey {
       return "rateLimited";
     case "email_address_invalid":
       return "invalidEmail";
+    case "same_password":
+      return "samePassword";
     case "user_already_exists":
     case "email_exists":
       return "userExists";
@@ -103,12 +106,15 @@ export async function updatePassword(_prev: AuthState, formData: FormData): Prom
   const supabase = await createClient();
   const { error } = await supabase.auth.updateUser({ password: parsedPassword.data });
   if (error) return fail(toErrorKey(error));
+  // A new password should end any other sessions (e.g. a lost phone).
+  await supabase.auth.signOut({ scope: "others" });
 
   redirect("/dashboard");
 }
 
 export async function logout() {
   const supabase = await createClient();
-  await supabase.auth.signOut();
+  // Log out this device only, not the owner's other phones and computers.
+  await supabase.auth.signOut({ scope: "local" });
   redirect("/login");
 }

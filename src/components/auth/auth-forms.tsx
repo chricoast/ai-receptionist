@@ -58,13 +58,13 @@ export function LoginForm({ next, confirmed }: { next?: string; confirmed?: bool
       </form>
       <div className="mt-6 space-y-2 text-sm text-stone-600">
         <p>
-          <Link href="/forgot-password" className="text-brand-700 hover:underline">
+          <Link href="/forgot-password" className="inline-flex min-h-11 items-center text-brand-700 hover:underline">
             {t("forgotLink")}
           </Link>
         </p>
         <p>
           {t("noAccount")}{" "}
-          <Link href="/signup" className="font-medium text-brand-700 hover:underline">
+          <Link href="/signup" className="inline-flex min-h-11 items-center font-medium text-brand-700 hover:underline">
             {t("signupLink")}
           </Link>
         </p>
@@ -108,7 +108,7 @@ export function SignupForm() {
       </form>
       <p className="mt-6 text-sm text-stone-600">
         {t("haveAccount")}{" "}
-        <Link href="/login" className="font-medium text-brand-700 hover:underline">
+        <Link href="/login" className="inline-flex min-h-11 items-center font-medium text-brand-700 hover:underline">
           {t("loginLink")}
         </Link>
       </p>

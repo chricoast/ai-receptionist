@@ -44,14 +44,21 @@ export async function updateSession(request: NextRequest) {
     const target = request.nextUrl.clone();
     target.pathname = path;
     target.search = "";
-    if (path === "/login") target.searchParams.set("next", pathname);
+    if (path === "/login") target.searchParams.set("next", `${pathname}${request.nextUrl.search}`);
     const redirect = NextResponse.redirect(target);
     response.cookies.getAll().forEach((c) => redirect.cookies.set(c));
+    response.headers.forEach((value, key) => {
+      if (key.toLowerCase() === "cache-control") redirect.headers.set(key, value);
+    });
     return redirect;
   };
 
-  if (!isLoggedIn && matches(pathname, PROTECTED_PREFIXES)) return redirectTo("/login");
-  if (isLoggedIn && matches(pathname, AUTH_PAGES)) return redirectTo("/dashboard");
+  // Only redirect page loads. Form saves (Server Actions) are POST requests to
+  // the same URL; redirecting those would break them. They check the login
+  // themselves and send the user to /login properly.
+  const isPageLoad = request.method === "GET" || request.method === "HEAD";
+  if (isPageLoad && !isLoggedIn && matches(pathname, PROTECTED_PREFIXES)) return redirectTo("/login");
+  if (isPageLoad && isLoggedIn && matches(pathname, AUTH_PAGES)) return redirectTo("/dashboard");
 
   return response;
 }

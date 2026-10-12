@@ -6,7 +6,7 @@ export function cn(...classes: Array<string | false | null | undefined>) {
 
 const buttonStyles = {
   primary: "bg-brand-600 text-white hover:bg-brand-700 disabled:bg-brand-600/60",
-  secondary: "border border-stone-300 bg-white text-stone-800 hover:bg-stone-100 disabled:opacity-60",
+  secondary: "border border-stone-400 bg-white text-stone-800 hover:bg-stone-100 disabled:opacity-60",
   ghost: "text-stone-600 hover:bg-stone-100 hover:text-stone-900",
   danger: "text-red-700 hover:bg-red-50",
 };
@@ -29,7 +29,7 @@ export function Button({
 }
 
 const fieldBase =
-  "w-full rounded-lg border border-stone-300 bg-white px-3 py-2.5 text-stone-900 shadow-sm placeholder:text-stone-400 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 disabled:bg-stone-100 disabled:text-stone-500";
+  "w-full rounded-lg border border-stone-400 bg-white px-3 py-2.5 text-stone-900 shadow-sm placeholder:text-stone-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200 disabled:bg-stone-100 disabled:text-stone-500";
 
 export function Input({ className, ...props }: ComponentProps<"input">) {
   return <input className={cn(fieldBase, className)} {...props} />;
@@ -97,7 +97,7 @@ export function Chip({ className, ...props }: ComponentProps<"button">) {
     <button
       type="button"
       className={cn(
-        "rounded-full border border-dashed border-brand-500 bg-brand-50 px-3 py-1.5 text-sm text-brand-900 hover:bg-brand-100",
+        "min-h-11 rounded-full border border-dashed border-brand-500 bg-brand-50 px-4 py-2 text-sm text-brand-900 hover:bg-brand-100",
         className,
       )}
       {...props}

@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Button, Card, Chip, Field, Input, Select, Textarea } from "@/components/ui";
 import type { ServiceRow } from "@/lib/database.types";
 import { saveServices } from "@/lib/profile/actions";
+import { parseAmount } from "@/lib/profile/amount";
 import { CURRENCIES, type FormMode } from "@/lib/profile/constants";
 import { newId, ProfileForm } from "./profile-form";
 
@@ -20,8 +21,9 @@ type Item = {
   active: boolean;
 };
 
-const toText = (n: number | null) => (n === null ? "" : String(n));
-const toNumber = (s: string) => (s.trim() === "" ? null : Number(s.replace(",", ".")));
+const toText = (n: number | null) => (n === null ? "" : String(n).replace(".", ","));
+
+const isInvalid = (raw: string) => typeof parseAmount(raw) === "string";
 
 const blank = (name = ""): Item => ({
   id: newId(),
@@ -70,9 +72,9 @@ export function ServicesForm({
   const payload = {
     services: items.map((item) => ({
       ...item,
-      price_from: toNumber(item.price_from),
-      price_to: toNumber(item.price_to),
-      duration_minutes: toNumber(item.duration_minutes),
+      price_from: parseAmount(item.price_from),
+      price_to: parseAmount(item.price_to),
+      duration_minutes: parseAmount(item.duration_minutes),
     })),
   };
 
@@ -110,7 +112,12 @@ export function ServicesForm({
                   autoFocus={index === items.length - 1 && item.name === ""}
                 />
               </Field>
-              <Button variant="danger" className="mt-6" onClick={() => remove(item.id)}>
+              <Button
+                variant="danger"
+                className="mt-6"
+                aria-label={common("removeItem", { item: item.name || t("name") })}
+                onClick={() => remove(item.id)}
+              >
                 {common("remove")}
               </Button>
             </div>
@@ -119,10 +126,10 @@ export function ServicesForm({
               <Field label={t("priceFrom")} htmlFor={`pf-${item.id}`}>
                 <Input
                   id={`pf-${item.id}`}
-                  type="number"
                   inputMode="decimal"
-                  min={0}
-                  step="any"
+                  autoComplete="off"
+                  maxLength={15}
+                  aria-invalid={isInvalid(item.price_from)}
                   value={item.price_from}
                   onChange={(e) => update(item.id, { price_from: e.target.value })}
                 />
@@ -130,10 +137,10 @@ export function ServicesForm({
               <Field label={t("priceTo")} htmlFor={`pt-${item.id}`}>
                 <Input
                   id={`pt-${item.id}`}
-                  type="number"
                   inputMode="decimal"
-                  min={item.price_from || 0}
-                  step="any"
+                  autoComplete="off"
+                  maxLength={15}
+                  aria-invalid={isInvalid(item.price_to)}
                   value={item.price_to}
                   onChange={(e) => update(item.id, { price_to: e.target.value })}
                 />
@@ -164,7 +171,11 @@ export function ServicesForm({
                 />
               </Field>
             </div>
-            <p className="-mt-2 text-sm text-stone-500">{t("priceHint")}</p>
+            {isInvalid(item.price_from) || isInvalid(item.price_to) ? (
+              <p className="-mt-2 text-sm text-red-700">{t("priceInvalid")}</p>
+            ) : (
+              <p className="-mt-2 text-sm text-stone-500">{t("priceHint")}</p>
+            )}
 
             <Field label={t("priceNote")} optional={common("optional")} htmlFor={`pn-${item.id}`}>
               <Input

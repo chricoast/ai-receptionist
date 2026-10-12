@@ -5,7 +5,7 @@ import { redirect } from "next/navigation";
 import type { ZodError } from "zod";
 import { getCurrentBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
-import { CUSTOMER_LANGUAGES, nextStep, type FormMode, type FormState, type Section } from "./constants";
+import { nextStep, type FormMode, type FormState, type Section } from "./constants";
 import {
   assistantSchema,
   basicsSchema,
@@ -91,8 +91,8 @@ export async function saveBasics(_prev: FormState, formData: FormData): Promise<
   const parsed = basicsSchema.safeParse(getPayload(formData));
   if (!parsed.success) return invalid(parsed.error);
   const input = parsed.data;
-  // Keep a stable order: the first language is the main one.
-  const languages = CUSTOMER_LANGUAGES.filter((l) => input.languages.includes(l));
+  // The order matters: the first language is the main one (chosen in the form).
+  const languages = input.languages;
 
   const current = await getCurrentBusiness();
   if (current && current.role !== "owner") return { status: "error", error: "notOwner" };

@@ -1,13 +1,16 @@
 import type { Metadata, Viewport } from "next";
 import { NextIntlClientProvider } from "next-intl";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { APP_NAME } from "@/config/app";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
-  description: "AI receptionist for small businesses",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("meta");
+  return {
+    title: { default: APP_NAME, template: `%s · ${APP_NAME}` },
+    description: t("description"),
+  };
+}
 
 export const viewport: Viewport = {
   width: "device-width",

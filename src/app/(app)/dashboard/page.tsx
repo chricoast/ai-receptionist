@@ -11,16 +11,17 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function DashboardPage() {
-  const { business } = await requireBusiness();
+  const { business, role } = await requireBusiness();
   const profile = await getBusinessProfile(business.id);
   const t = await getTranslations("dashboard");
   const types = await getTranslations("businessTypes");
 
   const openDays = new Set(profile.hours.map((h) => h.weekday)).size;
+  const activeServices = profile.services.filter((s) => s.active).length;
   const neverAnswer = profile.rules.filter((r) => r.kind === "never_answer").length;
 
   const items: Array<{ ok: boolean; label: string; tip?: string; section: Section }> = [
-    { ok: profile.services.length > 0, label: t("checklist.services", { count: profile.services.length }), section: "services" },
+    { ok: activeServices > 0, label: t("checklist.services", { count: activeServices }), section: "services" },
     { ok: openDays > 0, label: t("checklist.hours", { count: openDays }), section: "hours" },
     {
       ok: profile.faqs.length >= 5,
@@ -43,7 +44,7 @@ export default async function DashboardPage() {
         <p className="text-stone-600">{types(business.type as "other")}</p>
       </div>
 
-      {business.onboarding_completed_at ? null : (
+      {business.onboarding_completed_at || role !== "owner" ? null : (
         <Card className="border-brand-200 bg-brand-50">
           <h2 className="font-semibold text-brand-900">{t("finishSetupTitle")}</h2>
           <p className="mt-1 text-sm text-brand-900/80">{t("finishSetupBody")}</p>
@@ -72,7 +73,10 @@ export default async function DashboardPage() {
                 <p className="text-stone-800">{item.label}</p>
                 {item.tip ? <p className="text-sm text-stone-500">{item.tip}</p> : null}
               </div>
-              <Link href={`/settings/${item.section}`} className="text-sm font-medium text-brand-700 hover:underline">
+              <Link
+                href={`/settings/${item.section}`}
+                className="flex min-h-11 items-center px-2 text-sm font-medium text-brand-700 hover:underline"
+              >
                 {t("edit")}
               </Link>
             </li>

@@ -47,7 +47,7 @@ export function AssistantForm({
 
   const payload = { tone, tone_notes: toneNotes, approve_replies: approveReplies, rules: items };
 
-  const ruleList = (kind: Rule["kind"], placeholder: string) => (
+  const ruleList = (kind: Rule["kind"], placeholder: string, label: string) => (
     <div className="space-y-2">
       {items
         .filter((r) => r.kind === kind)
@@ -56,12 +56,17 @@ export function AssistantForm({
             <Input
               required
               maxLength={500}
+              aria-label={label}
               placeholder={placeholder}
               value={rule.content}
               autoFocus={focusId === rule.id}
               onChange={(e) => update(rule.id, e.target.value)}
             />
-            <Button variant="ghost" aria-label={common("remove")} onClick={() => remove(rule.id)}>
+            <Button
+              variant="ghost"
+              aria-label={common("removeItem", { item: rule.content || label })}
+              onClick={() => remove(rule.id)}
+            >
               ✕
             </Button>
           </div>
@@ -71,12 +76,13 @@ export function AssistantForm({
 
   return (
     <ProfileForm section="assistant" mode={mode} action={saveAssistant} payload={payload} readOnly={readOnly}>
-      <Field label={t("tone")}>
+      <fieldset className="space-y-1.5">
+        <legend className="text-sm font-medium text-stone-800">{t("tone")}</legend>
         <div className="grid gap-3 sm:grid-cols-3">
           {TONES.map((value) => (
             <label
               key={value}
-              className="flex cursor-pointer flex-col rounded-xl border border-stone-300 bg-white p-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
+              className="flex cursor-pointer flex-col rounded-xl border border-stone-400 bg-white p-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
             >
               <span className="flex items-center gap-2 font-medium">
                 <input
@@ -92,7 +98,7 @@ export function AssistantForm({
             </label>
           ))}
         </div>
-      </Field>
+      </fieldset>
 
       <Field label={t("toneNotes")} optional={common("optional")} htmlFor="tone_notes">
         <Textarea
@@ -122,7 +128,7 @@ export function AssistantForm({
             </div>
           </div>
         ) : null}
-        {ruleList("never_answer", t("topicPlaceholder"))}
+        {ruleList("never_answer", t("topicPlaceholder"), t("topic"))}
         {readOnly ? null : (
           <Button variant="secondary" onClick={() => add("never_answer")}>
             + {t("addTopic")}
@@ -135,7 +141,7 @@ export function AssistantForm({
           <h2 className="text-lg font-semibold">{t("instructionsTitle")}</h2>
           <p className="text-sm text-stone-600">{t("instructionsIntro")}</p>
         </div>
-        {ruleList("instruction", t("instructionPlaceholder"))}
+        {ruleList("instruction", t("instructionPlaceholder"), t("instruction"))}
         {readOnly ? null : (
           <Button variant="secondary" onClick={() => add("instruction")}>
             + {t("addInstruction")}
@@ -143,10 +149,12 @@ export function AssistantForm({
         )}
       </section>
 
-      <label className="flex cursor-pointer gap-3 rounded-xl border border-stone-200 bg-white p-4">
+      {/* Not active until the inbox exists (Milestone 4), so it can't be switched on yet. */}
+      <label className="flex gap-3 rounded-xl border border-stone-200 bg-stone-100 p-4 text-stone-500">
         <input
           type="checkbox"
           className="mt-1 size-4 accent-brand-600"
+          disabled
           checked={approveReplies}
           onChange={(e) => setApproveReplies(e.target.checked)}
         />

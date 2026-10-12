@@ -54,8 +54,19 @@ export function HoursForm({
     setIntervals((list) => list.map((i) => (i.id === id ? { ...i, ...patch } : i)));
   const addInterval = (day: number, opens_at = "09:00", closes_at = "17:00") =>
     setIntervals((list) => [...list, { id: newId(), weekday: day, opens_at, closes_at }]);
-  const setDayOpen = (day: number, open: boolean) =>
-    open ? addInterval(day) : setIntervals((list) => list.filter((i) => i.weekday !== day));
+  const setDayOpen = (day: number, open: boolean) => {
+    if (!open) return setIntervals((list) => list.filter((i) => i.weekday !== day));
+    if (forDay(day).length === 0) addInterval(day);
+  };
+  /** A second range starts where the last one ends (e.g. after a lunch break). */
+  const addNextInterval = (day: number) => {
+    const last = forDay(day).at(-1);
+    if (!last) return addInterval(day);
+    const [h, m] = last.closes_at.split(":").map(Number);
+    const start = `${String(Math.min(h + 1, 23)).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+    const end = `${String(Math.min(h + 4, 23)).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
+    addInterval(day, start, start === end ? "23:59" : end);
+  };
   const copyMondayToWeekdays = () =>
     setIntervals((list) => {
       const monday = list.filter((i) => i.weekday === 1);
@@ -86,7 +97,7 @@ export function HoursForm({
           const open = dayIntervals.length > 0;
           return (
             <div key={day} className="flex flex-col gap-3 px-4 py-4 sm:flex-row sm:items-start sm:px-6">
-              <label className="flex min-h-11 w-40 shrink-0 items-center gap-3 font-medium">
+              <label className="flex min-h-11 shrink-0 items-center gap-3 font-medium sm:w-40">
                 <input
                   type="checkbox"
                   className="size-5 accent-brand-600"
@@ -98,12 +109,12 @@ export function HoursForm({
               {open ? (
                 <div className="flex-1 space-y-2">
                   {dayIntervals.map((interval, idx) => (
-                    <div key={interval.id} className="flex items-center gap-2">
+                    <div key={interval.id} className="flex flex-wrap items-center gap-2">
                       <Input
                         type="time"
                         required
-                        aria-label={t("from")}
-                        className="w-32"
+                        aria-label={`${weekdayName(String(day) as "1")} – ${t("from")}`}
+                        className="w-32 min-w-0 flex-1 sm:flex-none"
                         value={interval.opens_at}
                         onChange={(e) => updateInterval(interval.id, { opens_at: e.target.value })}
                       />
@@ -111,15 +122,15 @@ export function HoursForm({
                       <Input
                         type="time"
                         required
-                        aria-label={t("to")}
-                        className="w-32"
+                        aria-label={`${weekdayName(String(day) as "1")} – ${t("to")}`}
+                        className="w-32 min-w-0 flex-1 sm:flex-none"
                         value={interval.closes_at}
                         onChange={(e) => updateInterval(interval.id, { closes_at: e.target.value })}
                       />
                       {idx > 0 ? (
                         <Button
                           variant="ghost"
-                          aria-label={common("remove")}
+                          aria-label={common("removeItem", { item: `${interval.opens_at}–${interval.closes_at}` })}
                           onClick={() => setIntervals((list) => list.filter((i) => i.id !== interval.id))}
                         >
                           ✕
@@ -130,8 +141,8 @@ export function HoursForm({
                   {readOnly ? null : (
                     <button
                       type="button"
-                      className="text-sm text-brand-700 hover:underline"
-                      onClick={() => addInterval(day, "13:00", "18:00")}
+                      className="min-h-11 text-sm text-brand-700 hover:underline"
+                      onClick={() => addNextInterval(day)}
                     >
                       + {t("addInterval")}
                     </button>

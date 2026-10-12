@@ -14,7 +14,12 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 2. Open [`supabase/migrations/20261012120000_business_profile.sql`](supabase/migrations/20261012120000_business_profile.sql), copy **all** of it, paste it into the editor and click **Run**. It should say "Success. No rows returned".
 3. Check under **Table Editor**: you should see `businesses`, `business_members`, `services`, `opening_hours`, `opening_hour_exceptions`, `faqs`, `rules`. Each one should be marked as protected by RLS.
 
-Run each migration file **once**, in date order. Future milestones will add new files.
+Run each migration file **once**, in date order. Future milestones will add new files. So far there are two:
+
+| File | What it does |
+|---|---|
+| `20261012120000_business_profile.sql` | Creates the tables and their security rules |
+| `20261012180000_profile_hardening.sql` | Extra checks: web addresses must start with http(s), plan values, safe "create business" |
 
 ### 2. Login settings in Supabase
 
@@ -34,6 +39,7 @@ Under **Authentication**:
 2. Before clicking Deploy, open **Environment Variables** and add:
    - `NEXT_PUBLIC_SUPABASE_URL`: `https://dfavqhhjkbkothdybtkb.supabase.co`
    - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`: your `sb_publishable_…` key
+   - `NEXT_PUBLIC_SITE_URL`: your live address, e.g. `https://ai-receptionist-lac-mu.vercel.app` (used in email links)
 3. Deploy. Every branch also gets its own preview address. The main address follows the `main` branch.
 4. Put the main address into Supabase as the **Site URL** (step 2).
 

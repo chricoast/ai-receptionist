@@ -104,6 +104,14 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - **Forms** keep values in React state and submit one JSON `payload` field to a Server Action, which validates with `zod` (`src/lib/profile/schemas.ts`). Lists (services, FAQs, hours, rules) are saved as "make the database match this list".
 - **Suggestions** per business type (`src/lib/profile/suggestions.ts`) only propose names and questions, never prices or answers.
 
+## Known limitations (fix when relevant)
+
+- Saving a list (`replaceList` in `src/lib/profile/actions.ts`) is two requests (upsert, then delete the rest), not one transaction, and has no protection against two tabs editing at once. Move to a database function if it ever matters.
+- Email links are used on a plain GET, so corporate link scanners could use up a password-reset link. Switch to a "click to confirm" page when the custom email templates go live (Milestone 4, with Resend SMTP).
+- There is no "delete my account" feature yet; deletion is by request (see the privacy page). Deleting a user leaves their business behind; add cleanup together with account deletion.
+- RLS helpers (`private.is_business_member`) run once per row. Fine for profile tables; for the big `messages` table (Milestone 2/3) prefer `business_id in (select private.my_business_ids())` style policies.
+- The privacy page is a draft: fill in `OPERATOR` in `src/config/app.ts` (legal name, IČO, address, contact email) and have it reviewed before paying customers.
+
 ## Commands
 
 - `npm run dev`: start locally at http://localhost:3000 (needs `.env.local`, see `.env.example`)

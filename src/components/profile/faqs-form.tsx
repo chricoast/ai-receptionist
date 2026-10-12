@@ -71,7 +71,12 @@ export function FaqsForm({
                   onChange={(e) => update(item.id, { question: e.target.value })}
                 />
               </Field>
-              <Button variant="danger" className="mt-6" onClick={() => remove(item.id)}>
+              <Button
+                variant="danger"
+                className="mt-6"
+                aria-label={common("removeItem", { item: item.question || t("question") })}
+                onClick={() => remove(item.id)}
+              >
                 {common("remove")}
               </Button>
             </div>

@@ -13,15 +13,18 @@
     "languageNames": {
       "cs": "Čeština",
       "en": "English"
-    }
+    },
+    "removeItem": "Remove: {item}",
+    "unsaved": "You have unsaved changes."
   },
   "nav": {
     "dashboard": "Dashboard",
     "settings": "Settings",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "main": "Main menu"
   },
   "home": {
-    "title": "Your receptionist that never sleeps",
+    "title": "The receptionist that never sleeps",
     "subtitle": "Answers your customers' messages instantly, in Czech and English, using only your own information. When it isn't sure, it hands over to you.",
     "signup": "Create an account",
     "login": "Log in",
@@ -51,7 +54,7 @@
     "forgotTitle": "Reset your password",
     "forgotBody": "Enter your email and we'll send you a link to choose a new password.",
     "forgotSubmit": "Send reset link",
-    "forgotSent": "If an account exists for that email, a reset link is on its way.",
+    "forgotSent": "If an account exists for that email, we've sent it a reset link.",
     "resetTitle": "Choose a new password",
     "newPassword": "New password",
     "resetSubmit": "Save new password",
@@ -64,7 +67,8 @@
       "rateLimited": "Too many attempts. Please wait a few minutes and try again.",
       "invalidEmail": "Please enter a valid email address.",
       "userExists": "An account with this email already exists. Log in, or reset your password if you forgot it.",
-      "generic": "Something went wrong. Please try again."
+      "generic": "Something went wrong. Please try again.",
+      "samePassword": "The new password must be different from the old one."
     }
   },
   "onboarding": {
@@ -72,7 +76,7 @@
     "stepOf": "Step {current} of {total}",
     "changeLater": "You can change everything later in Settings.",
     "doneTitle": "Your business profile is ready",
-    "doneBody": "This is everything your receptionist will know about your business. The more FAQs you add, the more questions it can answer on its own.",
+    "doneBody": "Your receptionist will only know what you filled in. The more FAQs you add, the more questions it can answer on its own.",
     "doneCta": "Go to dashboard",
     "steps": {
       "basics": "Basics",
@@ -96,20 +100,22 @@
     "comingBody": "Next we'll build the chat widget for your website, so your receptionist can start answering real customers.",
     "edit": "Edit",
     "checklist": {
-      "services": "{count, plural, =0 {No services yet} one {# service} few {# services} other {# services}}",
-      "hours": "{count, plural, =0 {Opening hours not set} one {Open # day a week} few {Open # days a week} other {Open # days a week}}",
-      "faqs": "{count, plural, =0 {No FAQs yet} one {# FAQ} few {# FAQs} other {# FAQs}}",
+      "services": "{count, plural, =0 {No services yet} one {# service} other {# services}}",
+      "hours": "{count, plural, =0 {Opening hours not set} one {Open # day a week} other {Open # days a week}}",
+      "faqs": "{count, plural, =0 {No FAQs yet} one {# FAQ} other {# FAQs}}",
       "faqsTip": "Tip: aim for at least 5 FAQs.",
       "booking": "Booking link",
       "bookingMissing": "No booking link yet",
-      "rules": "{count, plural, =0 {No \"never answer\" topics} one {# \"never answer\" topic} few {# \"never answer\" topics} other {# \"never answer\" topics}}"
+      "rules": "{count, plural, =0 {No \"never answer\" topics} one {# \"never answer\" topic} other {# \"never answer\" topics}}"
     }
   },
   "errors": {
     "invalid": "Some fields are not filled in correctly. Please check them and try again.",
     "notOwner": "Only the owner of the business can make changes.",
     "saveFailed": "We couldn't save your changes. Please try again.",
-    "tooManyBusinesses": "This account already has the maximum number of businesses."
+    "tooManyBusinesses": "This account already has the maximum number of businesses.",
+    "invalidField": "Please check: {field}",
+    "item": "{field} (item {n})"
   },
   "businessTypes": {
     "salon": "Hair or beauty salon",
@@ -141,7 +147,10 @@
       "languagesHint": "Your receptionist replies in the language the customer writes in.",
       "description": "Short description",
       "descriptionHint": "What you do, what makes you special, where to find you. A few sentences is enough.",
-      "descriptionPlaceholder": "e.g. A cosy specialty coffee café in Vinohrady with homemade cakes and a quiet back room for laptop work."
+      "descriptionPlaceholder": "e.g. A cosy specialty coffee café in Vinohrady with homemade cakes and a quiet back room for laptop work.",
+      "typePlaceholder": "Choose a type of business",
+      "mainLanguage": "Main language",
+      "mainLanguageHint": "The language you'll write your services and FAQs in."
     },
     "contact": {
       "title": "Contact & booking",
@@ -168,7 +177,8 @@
       "priceNote": "Price note",
       "priceNotePlaceholder": "e.g. depends on size, deposit 1,000 CZK",
       "duration": "Duration (minutes)",
-      "active": "Offered right now"
+      "active": "Offered right now",
+      "priceInvalid": "Enter a number, e.g. 450 or 1 250,50"
     },
     "hours": {
       "title": "Opening hours",
@@ -176,7 +186,7 @@
       "closed": "Closed",
       "open": "Open",
       "addInterval": "Add time range",
-      "copyToWeekdays": "Copy Monday to Tuesday–Friday",
+      "copyToWeekdays": "Use Monday's hours for Tuesday–Friday",
       "from": "From",
       "to": "To",
       "overnightHint": "If the end time is earlier than the start, it means after midnight.",
@@ -186,7 +196,8 @@
       "date": "Date",
       "closedAllDay": "Closed all day",
       "note": "Note",
-      "notePlaceholder": "e.g. Christmas"
+      "notePlaceholder": "e.g. Christmas",
+      "overlap": "Time ranges on the same day must not overlap."
     },
     "faqs": {
       "title": "Frequently asked questions",
@@ -210,7 +221,7 @@
         "casualHint": "Relaxed and informal, emojis welcome."
       },
       "toneNotes": "Anything else about how you talk?",
-      "toneNotesPlaceholder": "e.g. We use informal \"ty\" with customers. Sign off with \"Tým Kavárny\".",
+      "toneNotesPlaceholder": "e.g. We're on first-name terms with customers. Sign off as \"The Café Team\".",
       "neverAnswerTitle": "Never answer: always hand over to me",
       "neverAnswerIntro": "Topics your receptionist must not handle. It will politely say it will check with the team and notify you.",
       "suggestions": "Suggestions: tap to add",
@@ -220,8 +231,10 @@
       "instructionsIntro": "Anything else your receptionist should always keep in mind.",
       "addInstruction": "Add instruction",
       "instructionPlaceholder": "e.g. Always mention we only accept card payments.",
-      "approveReplies": "Let me approve replies before they are sent",
-      "approveRepliesHint": "Good while you get to know your receptionist. It will be available together with the inbox."
+      "approveReplies": "Let me approve replies before they are sent (coming soon)",
+      "approveRepliesHint": "Available together with the inbox. Until then, nothing is sent to customers.",
+      "topic": "Topic",
+      "instruction": "Instruction"
     }
   },
   "privacy": {
@@ -230,5 +243,14 @@
   "notFound": {
     "title": "Page not found",
     "back": "Back to the start"
+  },
+  "meta": {
+    "description": "An AI receptionist for small businesses: answers customer messages instantly, using only your own information."
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "body": "Your session may have expired. Try again, or log in again.",
+    "retry": "Try again",
+    "login": "Log in"
   }
 }

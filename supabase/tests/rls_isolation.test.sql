@@ -144,6 +144,29 @@ select test.expect_affected('owner can add own FAQ',
 select test.expect_affected('owner can add own opening hours',
   format($q$insert into public.opening_hours (business_id, weekday, opens_at, closes_at) values (%L, 1, '08:00', '18:00')$q$, current_setting('test.business_a')), 1);
 
+-- Every profile table, not just services, is isolated.
+select test.expect_error(format('owner cannot insert %s into other business', t),
+  format($q$insert into public.%I (business_id, %s) values (%L, %s)$q$, t, cols, current_setting('test.business_b'), vals),
+  '42501')
+from (values
+  ('opening_hours', 'weekday, opens_at, closes_at', $v$1, '08:00', '09:00'$v$),
+  ('opening_hour_exceptions', 'date', $v$'2026-12-24'$v$),
+  ('faqs', 'question, answer', $v$'q', 'a'$v$),
+  ('rules', 'kind, content', $v$'never_answer', 'x'$v$)
+) as x(t, cols, vals);
+
+select test.expect_error('owner cannot change membership rows',
+  $q$update public.business_members set role = 'owner'$q$, '42501');
+select test.expect_error('owner cannot remove membership rows',
+  $q$delete from public.business_members$q$, '42501');
+select test.expect_error('owner cannot delete a business',
+  format($q$delete from public.businesses where id = %L$q$, current_setting('test.business_a')), '42501');
+select test.expect_error('owner cannot change timezone directly',
+  $q$update public.businesses set timezone = 'UTC'$q$, '42501');
+select test.expect_error('booking link must be a web address',
+  format($q$update public.businesses set booking_url = 'javascript:alert(1)' where id = %L$q$, current_setting('test.business_a')),
+  '23514');
+
 -- ---------------------------------------------------------------------------
 -- Bob's data is intact after Alice's attempts
 -- ---------------------------------------------------------------------------
@@ -166,6 +189,10 @@ select test.expect_error('staff cannot add services',
   '42501');
 select test.expect_affected('staff cannot update business',
   $q$update public.businesses set name = 'Carol Café'$q$, 0);
+select test.expect_affected('staff cannot update services',
+  $q$update public.services set name = 'Latte'$q$, 0);
+select test.expect_affected('staff cannot delete services',
+  $q$delete from public.services$q$, 0);
 
 -- ---------------------------------------------------------------------------
 -- Logged-out visitors (anon) get nothing
@@ -178,6 +205,9 @@ select test.expect_error('anon cannot read businesses', 'select * from public.bu
 select test.expect_error('anon cannot read services', 'select * from public.services', '42501');
 select test.expect_error('anon cannot create a business',
   $q$select public.create_business('Spam', 'other', '{cs}')$q$, '42501');
+select test.expect_error('anon cannot use private helpers',
+  $q$select private.is_business_member(gen_random_uuid())$q$, '42501');
+select test.expect_error('anon cannot read memberships', 'select * from public.business_members', '42501');
 
 -- Logged-in role without a user id (should never happen, but must fail closed)
 reset role;
@@ -186,6 +216,12 @@ select set_config('request.jwt.claims', '', false);
 select test.expect_error('create_business requires a user',
   $q$select public.create_business('Ghost', 'other', '{cs}')$q$, '42501');
 select test.expect_count('no user sees no businesses', 'select * from public.businesses', 0);
+
+-- The per-account limit of 5 businesses holds.
+select test.act_as('00000000-0000-0000-0000-00000000000b');
+select public.create_business('Extra ' || i, 'other', '{cs}') from generate_series(2, 5) as i;
+select test.expect_error('sixth business is refused',
+  $q$select public.create_business('One too many', 'other', '{cs}')$q$, '54000');
 
 reset role;
 \echo 'All RLS isolation tests passed.'

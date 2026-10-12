@@ -8,6 +8,13 @@ create role service_role nologin bypassrls;
 
 grant usage on schema public to anon, authenticated, service_role;
 
+-- Like Supabase: new tables and functions in "public" are granted to the API
+-- roles by default. Our migrations must revoke what they don't want exposed,
+-- and the tests below prove that they do.
+alter default privileges in schema public grant all on tables to anon, authenticated, service_role;
+alter default privileges in schema public grant all on functions to anon, authenticated, service_role;
+alter default privileges in schema public grant all on sequences to anon, authenticated, service_role;
+
 create schema auth;
 grant usage on schema auth to anon, authenticated, service_role;
 

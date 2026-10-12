@@ -13,12 +13,15 @@
     "languageNames": {
       "cs": "Čeština",
       "en": "English"
-    }
+    },
+    "removeItem": "Odebrat: {item}",
+    "unsaved": "Máte neuložené změny."
   },
   "nav": {
     "dashboard": "Přehled",
     "settings": "Nastavení",
-    "privacy": "Ochrana soukromí"
+    "privacy": "Ochrana osobních údajů",
+    "main": "Hlavní menu"
   },
   "home": {
     "title": "Recepční, která nikdy nespí",
@@ -28,7 +31,7 @@
     "points": {
       "instant": "Odpovídá během pár sekund, ve dne i v noci",
       "honest": "Nic si nevymýšlí: odpovídá jen z vašich informací",
-      "control": "Vidíte každou konverzaci a můžete kdykoli převzít slovo"
+      "control": "Vidíte každou konverzaci a kdykoli ji můžete převzít"
     }
   },
   "auth": {
@@ -44,14 +47,14 @@
     "passwordHint": "Alespoň 8 znaků.",
     "haveAccount": "Už máte účet?",
     "loginLink": "Přihlaste se",
-    "acceptPrivacy": "Registrací souhlasíte se <link>zásadami ochrany soukromí</link>.",
+    "acceptPrivacy": "Registrací potvrzujete, že jste se seznámili se <link>zásadami ochrany osobních údajů</link>.",
     "checkEmailTitle": "Zkontrolujte svůj e-mail",
     "checkEmailBody": "Na adresu {email} jsme poslali potvrzovací odkaz. Kliknutím na něj účet aktivujete. Otevřít ho můžete na jakémkoli zařízení.",
     "emailConfirmed": "Váš e-mail je potvrzený. Přihlaste se prosím.",
     "forgotTitle": "Obnovení hesla",
     "forgotBody": "Zadejte svůj e-mail a pošleme vám odkaz pro nastavení nového hesla.",
     "forgotSubmit": "Poslat odkaz",
-    "forgotSent": "Pokud k tomuto e-mailu existuje účet, odkaz je na cestě.",
+    "forgotSent": "Pokud k tomuto e-mailu existuje účet, poslali jsme na něj odkaz.",
     "resetTitle": "Nastavte si nové heslo",
     "newPassword": "Nové heslo",
     "resetSubmit": "Uložit nové heslo",
@@ -64,7 +67,8 @@
       "rateLimited": "Příliš mnoho pokusů. Počkejte prosím pár minut a zkuste to znovu.",
       "invalidEmail": "Zadejte prosím platnou e-mailovou adresu.",
       "userExists": "Účet s tímto e-mailem už existuje. Přihlaste se, nebo si obnovte heslo, pokud jste ho zapomněli.",
-      "generic": "Něco se pokazilo. Zkuste to prosím znovu."
+      "generic": "Něco se pokazilo. Zkuste to prosím znovu.",
+      "samePassword": "Nové heslo musí být jiné než to staré."
     }
   },
   "onboarding": {
@@ -72,7 +76,7 @@
     "stepOf": "Krok {current} z {total}",
     "changeLater": "Vše můžete později změnit v Nastavení.",
     "doneTitle": "Profil vašeho podniku je hotový",
-    "doneBody": "Tohle je vše, co bude vaše recepční o vašem podniku vědět. Čím víc častých dotazů přidáte, tím víc otázek zvládne zodpovědět sama.",
+    "doneBody": "Recepční bude o vašem podniku vědět jen to, co jste vyplnili. Čím víc častých dotazů přidáte, tím víc otázek zvládne zodpovědět sama.",
     "doneCta": "Přejít na přehled",
     "steps": {
       "basics": "Základní údaje",
@@ -109,12 +113,14 @@
     "invalid": "Některá pole nejsou vyplněná správně. Zkontrolujte je prosím a zkuste to znovu.",
     "notOwner": "Změny může dělat jen majitel podniku.",
     "saveFailed": "Změny se nepodařilo uložit. Zkuste to prosím znovu.",
-    "tooManyBusinesses": "Tento účet už má maximální počet podniků."
+    "tooManyBusinesses": "Tento účet už má maximální počet podniků.",
+    "invalidField": "Zkontrolujte prosím: {field}",
+    "item": "{field} ({n}. položka)"
   },
   "businessTypes": {
     "salon": "Kadeřnictví nebo kosmetika",
-    "barber": "Barber",
-    "clinic": "Klinika (fyzioterapie, masáže, …)",
+    "barber": "Barbershop",
+    "clinic": "Fyzioterapie, masáže a zdravotní péče",
     "tattoo": "Tetovací studio",
     "studio": "Pilates, jóga nebo fitness studio",
     "cafe": "Kavárna",
@@ -141,7 +147,10 @@
       "languagesHint": "Recepční odpovídá v jazyce, ve kterém zákazník píše.",
       "description": "Krátký popis",
       "descriptionHint": "Čím se zabýváte, čím jste výjimeční, kde vás najít. Stačí pár vět.",
-      "descriptionPlaceholder": "např. Útulná výběrová kavárna na Vinohradech s domácími dorty a klidnou zadní místností na práci s notebookem."
+      "descriptionPlaceholder": "např. Útulná výběrová kavárna na Vinohradech s domácími dorty a klidnou zadní místností na práci s notebookem.",
+      "typePlaceholder": "Vyberte typ podniku",
+      "mainLanguage": "Hlavní jazyk",
+      "mainLanguageHint": "Jazyk, ve kterém budete psát služby a časté dotazy."
     },
     "contact": {
       "title": "Kontakt a rezervace",
@@ -168,7 +177,8 @@
       "priceNote": "Poznámka k ceně",
       "priceNotePlaceholder": "např. podle velikosti, záloha 1 000 Kč",
       "duration": "Délka (minuty)",
-      "active": "Aktuálně nabízíme"
+      "active": "Aktuálně nabízíme",
+      "priceInvalid": "Zadejte číslo, např. 450 nebo 1 250,50"
     },
     "hours": {
       "title": "Otevírací doba",
@@ -176,7 +186,7 @@
       "closed": "Zavřeno",
       "open": "Otevřeno",
       "addInterval": "Přidat časový úsek",
-      "copyToWeekdays": "Zkopírovat pondělí na úterý–pátek",
+      "copyToWeekdays": "Použít pondělní časy i na úterý–pátek",
       "from": "Od",
       "to": "Do",
       "overnightHint": "Když je konec dřív než začátek, znamená to po půlnoci.",
@@ -186,7 +196,8 @@
       "date": "Datum",
       "closedAllDay": "Celý den zavřeno",
       "note": "Poznámka",
-      "notePlaceholder": "např. Vánoce"
+      "notePlaceholder": "např. Vánoce",
+      "overlap": "Časové úseky ve stejný den se nesmí překrývat."
     },
     "faqs": {
       "title": "Časté dotazy",
@@ -220,15 +231,26 @@
       "instructionsIntro": "Cokoli dalšího, na co má recepční vždy myslet.",
       "addInstruction": "Přidat pokyn",
       "instructionPlaceholder": "např. Vždy zmínit, že bereme jen platby kartou.",
-      "approveReplies": "Chci odpovědi před odesláním schvalovat",
-      "approveRepliesHint": "Hodí se, dokud recepční teprve poznáváte. Bude k dispozici spolu se schránkou zpráv."
+      "approveReplies": "Chci odpovědi před odesláním schvalovat (již brzy)",
+      "approveRepliesHint": "Bude k dispozici spolu se schránkou zpráv. Do té doby se zákazníkům nic neposílá.",
+      "topic": "Téma",
+      "instruction": "Pokyn"
     }
   },
   "privacy": {
-    "title": "Zásady ochrany soukromí"
+    "title": "Zásady ochrany osobních údajů"
   },
   "notFound": {
     "title": "Stránka nenalezena",
     "back": "Zpět na začátek"
+  },
+  "meta": {
+    "description": "AI recepční pro malé podniky: okamžitě odpovídá na zprávy zákazníků, a to jen z vašich vlastních informací."
+  },
+  "errorPage": {
+    "title": "Něco se pokazilo",
+    "body": "Možná vypršelo přihlášení. Zkuste to znovu, nebo se znovu přihlaste.",
+    "retry": "Zkusit znovu",
+    "login": "Přihlásit se"
   }
 }
