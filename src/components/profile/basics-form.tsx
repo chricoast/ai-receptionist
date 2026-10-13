@@ -7,17 +7,21 @@ import type { BusinessRow } from "@/lib/database.types";
 import { saveBasics } from "@/lib/profile/actions";
 import { BUSINESS_TYPES, CUSTOMER_LANGUAGES, type FormMode } from "@/lib/profile/constants";
 import { importFromWebsite } from "@/lib/profile/import-actions";
+import type { KnowledgeSummary } from "@/lib/profile/knowledge";
 import { ProfileForm } from "./profile-form";
+import { WebsiteKnowledge } from "./website-knowledge";
 
 type Found = { address: string; phone: string; email: string; booking_url: string };
 type ImportError = "invalid_url" | "fetch_failed" | "nothing_found" | "ai_unavailable";
 
 export function BasicsForm({
   business,
+  knowledge,
   mode,
   readOnly,
 }: {
   business: BusinessRow | null;
+  knowledge?: KnowledgeSummary | null;
   mode: FormMode;
   readOnly?: boolean;
 }) {
@@ -96,6 +100,7 @@ export function BasicsForm({
         ) : importState !== "idle" ? (
           <Alert>{t(`sections.basics.importErrors.${importState}`)}</Alert>
         ) : null}
+        {knowledge ? <WebsiteKnowledge summary={knowledge} readOnly={readOnly} /> : null}
       </div>
 
       <Field label={t("sections.basics.name")} htmlFor="name">

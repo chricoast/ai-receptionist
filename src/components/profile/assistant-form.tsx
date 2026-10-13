@@ -8,18 +8,23 @@ import { saveAssistant } from "@/lib/profile/actions";
 import { TONES, type FormMode } from "@/lib/profile/constants";
 import { newId, ProfileForm } from "./profile-form";
 
-type Rule = { id: string; kind: "never_answer" | "instruction"; content: string };
+type Rule = { id: string; kind: "never_answer" | "instruction" | "question"; content: string };
+type Goal = "answer" | "meeting";
 
 export function AssistantForm({
   business,
   rules,
   suggestions,
+  questionSuggestions,
+  initialGoal,
   mode,
   readOnly,
 }: {
   business: BusinessRow;
   rules: RuleRow[];
   suggestions: string[];
+  questionSuggestions: string[];
+  initialGoal: Goal;
   mode: FormMode;
   readOnly?: boolean;
 }) {
@@ -27,8 +32,13 @@ export function AssistantForm({
   const common = useTranslations("common");
   const [tone, setTone] = useState(business.tone);
   const [toneNotes, setToneNotes] = useState(business.tone_notes);
+  const [goal, setGoal] = useState<Goal>(initialGoal);
   const [items, setItems] = useState<Rule[]>(() =>
-    rules.map((r) => ({ id: r.id, kind: r.kind === "instruction" ? "instruction" : "never_answer", content: r.content })),
+    rules.map((r) => ({
+      id: r.id,
+      kind: r.kind === "instruction" || r.kind === "question" ? r.kind : "never_answer",
+      content: r.content,
+    })),
   );
   const [focusId, setFocusId] = useState<string | null>(null);
 
@@ -43,8 +53,9 @@ export function AssistantForm({
 
   const used = new Set(items.map((r) => r.content.trim().toLowerCase()));
   const openSuggestions = suggestions.filter((s) => !used.has(s.toLowerCase()));
+  const openQuestions = questionSuggestions.filter((s) => !used.has(s.toLowerCase()));
 
-  const payload = { tone, tone_notes: toneNotes, rules: items };
+  const payload = { tone, tone_notes: toneNotes, goal, rules: items };
 
   const ruleList = (kind: Rule["kind"], placeholder: string, label: string) => (
     <div className="space-y-2">
@@ -75,6 +86,54 @@ export function AssistantForm({
 
   return (
     <ProfileForm section="assistant" mode={mode} action={saveAssistant} payload={payload} readOnly={readOnly}>
+      <fieldset className="space-y-1.5">
+        <legend className="text-sm font-medium text-stone-800">{t("goal")}</legend>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {(["answer", "meeting"] as const).map((value) => (
+            <label
+              key={value}
+              className="flex cursor-pointer flex-col rounded-xl border border-stone-400 bg-white p-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
+            >
+              <span className="flex items-center gap-2 font-medium">
+                <input
+                  type="radio"
+                  name="goal-choice"
+                  className="size-4 shrink-0 accent-brand-600"
+                  checked={goal === value}
+                  onChange={() => setGoal(value)}
+                />
+                {t(`goals.${value}`)}
+              </span>
+              <span className="mt-1 text-sm text-stone-600">{t(`goals.${value}Hint`)}</span>
+            </label>
+          ))}
+        </div>
+      </fieldset>
+
+      {goal === "meeting" ? (
+        <section className="space-y-3 rounded-2xl border border-brand-200 bg-brand-50/60 p-5">
+          <div>
+            <h2 className="text-lg font-semibold">{t("questionsTitle")}</h2>
+            <p className="text-sm text-stone-700">{t("questionsIntro")}</p>
+          </div>
+          {!readOnly && openQuestions.length > 0 ? (
+            <div className="flex flex-wrap gap-2">
+              {openQuestions.map((q) => (
+                <Chip key={q} onClick={() => add("question", q)}>
+                  + {q}
+                </Chip>
+              ))}
+            </div>
+          ) : null}
+          {ruleList("question", t("questionPlaceholder"), t("question"))}
+          {readOnly ? null : (
+            <Button variant="secondary" onClick={() => add("question")}>
+              + {t("addQuestion")}
+            </Button>
+          )}
+        </section>
+      ) : null}
+
       <fieldset className="space-y-1.5">
         <legend className="text-sm font-medium text-stone-800">{t("tone")}</legend>
         <div className="grid gap-3 sm:grid-cols-3">

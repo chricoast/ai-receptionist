@@ -26,6 +26,8 @@ export type BusinessRow = {
   plan: string;
   onboarding_step: string;
   onboarding_completed_at: string | null;
+  goal: "answer" | "meeting";
+  use_website_knowledge: boolean;
 } & Timestamps;
 
 export type BusinessMemberRow = {
@@ -112,7 +114,18 @@ export type ConversationRow = {
   client_ip_hash: string;
   is_test: boolean;
   last_message_at: string;
+  summary: string;
+  lead_at: string | null;
 } & Timestamps;
+
+export type KnowledgePageRow = {
+  id: string;
+  business_id: string;
+  url: string;
+  title: string;
+  content: string;
+  fetched_at: string;
+};
 
 export type MessageRow = {
   id: string;
@@ -145,6 +158,7 @@ export type Database = {
       contacts: Table<ContactRow, "business_id">;
       conversations: Table<ConversationRow, "business_id" | "channel_id" | "contact_id" | "visitor_token_hash">;
       messages: Table<MessageRow, "conversation_id" | "business_id" | "sender" | "content">;
+      knowledge_pages: Table<KnowledgePageRow, "business_id" | "url" | "content">;
     };
     Views: { [_ in never]: never };
     Functions: {

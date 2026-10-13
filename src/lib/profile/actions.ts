@@ -2,9 +2,11 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { after } from "next/server";
 import type { ZodError } from "zod";
 import { getCurrentBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
+import { storeWebsiteKnowledge } from "./knowledge";
 import { nextStep, type FormMode, type FormState, type Section } from "./constants";
 import {
   assistantSchema,
@@ -134,6 +136,20 @@ export async function saveBasics(_prev: FormState, formData: FormData): Promise<
   } catch (error) {
     console.error("saveBasics failed", error);
     return { status: "error", error: "saveFailed" };
+  }
+
+  // New or changed website: read it in the background so the receptionist
+  // knows the whole site (the owner doesn't wait for it).
+  if (current?.business.use_website_knowledge && input.website && input.website !== current.business.website) {
+    const id = businessId;
+    const website = input.website;
+    after(async () => {
+      try {
+        await storeWebsiteKnowledge(id, website);
+      } catch (error) {
+        console.error("Background website reading failed", error);
+      }
+    });
   }
   return finish(getMode(formData), "basics", businessId);
 }

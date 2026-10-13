@@ -151,7 +151,8 @@
     "cafe": "Café",
     "restaurant": "Restaurant",
     "service_shop": "Service shop or e-shop",
-    "other": "Other"
+    "other": "Other",
+    "agency": "Agency or production (marketing, video, design)"
   },
   "weekdays": {
     "1": "Monday",
@@ -188,6 +189,24 @@
         "fetch_failed": "We couldn't load the website. Check the address, or fill in the details yourself.",
         "nothing_found": "We didn't find enough information on the website. Please fill in the details yourself.",
         "ai_unavailable": "Filling in from the website isn't working right now. Please fill in the details yourself."
+      },
+      "knowledge": {
+        "title": "Knowledge from your whole website",
+        "count": "{count, plural, =0 {Not loaded yet} one {# page loaded} other {# pages loaded}}",
+        "updated": "last {date}",
+        "hint": "Your receptionist also answers from the content of these pages. When you change your website, load it again.",
+        "refresh": "Load website again",
+        "refreshing": "Reading your website…",
+        "done": "{count, plural, one {Done, # page loaded.} other {Done, # pages loaded.}}",
+        "show": "Show pages",
+        "errors": {
+          "noWebsite": "Save your website address first.",
+          "failed": "We couldn't read the website. Please try again later.",
+          "notOwner": "Only the owner can load the website."
+        },
+        "toggle": "The receptionist knows your whole website",
+        "toggleHint": "It can then also answer questions that aren't in your profile (services, references, blog). Each chat costs a little more, about 1–2 CZK.",
+        "off": "Off: the receptionist answers only from your business profile."
       }
     },
     "contact": {
@@ -275,7 +294,19 @@
       "topic": "Topic",
       "instruction": "Instruction",
       "toneExampleQuestion": "Example – a customer asks: \"Are you open on Saturday?\"",
-      "toneChangeLater": "You can change the tone any time later in Settings."
+      "toneChangeLater": "You can change the tone any time later in Settings.",
+      "goal": "Receptionist's goal",
+      "goals": {
+        "answer": "Answer questions and share the booking link",
+        "answerHint": "For cafés, salons, studios… where customers book by themselves.",
+        "meeting": "Find out what the customer needs and arrange a meeting",
+        "meetingHint": "For agencies and custom services. The receptionist asks, offers a meeting and sends you a summary of the enquiry."
+      },
+      "questionsTitle": "What the receptionist should find out",
+      "questionsIntro": "The receptionist asks about these naturally during the conversation, not all at once. You'll see a summary of the answers under Enquiries.",
+      "addQuestion": "Add question",
+      "question": "Question",
+      "questionPlaceholder": "e.g. Which company is it for?"
     }
   },
   "privacy": {
@@ -312,5 +343,33 @@
     "you": "You",
     "assistant": "Assistant",
     "team": "Team"
+  },
+  "leads": {
+    "title": "Enquiries",
+    "empty": "No enquiries yet. Once a customer leaves their contact details and says what they need in the chat, you'll see a summary here.",
+    "test": "Test",
+    "open": "View conversation",
+    "noName": "No name"
+  },
+  "conversation": {
+    "title": "Conversation",
+    "back": "Back to dashboard",
+    "summary": "Enquiry summary",
+    "noSummary": "No summary yet. It appears once the customer leaves contact details and says what they need.",
+    "contact": "Contact",
+    "noContact": "No contact details yet",
+    "transcript": "Conversation",
+    "customer": "Customer",
+    "assistant": "Receptionist (AI)",
+    "team": "Team",
+    "handedOver": "Handed over to you: {reason}",
+    "test": "Test conversation from settings",
+    "status": {
+      "ai_active": "Receptionist answering",
+      "needs_human": "Waiting for you",
+      "human_active": "Taken over by the team",
+      "closed": "Closed"
+    },
+    "replySoon": "You'll be able to reply to customers right here in the next version (inbox)."
   }
 }

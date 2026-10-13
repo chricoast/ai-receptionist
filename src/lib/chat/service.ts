@@ -47,15 +47,16 @@ export async function findWidgetChannel(publicKey: string, admin: Admin = create
 
 /** Everything the receptionist needs to know about one business. */
 async function loadKnowledge(admin: Admin, businessId: string): Promise<ReceptionistKnowledge> {
-  const [business, services, hours, exceptions, faqs, rules] = await Promise.all([
+  const [business, services, hours, exceptions, faqs, rules, pages] = await Promise.all([
     admin.from("businesses").select("*").eq("id", businessId).single(),
     admin.from("services").select("*").eq("business_id", businessId).order("position"),
     admin.from("opening_hours").select("*").eq("business_id", businessId),
     admin.from("opening_hour_exceptions").select("*").eq("business_id", businessId),
     admin.from("faqs").select("*").eq("business_id", businessId).order("position"),
     admin.from("rules").select("*").eq("business_id", businessId).order("position"),
+    admin.from("knowledge_pages").select("url, title, content").eq("business_id", businessId).order("url"),
   ]);
-  for (const r of [business, services, hours, exceptions, faqs, rules]) if (r.error) throw r.error;
+  for (const r of [business, services, hours, exceptions, faqs, rules, pages]) if (r.error) throw r.error;
   return {
     business: business.data!,
     services: services.data ?? [],
@@ -63,6 +64,8 @@ async function loadKnowledge(admin: Admin, businessId: string): Promise<Receptio
     exceptions: exceptions.data ?? [],
     faqs: faqs.data ?? [],
     rules: rules.data ?? [],
+    // The whole website is only used when the business switched it on.
+    pages: business.data!.use_website_knowledge ? (pages.data ?? []) : [],
   };
 }
 
@@ -239,11 +242,22 @@ export async function postCustomerMessage(input: {
     }
 
     if (reply.decision === "handoff") conversation.status = "needs_human";
+    // An enquiry with contact details: keep the latest summary for the owner.
+    if (reply.lead_ready && reply.lead_summary.trim()) {
+      conversation.summary = clean(reply.lead_summary, 3000);
+      conversation.lead_at ??= new Date().toISOString();
+      conversation.status = "needs_human";
+    }
   }
 
   await admin
     .from("conversations")
-    .update({ status: conversation.status, last_message_at: new Date().toISOString() })
+    .update({
+      status: conversation.status,
+      summary: conversation.summary,
+      lead_at: conversation.lead_at,
+      last_message_at: new Date().toISOString(),
+    })
     .eq("id", conversation.id);
 
   return {

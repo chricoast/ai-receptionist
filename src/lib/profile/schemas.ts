@@ -157,11 +157,12 @@ export const faqsSchema = z.object({
 export const assistantSchema = z.object({
   tone: z.enum(TONES),
   tone_notes: text(1000),
+  goal: z.enum(["answer", "meeting"]),
   rules: z
     .array(
       z.object({
         id: z.uuid(),
-        kind: z.enum(["never_answer", "instruction"]),
+        kind: z.enum(["never_answer", "instruction", "question"]),
         content: requiredText(500),
       }),
     )

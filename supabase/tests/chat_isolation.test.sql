@@ -69,3 +69,33 @@ select test.expect_error('anon cannot write messages',
 
 reset role;
 \echo 'All chat isolation tests passed.'
+
+-- Lead mode (knowledge pages, question rules)
+reset role;
+insert into public.knowledge_pages (business_id, url, content)
+  values (current_setting('test.business_b')::uuid, 'https://bob.example/', 'Bob secret page');
+set role authenticated;
+select test.act_as('00000000-0000-0000-0000-00000000000a');
+select test.expect_count('owner cannot read other business website knowledge', 'select * from public.knowledge_pages', 0);
+select test.expect_error('owner cannot add knowledge to another business',
+  format($q$insert into public.knowledge_pages (business_id, url, content) values (%L, 'x', 'y')$q$, current_setting('test.business_b')),
+  '42501');
+select test.expect_affected('owner can add own knowledge page',
+  format($q$insert into public.knowledge_pages (business_id, url, content) values (%L, 'https://a.example/', 'A')$q$, current_setting('test.business_a')), 1);
+select test.expect_affected('owner can add a question rule',
+  format($q$insert into public.rules (business_id, kind, content) values (%L, 'question', 'Jaký máte rozpočet?')$q$, current_setting('test.business_a')), 1);
+select test.expect_affected('owner can set the goal',
+  format($q$update public.businesses set goal = 'meeting' where id = %L$q$, current_setting('test.business_a')), 1);
+select test.expect_error('goal must be a known value',
+  format($q$update public.businesses set goal = 'sell' where id = %L$q$, current_setting('test.business_a')), '23514');
+select test.expect_error('owner cannot write the enquiry summary directly',
+  $q$update public.conversations set summary = 'x'$q$, '42501');
+select test.act_as('00000000-0000-0000-0000-00000000000b');
+select test.expect_count('other owner still sees only own knowledge', 'select * from public.knowledge_pages', 1);
+select test.act_as('00000000-0000-0000-0000-00000000000c');
+select test.expect_affected('staff cannot delete knowledge pages', 'delete from public.knowledge_pages', 0);
+reset role;
+set role anon;
+select test.expect_error('anon cannot read knowledge', 'select * from public.knowledge_pages', '42501');
+reset role;
+\echo 'All lead mode tests passed.'

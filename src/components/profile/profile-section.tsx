@@ -2,7 +2,8 @@ import { redirect } from "next/navigation";
 import { getLocale } from "next-intl/server";
 import { getBusinessProfile, type CurrentBusiness } from "@/lib/business";
 import type { FormMode, Section } from "@/lib/profile/constants";
-import { getSuggestions } from "@/lib/profile/suggestions";
+import { getKnowledgeSummary } from "@/lib/profile/knowledge";
+import { getSuggestions, suggestedGoal } from "@/lib/profile/suggestions";
 import { AssistantForm } from "./assistant-form";
 import { BasicsForm } from "./basics-form";
 import { ContactForm } from "./contact-form";
@@ -23,7 +24,10 @@ export async function ProfileSection({
   const readOnly = current !== null && current.role !== "owner";
 
   if (section === "basics") {
-    return <BasicsForm business={current?.business ?? null} mode={mode} readOnly={readOnly} />;
+    const knowledge = current?.business.website
+      ? await getKnowledgeSummary(current.business.id, current.business.use_website_knowledge)
+      : null;
+    return <BasicsForm business={current?.business ?? null} knowledge={knowledge} mode={mode} readOnly={readOnly} />;
   }
   if (!current) redirect("/onboarding/basics");
 
@@ -49,6 +53,9 @@ export async function ProfileSection({
           business={business}
           rules={profile.rules}
           suggestions={suggestions.neverAnswer}
+          questionSuggestions={suggestions.questions}
+          // During onboarding, propose the goal that fits the type of business.
+          initialGoal={business.onboarding_completed_at ? business.goal : suggestedGoal(business.type)}
           mode={mode}
           readOnly={readOnly}
         />

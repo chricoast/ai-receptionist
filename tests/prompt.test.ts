@@ -22,6 +22,7 @@ const knowledge: ReceptionistKnowledge = {
     timezone: "Europe/Prague",
     tone: "friendly",
     tone_notes: "Tykáme si.",
+    goal: "answer",
   },
   services: [
     { name: "Malé tetování", description: "", price_from: 1500, price_to: null, currency: "CZK", price_note: "", duration_minutes: 60, active: true },
@@ -42,7 +43,9 @@ const knowledge: ReceptionistKnowledge = {
   rules: [
     { kind: "never_answer", content: "Zdravotní otázky" },
     { kind: "instruction", content: "Vždy zmiň, že bereme jen karty." },
+    { kind: "question", content: "Jakou velikost tetování chcete?" },
   ],
+  pages: [{ url: "https://inkoust.example/o-nas", title: "O nás", content: "Tetujeme od roku 2015." }],
 };
 
 describe("receptionist prompt", () => {
@@ -71,6 +74,17 @@ describe("receptionist prompt", () => {
     expect(prompt).toContain("share the booking link: https://reservio.com/inkoust");
     expect(prompt).toContain("Q: Kolik je záloha?\nA: 1 000 Kč převodem.");
     expect(prompt).toContain("Tykáme si.");
+  });
+
+  it("includes the website content and, in meeting mode, the questions and booking link", () => {
+    const answerMode = buildSystemPrompt(knowledge, "2026-10-12");
+    expect(answerMode).toContain("## O nás\n(https://inkoust.example/o-nas)\nTetujeme od roku 2015.");
+    expect(answerMode).not.toContain("arrange a meeting");
+    const meeting = buildSystemPrompt({ ...knowledge, business: { ...knowledge.business, goal: "meeting" } }, "2026-10-12");
+    expect(meeting).toContain("arrange a meeting");
+    expect(meeting).toContain("- Jakou velikost tetování chcete?");
+    expect(meeting).toContain("pick a time here: https://reservio.com/inkoust");
+    expect(meeting).toContain("summary for the business owner in Czech");
   });
 
   it("stays identical within a day so it can be cached", () => {

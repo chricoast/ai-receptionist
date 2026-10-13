@@ -21,6 +21,7 @@ export const BUSINESS_TYPES = [
   "cafe",
   "restaurant",
   "service_shop",
+  "agency",
   "other",
 ] as const;
 export type BusinessType = (typeof BUSINESS_TYPES)[number];

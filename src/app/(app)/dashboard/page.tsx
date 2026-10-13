@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { buttonClass, Card } from "@/components/ui";
 import { getBusinessProfile, requireBusiness } from "@/lib/business";
+import { getLeads } from "@/lib/leads";
 import { createClient } from "@/lib/supabase/server";
 import type { Section } from "@/lib/profile/constants";
 
@@ -15,7 +16,8 @@ export default async function DashboardPage() {
   const { business, role } = await requireBusiness();
   const profile = await getBusinessProfile(business.id);
   const t = await getTranslations("dashboard");
-  const chat = await getChatStats(business.id);
+  const [chat, leads] = await Promise.all([getChatStats(business.id), getLeads(business.id)]);
+  const tl = await getTranslations("leads");
 
   const openDays = new Set(profile.hours.map((h) => h.weekday)).size;
   const activeServices = profile.services.filter((s) => s.active).length;
@@ -79,6 +81,30 @@ export default async function DashboardPage() {
                 className="flex min-h-11 items-center px-2 text-sm font-medium text-brand-700 hover:underline"
               >
                 {t("edit")}
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </Card>
+
+      <Card className="space-y-3">
+        <h2 className="font-semibold">{tl("title")}</h2>
+        {leads.length === 0 ? <p className="text-sm text-stone-600">{tl("empty")}</p> : null}
+        <ul className="divide-y divide-stone-100">
+          {leads.map((lead) => (
+            <li key={lead.id} className="py-3">
+              <Link href={`/conversations/${lead.id}`} className="block space-y-1 rounded-lg hover:bg-stone-50">
+                <p className="font-medium text-stone-900">
+                  {lead.contact?.name || tl("noName")}
+                  {lead.is_test ? (
+                    <span className="ml-2 rounded bg-stone-200 px-1.5 py-0.5 text-xs font-normal text-stone-700">{tl("test")}</span>
+                  ) : null}
+                </p>
+                <p className="text-sm text-stone-600">
+                  {[lead.contact?.phone, lead.contact?.email].filter(Boolean).join(" · ")}
+                </p>
+                <p className="line-clamp-3 text-sm text-stone-800">{lead.summary}</p>
+                <span className="text-sm font-medium text-brand-700">{tl("open")} →</span>
               </Link>
             </li>
           ))}

@@ -7,6 +7,9 @@ import { buttonClass, Card, cn } from "@/components/ui";
 import { getCurrentBusiness } from "@/lib/business";
 import { isSection, SECTIONS } from "@/lib/profile/constants";
 
+// Saving the basics can read the whole website in the background.
+export const maxDuration = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("onboarding");
   return { title: t("title") };

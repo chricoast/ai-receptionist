@@ -5,6 +5,9 @@ import { ProfileSection } from "@/components/profile/profile-section";
 import { requireBusiness } from "@/lib/business";
 import { isSection } from "@/lib/profile/constants";
 
+// Saving the basics can read the whole website in the background.
+export const maxDuration = 60;
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("settings");
   return { title: t("title") };

@@ -14,6 +14,8 @@ const ReplySchema = z.object({
   customer_name: z.string(),
   customer_phone: z.string(),
   customer_email: z.string(),
+  lead_ready: z.boolean(),
+  lead_summary: z.string(),
 });
 
 export type ReceptionistReply = z.infer<typeof ReplySchema> & {
@@ -36,6 +38,8 @@ export function holdingReply(language: string, reason: string): ReceptionistRepl
     customer_name: "",
     customer_phone: "",
     customer_email: "",
+    lead_ready: false,
+    lead_summary: "",
     fromAi: false,
     meta: { reason },
   };

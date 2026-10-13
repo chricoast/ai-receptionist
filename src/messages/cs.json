@@ -151,7 +151,8 @@
     "cafe": "Kavárna",
     "restaurant": "Restaurace",
     "service_shop": "Servis nebo e-shop",
-    "other": "Jiné"
+    "other": "Jiné",
+    "agency": "Agentura nebo produkce (marketing, video, design)"
   },
   "weekdays": {
     "1": "Pondělí",
@@ -188,6 +189,24 @@
         "fetch_failed": "Web se nepodařilo načíst. Zkontrolujte adresu, nebo údaje vyplňte ručně.",
         "nothing_found": "Na webu jsme nenašli dost informací. Vyplňte prosím údaje ručně.",
         "ai_unavailable": "Načtení z webu teď nefunguje. Vyplňte prosím údaje ručně."
+      },
+      "knowledge": {
+        "title": "Znalosti z celého webu",
+        "count": "{count, plural, =0 {Zatím nenačteno} one {Načtena # stránka} few {Načteny # stránky} other {Načteno # stránek}}",
+        "updated": "naposledy {date}",
+        "hint": "Recepční odpovídá i podle obsahu těchto stránek. Když web změníte, načtěte ho znovu.",
+        "refresh": "Načíst znovu z webu",
+        "refreshing": "Čtu váš web…",
+        "done": "{count, plural, one {Hotovo, načtena # stránka.} few {Hotovo, načteny # stránky.} other {Hotovo, načteno # stránek.}}",
+        "show": "Zobrazit stránky",
+        "errors": {
+          "noWebsite": "Nejdřív uložte adresu svého webu.",
+          "failed": "Web se nepodařilo načíst. Zkuste to prosím později.",
+          "notOwner": "Web může načíst jen majitel."
+        },
+        "toggle": "Recepční zná obsah celého webu",
+        "toggleHint": "Recepční pak umí odpovědět i na dotazy, které nejsou v profilu (služby, reference, blog). Každý chat je ale o něco dražší, asi o 1–2 Kč.",
+        "off": "Vypnuto: recepční odpovídá jen z profilu podniku."
       }
     },
     "contact": {
@@ -275,7 +294,19 @@
       "topic": "Téma",
       "instruction": "Pokyn",
       "toneExampleQuestion": "Ukázka – zákazník se ptá: „Máte v sobotu otevřeno?“",
-      "toneChangeLater": "Tón můžete kdykoli později změnit v Nastavení."
+      "toneChangeLater": "Tón můžete kdykoli později změnit v Nastavení.",
+      "goal": "Cíl recepční",
+      "goals": {
+        "answer": "Odpovídat na dotazy a poslat odkaz na rezervaci",
+        "answerHint": "Pro kavárny, salony, studia… kde si zákazník rezervuje sám.",
+        "meeting": "Zjistit, co zákazník potřebuje, a domluvit schůzku",
+        "meetingHint": "Pro agentury a služby na zakázku. Recepční se doptá, nabídne schůzku a vám pošle souhrn poptávky."
+      },
+      "questionsTitle": "Co má recepční zjistit",
+      "questionsIntro": "Recepční se na to bude přirozeně ptát během rozhovoru, ne všechno najednou. Souhrn odpovědí pak uvidíte v Poptávkách.",
+      "addQuestion": "Přidat otázku",
+      "question": "Otázka",
+      "questionPlaceholder": "např. Pro jakou firmu to je?"
     }
   },
   "privacy": {
@@ -312,5 +343,33 @@
     "you": "Vy",
     "assistant": "Asistent",
     "team": "Tým"
+  },
+  "leads": {
+    "title": "Poptávky",
+    "empty": "Zatím žádné poptávky. Jakmile zákazník v chatu nechá kontakt a řekne, co potřebuje, uvidíte tu souhrn.",
+    "test": "Test",
+    "open": "Zobrazit konverzaci",
+    "noName": "Bez jména"
+  },
+  "conversation": {
+    "title": "Konverzace",
+    "back": "Zpět na přehled",
+    "summary": "Souhrn poptávky",
+    "noSummary": "Souhrn zatím není. Vznikne, až zákazník nechá kontakt a řekne, co potřebuje.",
+    "contact": "Kontakt",
+    "noContact": "Kontakt zatím nezadán",
+    "transcript": "Průběh konverzace",
+    "customer": "Zákazník",
+    "assistant": "Recepční (AI)",
+    "team": "Tým",
+    "handedOver": "Předáno vám: {reason}",
+    "test": "Testovací konverzace z nastavení",
+    "status": {
+      "ai_active": "Odpovídá recepční",
+      "needs_human": "Čeká na vás",
+      "human_active": "Převzato týmem",
+      "closed": "Uzavřeno"
+    },
+    "replySoon": "Odpovídat zákazníkům přímo odsud budete moct v další verzi (schránka zpráv)."
   }
 }

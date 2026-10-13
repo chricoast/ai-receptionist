@@ -109,6 +109,8 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - **Type of business is free text** in the owner's words (`businesses.type`, max 100 chars). For suggestions, `categorize()` in `src/lib/profile/suggestions.ts` maps it to a category by keywords. The receptionist sees the free text.
 - **Description is required.** "Vyplnit podle webu" (`src/lib/ai/website.ts`): the server downloads the owner's homepage (only public addresses, re-checked after redirects; 8 s / 1.5 MB limits), extracts text, and Claude drafts type, description and contact details from it (only facts on the page). Nothing is saved until the owner continues; found contact details fill only empty fields. Known gap: DNS rebinding between the address check and the fetch is not prevented (low risk for this use).
 - **Suggestions** (services, FAQs, never-answer topics) are shown in the language the owner uses the app in, and only propose names and questions, never prices or answers.
+- **Lead mode** (for agencies and custom services): `businesses.goal` = `answer` (default: answer + booking link) or `meeting` (find out the need, ask the owner's questions = `rules` of kind `question`, steer to a meeting via booking link or contact details in chat). Claude's structured output also returns `lead_ready` + `lead_summary` (in the owner's main language); the server stores it on `conversations.summary` / `lead_at` and marks the conversation `needs_human`. Dashboard → "Poptávky" lists them; `/conversations/[id]` is a read-only transcript (full inbox = Milestone 3). Email about new enquiries comes with Milestone 4 (founder's choice).
+- **Whole-website knowledge is opt-in per business** (`businesses.use_website_knowledge`, off by default, because it makes each chat ~1–2 Kč more expensive). When on, `crawlWebsite()` reads the homepage + up to 14 same-site pages (skips files, admin, privacy/cookies pages; 60k chars total) into `knowledge_pages`, re-read in the background (`after()`) when the website address changes or via "Načíst znovu z webu". The receptionist prompt gets it as `<website_content>`; profile facts win if they differ.
 - **No "approve every reply" mode**: the checkbox was removed (the `approve_replies` column is unused). Sensitive topics (complaints, refunds, health, legal, specific orders/people) are handed over by the receptionist prompt.
 
 ## Known limitations (fix when relevant)
@@ -132,6 +134,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 
 - [x] Milestone 1 — Accounts & business profile (live at https://ai-receptionist-lac-mu.vercel.app, sign-up and onboarding confirmed working on the founder's phone)
 - [x] Milestone 2 — Website chat widget (built and tested locally with a stand-in AI; live test with real Claude pending: needs ANTHROPIC_API_KEY + SUPABASE_SECRET_KEY in Vercel and the third migration)
+- [x] Extra (founder request): lead mode, optional whole-website knowledge, enquiries on the dashboard, read-only conversation page (tested locally with a stand-in AI; needs the 5th migration in production)
 - [ ] Milestone 3 — Owner inbox
 - [ ] Milestone 4 — Handoff & notifications
 - [ ] Milestone 5 — Instagram & Facebook DMs

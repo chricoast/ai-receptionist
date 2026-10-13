@@ -221,11 +221,52 @@ const byType: Record<BusinessType, Suggestions> = {
       en: ["Status of a specific order and stock availability"],
     },
   },
+  agency: {
+    services: {
+      cs: ["Správa sociálních sítí", "Reklamní spot", "AI video", "Produkce videa na sociální sítě", "Úvodní konzultace"],
+      en: ["Social media management", "Commercial", "AI video", "Social media video production", "Initial consultation"],
+    },
+    faqs: {
+      cs: [
+        "Jak probíhá spolupráce?",
+        "Jak dlouho trvá výroba videa?",
+        "S jakými značkami jste pracovali?",
+        "Natáčíte i mimo Prahu?",
+      ],
+      en: [
+        "How does working together work?",
+        "How long does video production take?",
+        "Which brands have you worked with?",
+        "Do you shoot outside Prague?",
+      ],
+    },
+    neverAnswer: {
+      cs: ["Přesná cena projektu bez konzultace", "Termíny natáčení"],
+      en: ["Exact project price without a consultation", "Shooting dates"],
+    },
+  },
   other: {
     services: { cs: [], en: [] },
     faqs: { cs: [], en: [] },
     neverAnswer: { cs: [], en: [] },
   },
+};
+
+const commonQuestions: Localized = {
+  cs: [
+    "Co přesně potřebujete?",
+    "Pro jakou firmu nebo projekt to je?",
+    "Do kdy to potřebujete?",
+    "Jakou máte představu o rozpočtu?",
+    "Kdy by se vám hodila krátká schůzka nebo hovor?",
+  ],
+  en: [
+    "What exactly do you need?",
+    "Which company or project is it for?",
+    "When do you need it by?",
+    "Do you have a budget in mind?",
+    "When would suit you for a short meeting or call?",
+  ],
 };
 
 /**
@@ -242,6 +283,7 @@ export function categorize(typeText: string): BusinessType {
     ["studio", /pilates|jóg|jog|yoga|fitness|posilov|cvič|studio|gym|tanec|dance|crossfit/],
     ["cafe", /kavár|kavar|café|cafe|coffee|bistro|cukrár|pekár|bakery/],
     ["restaurant", /restaur|hosp|bar\b|pizz|jídeln|food/],
+    ["agency", /agentur|agency|marketing|produkc|production|reklam|social|sociáln|médi|media|video|design|grafi|brand/],
     ["service_shop", /servis|e-shop|eshop|obchod|shop|store|oprav|repair|kol[ao]|bike|cykl/],
   ];
   return (BUSINESS_TYPES_ORDER.includes(t as BusinessType) ? (t as BusinessType) : undefined) ??
@@ -259,5 +301,11 @@ export function getSuggestions(type: string, language: string) {
     services: t.services[lang],
     faqs: [...t.faqs[lang], ...commonFaqs[lang]],
     neverAnswer: [...t.neverAnswer[lang], ...commonNeverAnswer[lang]],
+    questions: commonQuestions[lang],
   };
+}
+
+/** Service businesses usually want enquiries turned into meetings. */
+export function suggestedGoal(type: string): "answer" | "meeting" {
+  return categorize(type) === "agency" ? "meeting" : "answer";
 }

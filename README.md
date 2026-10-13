@@ -16,7 +16,7 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 2. Open [`supabase/migrations/20261012120000_business_profile.sql`](supabase/migrations/20261012120000_business_profile.sql), copy **all** of it, paste it into the editor and click **Run**. It should say "Success. No rows returned".
 3. Check under **Table Editor**: you should see `businesses`, `business_members`, `services`, `opening_hours`, `opening_hour_exceptions`, `faqs`, `rules`. Each one should be marked as protected by RLS.
 
-Run each migration file **once**, in date order. Future milestones will add new files. So far there are four:
+Run each migration file **once**, in date order. Future milestones will add new files. So far there are five:
 
 | File | What it does |
 |---|---|
@@ -24,6 +24,7 @@ Run each migration file **once**, in date order. Future milestones will add new 
 | `20261012180000_profile_hardening.sql` | Extra checks: web addresses must start with http(s), plan values, safe "create business" |
 | `20261013090000_web_chat.sql` | Chat tables: channels, contacts, conversations, messages (with security rules) |
 | `20261013120000_free_text_business_type.sql` | Type of business becomes free text (in the owner's own words) |
+| `20261013150000_lead_mode.sql` | Lead mode: receptionist goal, questions to ask, website knowledge, enquiry summaries |
 
 ### 2. Login settings in Supabase
 

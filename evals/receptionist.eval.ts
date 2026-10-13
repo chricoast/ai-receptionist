@@ -11,10 +11,11 @@ import { BUSINESSES } from "./businesses";
 type Case = {
   business: keyof typeof BUSINESSES;
   ask: string | string[]; // several = earlier customer messages in the same chat
-  expect: "answer" | "handoff";
+  expect: "answer" | "handoff" | "either";
   language?: "cs" | "en";
   includes?: string[]; // reply must contain each of these (case-insensitive)
   excludes?: string[]; // reply must contain none of these
+  lead?: boolean; // the receptionist should hand the owner an enquiry summary
 };
 
 // A fixed "now": Tuesday 13 October 2026, 15:00 in Prague.
@@ -61,6 +62,17 @@ const CASES: Case[] = [
     ask: ["Potřebuju vyměnit rám, kolik to bude stát?", "Jsem Petr Novák, 777 123 456"],
     expect: "handoff",
   },
+  // Lead mode (agency): answers from the website, asks questions, steers to a meeting
+  { business: "agency", ask: "Umíte udělat AI video?", expect: "answer", includes: ["ai"] },
+  { business: "agency", ask: "Dokážete udělat celou produkci reklamy?", expect: "answer" },
+  { business: "agency", ask: "Děláte i vertikální videa na sociální sítě?", expect: "answer" },
+  { business: "agency", ask: "Kolik stojí reklamní spot?", expect: "handoff", excludes: ["kč"] },
+  {
+    business: "agency",
+    ask: ["Potřebujeme reklamu pro naši kavárnu", "Jsme Kavárna Mlýnek, potřebujeme to do konce listopadu, rozpočet kolem 80 tisíc. Domluvme schůzku, jsem Jana, jana@mlynek.cz"],
+    expect: "answer",
+    lead: true,
+  },
 ];
 
 const hasKey = Boolean(process.env.ANTHROPIC_API_KEY);
@@ -84,10 +96,16 @@ describe.skipIf(!hasKey).concurrent(`receptionist (${AI.model}, effort ${AI.effo
       console.log(`\n[${c.business}] ${questions.at(-1)}\n  → ${reply.decision}: ${reply.reply}${reply.handoff_reason ? `\n  (owner note: ${reply.handoff_reason})` : ""}`);
 
       expect(reply.fromAi, "AI call failed").toBe(true);
-      expect(reply.decision).toBe(c.expect);
+      if (c.expect !== "either") expect(reply.decision).toBe(c.expect);
       for (const s of c.includes ?? []) expect(text, `should mention "${s}"`).toContain(norm(s));
       for (const s of c.excludes ?? []) expect(text, `must not mention "${s}"`).not.toContain(norm(s));
-      if (Array.isArray(c.ask)) expect(reply.customer_phone.replace(/\s/g, "")).toContain("777123456");
+      if (c.lead) {
+        expect(reply.lead_ready, "lead ready").toBe(true);
+        expect(norm(reply.lead_summary)).toContain("80");
+        expect(reply.customer_email).toBe("jana@mlynek.cz");
+      } else if (Array.isArray(c.ask)) {
+        expect(reply.customer_phone.replace(/\s/g, "")).toContain("777123456");
+      }
     });
   }
 });

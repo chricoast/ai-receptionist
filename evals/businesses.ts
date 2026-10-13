@@ -1,6 +1,6 @@
 import type { ReceptionistKnowledge } from "@/lib/ai/prompt";
 
-const base = { timezone: "Europe/Prague", email: "", website: "", tone_notes: "" };
+const base = { timezone: "Europe/Prague", email: "", website: "", tone_notes: "", goal: "answer" as const };
 const service = (name: string, price_from: number | null, price_to: number | null = null, extra = {}) => ({
   name,
   description: "",
@@ -15,8 +15,8 @@ const service = (name: string, price_from: number | null, price_to: number | nul
 const week = (opens: string, closes: string, days = [1, 2, 3, 4, 5]) =>
   days.map((weekday) => ({ weekday, opens_at: opens, closes_at: closes }));
 
-/** Test businesses modelled on the four pilot clients. All facts are made up for testing. */
-export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
+/** Test businesses modelled on the pilot clients. All facts are made up for testing. */
+const RAW: Record<string, Omit<ReceptionistKnowledge, "pages"> & { pages?: ReceptionistKnowledge["pages"] }> = {
   tattoo: {
     business: {
       ...base,
@@ -119,4 +119,50 @@ export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
     ],
     rules: [{ kind: "never_answer", content: "Stav konkrétní objednávky a skladová dostupnost" }],
   },
+  agency: {
+    business: {
+      ...base,
+      name: "Studio Rámeček",
+      type: "Video produkce a sociální sítě",
+      description: "Pražské studio: správa sociálních sítí, reklamní spoty a AI videa pro značky.",
+      address: "Karlín, Praha 8",
+      phone: "+420 777 999 000",
+      booking_url: "https://cal.com/ramecek/schuzka",
+      languages: ["cs", "en"],
+      tone: "friendly",
+      goal: "meeting",
+    },
+    services: [],
+    hours: [],
+    exceptions: [],
+    faqs: [],
+    rules: [
+      { kind: "question", content: "Co přesně potřebujete (sociální sítě, reklama, AI video)?" },
+      { kind: "question", content: "Pro jakou firmu nebo značku to je?" },
+      { kind: "question", content: "Do kdy to potřebujete?" },
+      { kind: "question", content: "Jakou máte představu o rozpočtu?" },
+      { kind: "never_answer", content: "Přesná cena projektu bez konzultace" },
+    ],
+    pages: [
+      {
+        url: "https://ramecek.example/ai",
+        title: "AI videa a vizuály",
+        content: "Tvoříme AI reklamy a key visualy pro značky, samostatně nebo v kombinaci s natočenými záběry. Pracovali jsme pro pivovar a mobilního operátora.",
+      },
+      {
+        url: "https://ramecek.example/reklamy",
+        title: "Reklamní spoty",
+        content: "Kompletní produkce reklamy: nápad, scénář, natáčení, střih, color grading a zvuk. Natáčíme po celé ČR.",
+      },
+      {
+        url: "https://ramecek.example/socialni-site",
+        title: "Sociální sítě",
+        content: "Správa Instagramu, TikToku a LinkedInu: vertikální videa, plánování obsahu, natáčení jednou měsíčně, reporty.",
+      },
+    ],
+  },
 };
+
+export const BUSINESSES: Record<string, ReceptionistKnowledge> = Object.fromEntries(
+  Object.entries(RAW).map(([k, v]) => [k, { ...v, pages: v.pages ?? [] }]),
+);
