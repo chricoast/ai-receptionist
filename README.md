@@ -52,6 +52,15 @@ Under **Authentication**:
 
 **The two secret keys must never get a `NEXT_PUBLIC_` name, be pasted into a chat, or be committed to the code.** `NEXT_PUBLIC_` values are sent to every visitor's browser.
 
+### 4. Own address: receptionist.costahub.co
+
+1. Vercel → the project → **Settings → Domains → Add**, type `receptionist.costahub.co`. Vercel shows a DNS record to create (a `CNAME` named `receptionist`, value like `cname.vercel-dns.com` or a project-specific one: use exactly what Vercel shows).
+2. Where `costahub.co` is managed (it looks like Cloudflare) → **DNS → Add record**: type `CNAME`, name `receptionist`, target from step 1. In Cloudflare set the cloud icon to **DNS only** (grey), otherwise Vercel can't issue the HTTPS certificate.
+3. Wait until Vercel shows a green "Valid Configuration" (minutes, sometimes up to an hour).
+4. Vercel → **Settings → Environment Variables**: change `NEXT_PUBLIC_SITE_URL` to `https://receptionist.costahub.co`, then **Deployments → … → Redeploy** (`NEXT_PUBLIC_` values are baked in at build time).
+5. Supabase → **Authentication → URL Configuration**: **Site URL** `https://receptionist.costahub.co`; add `https://receptionist.costahub.co/**` to **Redirect URLs**. Keep the old `vercel.app` entry until everything works, then remove it.
+6. Settings → **Chat na webu** now shows the snippet with the new address. Keep the old `vercel.app` address working (Vercel does that automatically), so any snippet already pasted somewhere keeps working.
+
 ---
 
 ## How to test Milestone 1

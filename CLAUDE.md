@@ -111,6 +111,8 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - **Suggestions** (services, FAQs, never-answer topics) are shown in the language the owner uses the app in, and only propose names and questions, never prices or answers.
 - **Lead mode** (for agencies and custom services): `businesses.goal` = `answer` (default: answer + booking link) or `meeting` (find out the need, ask the owner's questions = `rules` of kind `question`, steer to a meeting via booking link or contact details in chat). Claude's structured output also returns `lead_ready` + `lead_summary` (in the owner's main language); the server stores it on `conversations.summary` / `lead_at` and marks the conversation `needs_human`. Dashboard → "Poptávky" lists them; `/conversations/[id]` is a read-only transcript (full inbox = Milestone 3). Email about new enquiries comes with Milestone 4 (founder's choice).
 - **Whole-website knowledge is opt-in per business** (`businesses.use_website_knowledge`, off by default, because it makes each chat ~1–2 Kč more expensive). When on, `crawlWebsite()` reads the homepage + up to 14 same-site pages (skips files, admin, privacy/cookies pages; 60k chars total) into `knowledge_pages`, re-read in the background (`after()`) when the website address changes or via "Načíst znovu z webu". The receptionist prompt gets it as `<website_content>`; profile facts win if they differ.
+- **Naming:** AI employees are named by their role, not with personal names: Receptionist / Recepční, later Marketer / Marketér, Office manager, Analyst / Analytik. The app name stays in `APP_NAME` (`src/config/app.ts`).
+- **Domain:** `receptionist.costahub.co` (CNAME to Vercel, set up by hand, see README step 4). `NEXT_PUBLIC_SITE_URL` must match it; widget snippets contain this address, so an old address must keep working if it ever changes.
 - **No "approve every reply" mode**: the checkbox was removed (the `approve_replies` column is unused). Sensitive topics (complaints, refunds, health, legal, specific orders/people) are handed over by the receptionist prompt.
 
 ## Known limitations (fix when relevant)
@@ -143,7 +145,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 
 ## Open questions
 
-- Final product name and domain
+- Umbrella brand for the whole AI team (employees are named by role; domain for now receptionist.costahub.co)
 - Pricing (to be informed by client interviews — "what would answering every message within a minute be worth to you per month?"). Founder's direction: premium positioning, around 10,000 Kč/month (possibly plus a setup fee). Pilot: the 4 test clients free for 2–3 months in exchange for feedback.
-- Product name, logo and brand colours: decide later. Plan: brand basics before the widget goes to real customers, full design/UX pass after Milestone 3.
+- Look: friendly and playful. Three variants (A Slunce, B Máta, C Hrozen) proposed on a design canvas; founder picks one, then it becomes Tailwind theme tokens and the redesign happens together with Milestone 3.
 - Which booking systems the test clients use
