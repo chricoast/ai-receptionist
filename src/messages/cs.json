@@ -205,7 +205,7 @@
           "notOwner": "Web může načíst jen majitel."
         },
         "toggle": "Recepční zná obsah celého webu",
-        "toggleHint": "Recepční pak umí odpovědět i na dotazy, které nejsou v profilu (služby, reference, blog). Každý chat je ale o něco dražší, asi o 1–2 Kč.",
+        "toggleHint": "Recepční pak umí odpovědět i na dotazy, které nejsou v profilu: služby, reference, blog a další obsah vašeho webu.",
         "off": "Vypnuto: recepční odpovídá jen z profilu podniku."
       }
     },

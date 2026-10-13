@@ -205,7 +205,7 @@
           "notOwner": "Only the owner can load the website."
         },
         "toggle": "The receptionist knows your whole website",
-        "toggleHint": "It can then also answer questions that aren't in your profile (services, references, blog). Each chat costs a little more, about 1–2 CZK.",
+        "toggleHint": "It can then also answer questions that aren't in your profile: services, references, blog and other content of your website.",
         "off": "Off: the receptionist answers only from your business profile."
       }
     },
