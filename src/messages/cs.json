@@ -21,7 +21,9 @@
     "dashboard": "Přehled",
     "settings": "Nastavení",
     "privacy": "Ochrana osobních údajů",
-    "main": "Hlavní menu"
+    "main": "Hlavní menu",
+    "inbox": "Schránka",
+    "leads": "Poptávky"
   },
   "home": {
     "title": "Recepční, která nikdy nespí",
@@ -107,7 +109,28 @@
       "tryTitle": "2. Vyzkoušejte svou recepční",
       "tryHint": "Zeptejte se na to, na co se ptají vaši zákazníci. Testovací konverzace jsou označené, takže se nepočítají do statistik.",
       "staffOnly": "Chat na webu může nastavit jen majitel.",
-      "notReady": "Nejdřív vyplňte základní údaje o podniku."
+      "notReady": "Nejdřív vyplňte základní údaje o podniku.",
+      "appearanceTitle": "Vzhled chatu",
+      "appearanceIntro": "Chat je schválně neutrální, aby ladil s vaším webem. Vyberte barvu podle svého loga nebo webu.",
+      "accent": "Hlavní barva",
+      "accentHint": "Zprávy zákazníka a tlačítka. Barvu textu na ní zvolíme sami, aby byl vždy čitelný.",
+      "customColor": "Vlastní barva",
+      "corners": "Rohy",
+      "cornerOptions": {
+        "round": "Kulaté",
+        "soft": "Jemné",
+        "square": "Hranaté"
+      },
+      "font": "Písmo",
+      "fontOptions": {
+        "system": "Moderní",
+        "serif": "Patkové",
+        "rounded": "Zaoblené"
+      },
+      "reset": "Výchozí vzhled",
+      "saveAppearance": "Uložit vzhled",
+      "appearanceSaved": "Vzhled uložen. Náhled níže už ho používá.",
+      "appearanceFailed": "Vzhled se nepodařilo uložit. Zkuste to prosím znovu."
     }
   },
   "dashboard": {
@@ -125,14 +148,26 @@
       "bookingMissing": "Zatím bez odkazu na rezervace",
       "rules": "{count, plural, =0 {Žádná témata „nikdy neodpovídat“} one {# téma „nikdy neodpovídat“} few {# témata „nikdy neodpovídat“} other {# témat „nikdy neodpovídat“}}"
     },
-    "chat": {
-      "title": "Chat na webu",
-      "last7": "{count, plural, =0 {Za posledních 7 dní žádná konverzace} one {# konverzace za posledních 7 dní} few {# konverzace za posledních 7 dní} other {# konverzací za posledních 7 dní}}",
-      "needsHuman": "{count, plural, =0 {Nic na vás nečeká} one {# konverzace čeká na vás} few {# konverzace čekají na vás} other {# konverzací čeká na vás}}",
-      "inboxSoon": "Číst a odpovídat na ně budete moct ve schránce zpráv (přijde v dalším kroku).",
-      "setup": "Nastavit chat na webu",
-      "off": "Chat je vypnutý."
-    }
+    "greeting": {
+      "morning": "Dobré ráno!",
+      "day": "Dobrý den!",
+      "evening": "Dobrý večer!"
+    },
+    "handNote": "{total, plural, =0 {za posledních 7 dní zatím žádné rozhovory} one {za 7 dní recepční zvládla {handled} z # rozhovoru} other {za 7 dní recepční zvládla {handled} z # rozhovorů}}",
+    "tiles": {
+      "handled": "vyřešila sama",
+      "waiting": "{count, plural, one {čeká na vás} few {čekají na vás} other {čeká na vás}}",
+      "leads": "{count, plural, one {nová poptávka} few {nové poptávky} other {nových poptávek}}",
+      "total": "{count, plural, one {rozhovor za 7 dní} few {rozhovory za 7 dní} other {rozhovorů za 7 dní}}"
+    },
+    "waitingTitle": "Čeká na vás",
+    "waitingEmpty": "Nic na vás nečeká.",
+    "openInbox": "Celá schránka",
+    "leadsTitle": "Nové poptávky",
+    "allLeads": "Všechny poptávky",
+    "chatOff": "Chat na webu je vypnutý.",
+    "chatMissing": "Chat na webu ještě nemáte na webu.",
+    "chatSetup": "Nastavit chat na webu"
   },
   "errors": {
     "invalid": "Některá pole nejsou vyplněná správně. Zkontrolujte je prosím a zkuste to znovu.",
@@ -327,8 +362,8 @@
   },
   "widget": {
     "title": "{business}",
-    "subtitle": "AI asistent · obvykle odpoví během pár sekund",
-    "greeting": "Dobrý den! 👋 Jsem AI asistent podniku {business}. S čím vám mohu pomoci?",
+    "subtitle": "Recepční · obvykle odpoví hned",
+    "greeting": "Dobrý den! Jsem AI recepční podniku {business}. S čím vám můžu pomoct?",
     "placeholder": "Napište zprávu…",
     "send": "Odeslat",
     "close": "Zavřít chat",
@@ -342,34 +377,85 @@
     },
     "you": "Vy",
     "assistant": "Asistent",
-    "team": "Tým"
+    "team": "Tým",
+    "teamLabel": "{business} · tým",
+    "minimize": "Zmenšit chat"
   },
   "leads": {
     "title": "Poptávky",
     "empty": "Zatím žádné poptávky. Jakmile zákazník v chatu nechá kontakt a řekne, co potřebuje, uvidíte tu souhrn.",
     "test": "Test",
     "open": "Zobrazit konverzaci",
-    "noName": "Bez jména"
+    "noName": "Bez jména",
+    "intro": "Zákazníci, kteří nechali kontakt a řekli, co potřebují. Souhrn napsala recepční."
   },
-  "conversation": {
-    "title": "Konverzace",
-    "back": "Zpět na přehled",
+  "team": {
+    "title": "Váš AI tým",
+    "receptionist": "Recepční",
+    "marketer": "Marketér",
+    "officeManager": "Office manager",
+    "analyst": "Analytik",
+    "working": "Pracuje",
+    "soon": "Brzy"
+  },
+  "inbox": {
+    "title": "Schránka",
+    "filters": {
+      "open": "Otevřené",
+      "waiting": "Čeká na vás",
+      "leads": "Poptávky",
+      "closed": "Uzavřené"
+    },
+    "empty": {
+      "open": "Zatím žádné konverzace. Jakmile vám někdo napíše přes chat na webu, uvidíte to tady.",
+      "waiting": "Nic na vás nečeká. Recepční to zvládá.",
+      "leads": "Zatím žádné poptávky. Jakmile zákazník v chatu nechá kontakt a řekne, co potřebuje, uvidíte tu souhrn.",
+      "closed": "Žádné uzavřené konverzace."
+    },
+    "visitor": "Návštěvník webu",
+    "test": "Test",
+    "pick": "Vyberte konverzaci ze seznamu.",
+    "back": "Schránka",
+    "status": {
+      "ai_active": "Odpovídá recepční",
+      "needs_human": "Čeká na vás",
+      "human_active": "Odpovídáte vy",
+      "closed": "Uzavřeno"
+    },
+    "lead": "Poptávka",
+    "channel": "Chat na webu",
+    "started": "Začátek {date}",
+    "actions": {
+      "takeOver": "Převzít konverzaci",
+      "handBack": "Vrátit recepční",
+      "close": "Uzavřít",
+      "reopen": "Znovu otevřít",
+      "failed": "Akce se nepovedla. Zkuste to prosím znovu."
+    },
     "summary": "Souhrn poptávky",
-    "noSummary": "Souhrn zatím není. Vznikne, až zákazník nechá kontakt a řekne, co potřebuje.",
     "contact": "Kontakt",
     "noContact": "Kontakt zatím nezadán",
-    "transcript": "Průběh konverzace",
     "customer": "Zákazník",
     "assistant": "Recepční (AI)",
     "team": "Tým",
     "handedOver": "Předáno vám: {reason}",
-    "test": "Testovací konverzace z nastavení",
-    "status": {
-      "ai_active": "Odpovídá recepční",
-      "needs_human": "Čeká na vás",
-      "human_active": "Převzato týmem",
-      "closed": "Uzavřeno"
+    "notes": {
+      "needs_human": "recepční předala konverzaci vám",
+      "human_active": "Odpovídáte vy. Recepční teď mlčí, dokud jí konverzaci nevrátíte.",
+      "closed": "Konverzace je uzavřená. Když zákazník napíše znovu, otevře se a odpoví recepční."
     },
-    "replySoon": "Odpovídat zákazníkům přímo odsud budete moct v další verzi (schránka zpráv)."
+    "testNote": "Testovací konverzace z nastavení",
+    "reply": {
+      "label": "Vaše odpověď",
+      "placeholder": "Napište odpověď jako {business}…",
+      "send": "Odeslat",
+      "sending": "Odesílám…",
+      "hint": "Odesláním konverzaci převezmete. Zákazník odpověď uvidí v chatu, dokud má váš web otevřený; pokud už odešel, ozvěte se mu na kontakt výše.",
+      "errors": {
+        "invalid": "Zpráva je prázdná nebo příliš dlouhá.",
+        "failed": "Odpověď se nepodařilo odeslat. Zkuste to prosím znovu."
+      }
+    },
+    "transcript": "Průběh konverzace"
   }
 }

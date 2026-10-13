@@ -87,34 +87,34 @@ export function AssistantForm({
   return (
     <ProfileForm section="assistant" mode={mode} action={saveAssistant} payload={payload} readOnly={readOnly}>
       <fieldset className="space-y-1.5">
-        <legend className="text-sm font-medium text-stone-800">{t("goal")}</legend>
+        <legend className="text-sm font-medium text-neutral-800">{t("goal")}</legend>
         <div className="grid gap-3 sm:grid-cols-2">
           {(["answer", "meeting"] as const).map((value) => (
             <label
               key={value}
-              className="flex cursor-pointer flex-col rounded-xl border border-stone-400 bg-white p-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
+              className="flex cursor-pointer flex-col rounded-2xl border-2 border-neutral-200 bg-white p-4 has-[:checked]:border-ink has-[:checked]:bg-lime-tint"
             >
               <span className="flex items-center gap-2 font-medium">
                 <input
                   type="radio"
                   name="goal-choice"
-                  className="size-4 shrink-0 accent-brand-600"
+                  className="size-4 shrink-0 accent-ink"
                   checked={goal === value}
                   onChange={() => setGoal(value)}
                 />
                 {t(`goals.${value}`)}
               </span>
-              <span className="mt-1 text-sm text-stone-600">{t(`goals.${value}Hint`)}</span>
+              <span className="mt-1 text-sm text-neutral-600">{t(`goals.${value}Hint`)}</span>
             </label>
           ))}
         </div>
       </fieldset>
 
       {goal === "meeting" ? (
-        <section className="space-y-3 rounded-2xl border border-brand-200 bg-brand-50/60 p-5">
+        <section className="space-y-3 rounded-3xl bg-blue-tint p-5">
           <div>
             <h2 className="text-lg font-semibold">{t("questionsTitle")}</h2>
-            <p className="text-sm text-stone-700">{t("questionsIntro")}</p>
+            <p className="text-sm text-neutral-700">{t("questionsIntro")}</p>
           </div>
           {!readOnly && openQuestions.length > 0 ? (
             <div className="flex flex-wrap gap-2">
@@ -135,32 +135,32 @@ export function AssistantForm({
       ) : null}
 
       <fieldset className="space-y-1.5">
-        <legend className="text-sm font-medium text-stone-800">{t("tone")}</legend>
+        <legend className="text-sm font-medium text-neutral-800">{t("tone")}</legend>
         <div className="grid gap-3 sm:grid-cols-3">
           {TONES.map((value) => (
             <label
               key={value}
-              className="flex cursor-pointer flex-col rounded-xl border border-stone-400 bg-white p-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
+              className="flex cursor-pointer flex-col rounded-2xl border-2 border-neutral-200 bg-white p-4 has-[:checked]:border-ink has-[:checked]:bg-lime-tint"
             >
               <span className="flex items-center gap-2 font-medium">
                 <input
                   type="radio"
                   name="tone-choice"
-                  className="size-4 accent-brand-600"
+                  className="size-4 accent-ink"
                   checked={tone === value}
                   onChange={() => setTone(value)}
                 />
                 {t(`tones.${value}`)}
               </span>
-              <span className="mt-1 text-sm text-stone-600">{t(`tones.${value}Hint`)}</span>
-              <span className="mt-3 rounded-xl rounded-bl-sm bg-stone-100 px-3 py-2 text-sm text-stone-800">
+              <span className="mt-1 text-sm text-neutral-600">{t(`tones.${value}Hint`)}</span>
+              <span className="mt-3 rounded-xl rounded-bl-sm bg-neutral-100 px-3 py-2 text-sm text-neutral-800">
                 {t(`tones.${value}Example`)}
               </span>
             </label>
           ))}
         </div>
-        <p className="text-sm text-stone-500">{t("toneExampleQuestion")}</p>
-        <p className="text-sm text-stone-500">{t("toneChangeLater")}</p>
+        <p className="text-sm text-neutral-500">{t("toneExampleQuestion")}</p>
+        <p className="text-sm text-neutral-500">{t("toneChangeLater")}</p>
       </fieldset>
 
       <Field label={t("toneNotes")} optional={common("optional")} htmlFor="tone_notes">
@@ -174,14 +174,14 @@ export function AssistantForm({
         />
       </Field>
 
-      <section className="space-y-3 rounded-2xl border border-amber-200 bg-amber-50/60 p-5">
+      <section className="space-y-3 rounded-3xl bg-pink-tint p-5">
         <div>
           <h2 className="text-lg font-semibold">{t("neverAnswerTitle")}</h2>
-          <p className="text-sm text-stone-700">{t("neverAnswerIntro")}</p>
+          <p className="text-sm text-neutral-700">{t("neverAnswerIntro")}</p>
         </div>
         {!readOnly && openSuggestions.length > 0 ? (
           <div className="space-y-2">
-            <p className="text-sm text-stone-600">{t("suggestions")}</p>
+            <p className="text-sm text-neutral-600">{t("suggestions")}</p>
             <div className="flex flex-wrap gap-2">
               {openSuggestions.map((s) => (
                 <Chip key={s} onClick={() => add("never_answer", s)}>
@@ -202,7 +202,7 @@ export function AssistantForm({
       <section className="space-y-3">
         <div>
           <h2 className="text-lg font-semibold">{t("instructionsTitle")}</h2>
-          <p className="text-sm text-stone-600">{t("instructionsIntro")}</p>
+          <p className="text-sm text-neutral-600">{t("instructionsIntro")}</p>
         </div>
         {ruleList("instruction", t("instructionPlaceholder"), t("instruction"))}
         {readOnly ? null : (

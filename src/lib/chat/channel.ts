@@ -2,7 +2,7 @@ import "server-only";
 import type { CurrentBusiness } from "@/lib/business";
 import { createClient } from "@/lib/supabase/server";
 
-const COLUMNS = "id, business_id, type, public_key, enabled, config, created_at, updated_at";
+const COLUMNS = "id, business_id, type, public_key, enabled, config, appearance, created_at, updated_at";
 
 /** The business's web chat channel; created on first use (owners only). */
 export async function getOrCreateWebChat({ business, role }: CurrentBusiness) {

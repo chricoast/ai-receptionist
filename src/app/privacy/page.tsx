@@ -127,13 +127,13 @@ export default async function PrivacyPage() {
       <article className="mt-10 space-y-8">
         <header>
           <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="mt-2 text-sm text-stone-500">{c.updated}</p>
+          <p className="mt-2 text-sm text-neutral-500">{c.updated}</p>
         </header>
         {c.sections.map((s) => (
           <section key={s.h} className="space-y-2">
             <h2 className="text-lg font-semibold">{s.h}</h2>
             {s.p.map((p) => (
-              <p key={p} className="text-stone-700">
+              <p key={p} className="text-neutral-700">
                 {p}
               </p>
             ))}
@@ -141,13 +141,13 @@ export default async function PrivacyPage() {
         ))}
         <section className="space-y-2">
           <h2 className="text-lg font-semibold">{c.contact}</h2>
-          <p className="text-stone-700">
+          <p className="text-neutral-700">
             {OPERATOR.contactEmail ? (
-              <a href={`mailto:${OPERATOR.contactEmail}`} className="text-brand-700 underline">
+              <a href={`mailto:${OPERATOR.contactEmail}`} className="text-ink underline-offset-2 underline">
                 {OPERATOR.contactEmail}
               </a>
             ) : (
-              <a href={OPERATOR.website} className="text-brand-700 underline">
+              <a href={OPERATOR.website} className="text-ink underline-offset-2 underline">
                 {OPERATOR.website}
               </a>
             )}

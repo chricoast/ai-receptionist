@@ -85,7 +85,7 @@ export function ServicesForm({
     <ProfileForm section="services" mode={mode} action={saveServices} payload={payload} readOnly={readOnly}>
       {!readOnly && openSuggestions.length > 0 ? (
         <div className="space-y-2">
-          <p className="text-sm text-stone-600">{t("suggestions")}</p>
+          <p className="text-sm text-neutral-600">{t("suggestions")}</p>
           <div className="flex flex-wrap gap-2">
             {openSuggestions.map((s) => (
               <Chip key={s} onClick={() => add(s)}>
@@ -96,7 +96,7 @@ export function ServicesForm({
         </div>
       ) : null}
 
-      {items.length === 0 ? <p className="text-stone-500">{t("empty")}</p> : null}
+      {items.length === 0 ? <p className="text-neutral-500">{t("empty")}</p> : null}
 
       <div className="space-y-4">
         {items.map((item, index) => (
@@ -174,7 +174,7 @@ export function ServicesForm({
             {isInvalid(item.price_from) || isInvalid(item.price_to) ? (
               <p className="-mt-2 text-sm text-red-700">{t("priceInvalid")}</p>
             ) : (
-              <p className="-mt-2 text-sm text-stone-500">{t("priceHint")}</p>
+              <p className="-mt-2 text-sm text-neutral-500">{t("priceHint")}</p>
             )}
 
             <Field label={t("priceNote")} optional={common("optional")} htmlFor={`pn-${item.id}`}>
@@ -196,10 +196,10 @@ export function ServicesForm({
                 onChange={(e) => update(item.id, { description: e.target.value })}
               />
             </Field>
-            <label className="flex items-center gap-2 text-sm text-stone-700">
+            <label className="flex items-center gap-2 text-sm text-neutral-700">
               <input
                 type="checkbox"
-                className="size-4 accent-brand-600"
+                className="size-4 accent-ink"
                 checked={item.active}
                 onChange={(e) => update(item.id, { active: e.target.checked })}
               />

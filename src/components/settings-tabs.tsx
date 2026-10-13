@@ -16,7 +16,7 @@ export function SettingsTabs() {
   ];
   return (
     <nav className="-mx-4 overflow-x-auto px-4">
-      <ul className="flex min-w-max gap-1 border-b border-stone-200">
+      <ul className="flex min-w-max gap-1.5">
         {tabs.map(({ href, label }) => {
           const active = pathname === href;
           return (
@@ -25,8 +25,8 @@ export function SettingsTabs() {
                 href={href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "-mb-px block border-b-2 px-3 py-2.5 text-sm font-medium",
-                  active ? "border-brand-600 text-brand-700" : "border-transparent text-stone-600 hover:text-stone-900",
+                  "flex min-h-10 items-center rounded-xl px-3.5 text-sm",
+                  active ? "bg-ink font-semibold text-white" : "bg-white text-ink hover:bg-neutral-200",
                 )}
               >
                 {label}

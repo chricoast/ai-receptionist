@@ -40,7 +40,7 @@ for f in "$ROOT"/supabase/migrations/*.sql; do
 done
 # All test files run in one database session, in order, so later files can
 # reuse the fixtures and helpers of earlier ones.
-TEST_FILES=("$ROOT/supabase/tests/rls_isolation.test.sql" "$ROOT/supabase/tests/chat_isolation.test.sql")
+TEST_FILES=("$ROOT/supabase/tests/rls_isolation.test.sql" "$ROOT/supabase/tests/chat_isolation.test.sql" "$ROOT/supabase/tests/inbox.test.sql")
 for f in "${TEST_FILES[@]}"; do echo "Running $(basename "$f")"; done
 cat "${TEST_FILES[@]}" | "${PSQL[@]}" -tA 2>&1 \
   | sed -e '/^$/d' -e 's/^psql:[^ ]* NOTICE:  /  /' -e 's/^NOTICE:  /  /' \

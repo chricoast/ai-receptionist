@@ -12,7 +12,7 @@ export default async function AuthErrorPage() {
       </div>
       <Card>
         <h1 className="text-2xl font-semibold">{t("confirmFailedTitle")}</h1>
-        <p className="mt-4 text-stone-700">{t("confirmFailedBody")}</p>
+        <p className="mt-4 text-neutral-700">{t("confirmFailedBody")}</p>
         <div className="mt-6 flex flex-col gap-3 sm:flex-row">
           <Link href="/login" className={buttonClass("primary")}>
             {t("loginLink")}

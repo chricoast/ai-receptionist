@@ -56,15 +56,15 @@ export function LoginForm({ next, confirmed }: { next?: string; confirmed?: bool
         </Field>
         <SubmitButton className="w-full">{t("loginSubmit")}</SubmitButton>
       </form>
-      <div className="mt-6 space-y-2 text-sm text-stone-600">
+      <div className="mt-6 space-y-2 text-sm text-neutral-600">
         <p>
-          <Link href="/forgot-password" className="inline-flex min-h-11 items-center text-brand-700 hover:underline">
+          <Link href="/forgot-password" className="inline-flex min-h-11 items-center text-ink underline-offset-2 hover:underline">
             {t("forgotLink")}
           </Link>
         </p>
         <p>
           {t("noAccount")}{" "}
-          <Link href="/signup" className="inline-flex min-h-11 items-center font-medium text-brand-700 hover:underline">
+          <Link href="/signup" className="inline-flex min-h-11 items-center font-medium text-ink underline-offset-2 hover:underline">
             {t("signupLink")}
           </Link>
         </p>
@@ -81,7 +81,7 @@ export function SignupForm() {
     return (
       <Card>
         <h1 className="text-2xl font-semibold">{t("checkEmailTitle")}</h1>
-        <p className="mt-4 text-stone-700">{t("checkEmailBody", { email: state.email })}</p>
+        <p className="mt-4 text-neutral-700">{t("checkEmailBody", { email: state.email })}</p>
       </Card>
     );
   }
@@ -95,10 +95,10 @@ export function SignupForm() {
         <Field label={t("password")} htmlFor="password" hint={t("passwordHint")}>
           <Input id="password" name="password" type="password" autoComplete="new-password" required minLength={8} />
         </Field>
-        <p className="text-sm text-stone-600">
+        <p className="text-sm text-neutral-600">
           {t.rich("acceptPrivacy", {
             link: (chunks) => (
-              <Link href="/privacy" className="text-brand-700 underline">
+              <Link href="/privacy" className="text-ink underline-offset-2 underline">
                 {chunks}
               </Link>
             ),
@@ -106,9 +106,9 @@ export function SignupForm() {
         </p>
         <SubmitButton className="w-full">{t("signupSubmit")}</SubmitButton>
       </form>
-      <p className="mt-6 text-sm text-stone-600">
+      <p className="mt-6 text-sm text-neutral-600">
         {t("haveAccount")}{" "}
-        <Link href="/login" className="inline-flex min-h-11 items-center font-medium text-brand-700 hover:underline">
+        <Link href="/login" className="inline-flex min-h-11 items-center font-medium text-ink underline-offset-2 hover:underline">
           {t("loginLink")}
         </Link>
       </p>
@@ -128,7 +128,7 @@ export function ForgotPasswordForm() {
         </div>
       ) : (
         <>
-          <p className="mt-2 text-stone-600">{t("forgotBody")}</p>
+          <p className="mt-2 text-neutral-600">{t("forgotBody")}</p>
           <form action={action} className="mt-6 space-y-4">
             <ErrorMessage state={state} />
             <EmailField />
@@ -137,7 +137,7 @@ export function ForgotPasswordForm() {
         </>
       )}
       <p className="mt-6 text-sm">
-        <Link href="/login" className="text-brand-700 hover:underline">
+        <Link href="/login" className="text-ink underline-offset-2 hover:underline">
           {t("loginLink")}
         </Link>
       </p>

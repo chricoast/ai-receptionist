@@ -193,7 +193,7 @@ ${instructions.length ? instructions.join("\n") : "(none)"}
 Return:
 - "decision": "answer" if you answered fully from the business information, otherwise "handoff".
 - "reply": the message shown to the customer.
-- "handoff_reason": for "handoff", a short note in English for the business owner explaining what the customer needs; otherwise "".
+- "handoff_reason": for "handoff", a short note for the business owner in ${ownerLanguage} explaining what the customer needs; otherwise "".
 - "customer_name", "customer_phone", "customer_email": only if the customer wrote them in this conversation, otherwise "".
 - "lead_ready": true when the customer wants a meeting, an offer or to be contacted AND has given a phone number or email in this conversation; otherwise false.
 - "lead_summary": when lead_ready is true, a short summary for the business owner in ${ownerLanguage}: who the customer is, what they need, timing, budget, preferred meeting time and contact details (only what the customer actually said; write "neuvedeno"/"not given" for missing items). Otherwise "".

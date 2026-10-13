@@ -123,8 +123,8 @@ export function ProfileForm({
       <input type="hidden" name="payload" value={json} />
 
       <div>
-        <h1 className="text-2xl font-semibold text-stone-900">{t(`sections.${section}.title`)}</h1>
-        <p className="mt-1 text-stone-600">{t(`sections.${section}.intro`)}</p>
+        <h1 className="text-2xl font-semibold text-neutral-900">{t(`sections.${section}.title`)}</h1>
+        <p className="mt-1 text-neutral-600">{t(`sections.${section}.intro`)}</p>
       </div>
 
       {readOnly ? <Alert tone="info">{t("settings.readOnly")}</Alert> : null}
@@ -138,7 +138,7 @@ export function ProfileForm({
       {readOnly ? (
         mode === "onboarding" ? <OnboardingNav section={section} /> : null
       ) : (
-        <div className="sticky bottom-0 -mx-4 flex items-center gap-3 border-t border-stone-200 bg-stone-50/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:pb-0">
+        <div className="sticky bottom-0 -mx-4 flex items-center gap-3 border-t border-neutral-200 bg-neutral-50/95 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur sm:static sm:mx-0 sm:border-0 sm:bg-transparent sm:px-0 sm:pb-0">
           {mode === "onboarding" && previous ? (
             <Link href={`/onboarding/${previous}`} className={buttonClass("secondary")}>
               {t("common.back")}
@@ -148,12 +148,12 @@ export function ProfileForm({
             {mode === "onboarding" ? t("common.continue") : t("common.save")}
           </SubmitButton>
           {mode === "settings" && dirty ? (
-            <span role="status" className="text-sm text-stone-600">
+            <span role="status" className="text-sm text-neutral-600">
               {t("common.unsaved")}
             </span>
           ) : null}
           {mode === "settings" && !dirty && state.status === "saved" ? (
-            <span role="status" className="text-sm font-medium text-brand-700">
+            <span role="status" className="text-sm font-medium text-ink underline-offset-2">
               ✓ {t("common.saved")}
             </span>
           ) : null}

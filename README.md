@@ -6,6 +6,8 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 
 **Milestone 2 (done, waiting for the live test):** a chat bubble for the business's website. Customers ask, Claude answers from the business profile, and hands over to the team when it isn't sure (the conversation is marked "needs a human" and the customer is asked for contact details). Settings → **Chat na webu** has the code to paste and a live test chat.
 
+**Milestone 3 (done, tested locally):** the owner inbox. **Schránka** lists every conversation (open / waiting for you / enquiries / closed) and updates live. Open one to read it, **take it over**, **reply** (the customer sees the reply in the website chat), **hand it back** to the receptionist or **close** it. While you have taken over, the receptionist stays quiet. New look ("CostaHub × Máta": side menu on computers, tab bar on phones, the lime smiley as logo). The website chat is neutral so it fits any website; Settings → Chat na webu → **Vzhled chatu** sets its colour, corners and font.
+
 ---
 
 ## One-time setup (by hand)
@@ -16,7 +18,7 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 2. Open [`supabase/migrations/20261012120000_business_profile.sql`](supabase/migrations/20261012120000_business_profile.sql), copy **all** of it, paste it into the editor and click **Run**. It should say "Success. No rows returned".
 3. Check under **Table Editor**: you should see `businesses`, `business_members`, `services`, `opening_hours`, `opening_hour_exceptions`, `faqs`, `rules`. Each one should be marked as protected by RLS.
 
-Run each migration file **once**, in date order. Future milestones will add new files. So far there are five:
+Run each migration file **once**, in date order. Future milestones will add new files. So far there are six:
 
 | File | What it does |
 |---|---|
@@ -25,6 +27,7 @@ Run each migration file **once**, in date order. Future milestones will add new 
 | `20261013090000_web_chat.sql` | Chat tables: channels, contacts, conversations, messages (with security rules) |
 | `20261013120000_free_text_business_type.sql` | Type of business becomes free text (in the owner's own words) |
 | `20261013150000_lead_mode.sql` | Lead mode: receptionist goal, questions to ask, website knowledge, enquiry summaries |
+| `20261014090000_owner_inbox.sql` | Inbox: take over / reply / hand back / close, message previews, chat appearance, live updates |
 
 ### 2. Login settings in Supabase
 
@@ -83,6 +86,18 @@ On your phone and on a computer:
 3. Paste the code into a real website (or costahub.co) and try it on your phone.
 4. The dashboard shows the number of website conversations and how many are waiting for you (test chats from settings don't count).
 
+## How to test Milestone 3 (inbox)
+
+Use two devices (or a computer and your phone):
+
+1. **Phone = customer.** Open your website with the chat (or Settings → Chat na webu → test chat). Ask something that is NOT in your profile, e.g. "Kolik stojí výměna rámu?". The receptionist says it will check with the team.
+2. **Computer = you.** The menu shows a pink number at **Schránka**; the dashboard tile "čeká na vás" shows 1. Open the conversation: you see the whole chat and why it was handed over.
+3. Write something on the phone again: it appears on the computer within a second or two, without reloading.
+4. **Reply** from the computer. Within a few seconds the reply appears in the chat on the phone, labelled with your business name. The conversation is now "Odpovídáte vy": if the customer writes again, the receptionist stays quiet.
+5. **Vrátit recepční** (hand back): the receptionist answers again. **Uzavřít** (close): it moves to "Uzavřené"; if the customer writes again, it reopens by itself.
+6. Settings → Chat na webu → **Vzhled chatu**: pick a colour, save, and reload your website: the chat uses it.
+7. Try it all on your phone too (tab bar at the bottom).
+
 ---
 
 ## For developers
@@ -93,7 +108,7 @@ npm install
 npm run dev                  # http://localhost:3000
 ```
 
-Checks: `npm run typecheck`, `npm run lint`, `npm test` (unit tests), `npm run test:db` (migrations and RLS isolation tests on a throwaway local Postgres), `npm run eval` (the receptionist test set against the real Claude API: needs `ANTHROPIC_API_KEY`, costs roughly 10–50 Kč per run).
+Checks: `npm run typecheck`, `npm run lint`, `npm test` (unit tests), `npm run test:db` (migrations and RLS isolation tests on a throwaway local Postgres), `npm run eval` (the receptionist test set against the real Claude API: needs `ANTHROPIC_API_KEY`, costs roughly 10–50 Kč per run), `npm run eval:costahub` (10 simulated Costa Hub customers, writes transcripts to `evals/reports/`).
 
 With Docker you can run a full local Supabase: `npx supabase start` (emails go to Mailpit at http://localhost:54324), then point `.env.local` at the URL and key it prints.
 
@@ -105,6 +120,7 @@ Project layout:
 - `src/lib/supabase/`: Supabase clients. `src/proxy.ts` refreshes the login session and protects pages.
 - `src/messages/`: Czech and English UI texts.
 - `src/lib/ai/`: the receptionist: instructions + business info for Claude (`prompt.ts`) and the Claude call (`receptionist.ts`).
-- `src/lib/chat/`: chat logic for the widget (visitor tokens, rate limits, handover). `src/app/api/widget/` is its API; `src/app/widget/[key]` the chat window; `public/widget.js` the snippet that shows the bubble.
+- `src/lib/chat/`: chat logic for the widget (visitor tokens, rate limits, handover) and its look (`theme.ts`). `src/app/api/widget/` is its API; `src/app/widget/[key]` the chat window; `public/widget.js` the snippet that shows the bubble.
+- `src/lib/inbox/` + `src/app/(app)/inbox/`: the owner inbox (queries, take over / reply actions). `src/components/inbox/live-refresh.tsx` keeps pages live via Supabase Realtime.
 - `evals/`: the receptionist test set (4 test businesses, ~30 customer questions).
 - `supabase/migrations/`: database changes (run in order). `supabase/tests/`: RLS tests.

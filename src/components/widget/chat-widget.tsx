@@ -1,11 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState, useSyncExternalStore, type FormEvent } from "react";
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore, type CSSProperties, type FormEvent } from "react";
 import { useTranslations } from "next-intl";
-import { CHAT_LIMITS } from "@/config/app";
+import { CHAT_LIMITS, INBOX } from "@/config/app";
+import { Smiley } from "@/components/smiley";
 import { cn } from "@/components/ui";
+import { widgetThemeStyle, type WidgetTheme } from "@/lib/chat/theme";
 
 type Message = { id: string; sender: "customer" | "ai" | "human" | "system"; content: string };
+type Status = "ai_active" | "needs_human" | "human_active" | "closed";
 type Saved = { conversationId: string; token: string };
 
 const storageKey = (publicKey: string, preview: boolean) => `air:${preview ? "preview:" : ""}${publicKey}`;
@@ -45,22 +48,33 @@ function Linkified({ text }: { text: string }) {
   );
 }
 
+const sameMessages = (a: Message[], b: Message[]) => a.length === b.length && a.every((m, i) => m.id === b[i].id);
+
+/**
+ * The chat window inside the website's iframe. Deliberately neutral, coloured
+ * by the business's theme (src/lib/chat/theme.ts); only the lime smiley is ours.
+ */
 export function ChatWidget({
   publicKey,
   businessName,
   language,
+  theme,
   preview = false,
 }: {
   publicKey: string;
   businessName: string;
   language: "cs" | "en";
+  theme: WidgetTheme;
   preview?: boolean;
 }) {
   const t = useTranslations("widget");
   const [messages, setMessages] = useState<Message[]>([]);
+  const [status, setStatus] = useState<Status>("ai_active");
   const [text, setText] = useState("");
   const [sending, setSending] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  // Whether the chat window is open on the website (the bubble tells us).
+  const [visible, setVisible] = useState(true);
   // The box stays disabled until the chat is ready (hydrated), so nothing typed is lost.
   const ready = useSyncExternalStore(
     () => () => undefined,
@@ -68,8 +82,25 @@ export function ChatWidget({
     () => false,
   );
   const saved = useRef<Saved | null>(null);
+  const sendingRef = useRef(false);
+  const [hasConversation, setHasConversation] = useState(false);
   const bottom = useRef<HTMLDivElement>(null);
   const key = storageKey(publicKey, preview);
+
+  /** Fetches the conversation so far (new replies from the team included). */
+  const fetchHistory = useCallback(async () => {
+    const current = saved.current;
+    if (!current) return;
+    const params = new URLSearchParams({ key: publicKey, ...current });
+    const data = await fetch(`/api/widget/messages?${params}`, { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : null))
+      .catch(() => null);
+    if (sendingRef.current) return;
+    if (data?.messages) {
+      setMessages((list) => (sameMessages(list, data.messages) ? list : data.messages));
+      setStatus(data.status);
+    }
+  }, [publicKey]);
 
   // Reopen the previous conversation, if this browser has one.
   useEffect(() => {
@@ -80,11 +111,34 @@ export function ChatWidget({
     fetch(`/api/widget/messages?${params}`)
       .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
-        if (data?.messages) setMessages(data.messages);
-        else saved.current = null;
+        if (data?.messages) {
+          setMessages(data.messages);
+          setStatus(data.status);
+          setHasConversation(true);
+        } else saved.current = null;
       })
       .catch(() => undefined);
   }, [key, publicKey]);
+
+  // The bubble script tells us when the chat is opened or closed.
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.source === window.parent && event.data?.type === "air:visibility") setVisible(Boolean(event.data.open));
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
+
+  // Check for replies from the team while the chat is open: often while a
+  // person is involved, rarely otherwise.
+  useEffect(() => {
+    if (!hasConversation || !visible || status === "closed") return;
+    const every = status === "ai_active" ? INBOX.widgetPollIdleMs : INBOX.widgetPollWaitingMs;
+    const timer = setInterval(() => {
+      if (document.visibilityState === "visible") void fetchHistory();
+    }, every);
+    return () => clearInterval(timer);
+  }, [hasConversation, visible, status, fetchHistory]);
 
   useEffect(() => {
     bottom.current?.scrollIntoView({ block: "end" });
@@ -96,6 +150,7 @@ export function ChatWidget({
     if (!content || sending) return;
     setError(null);
     setSending(true);
+    sendingRef.current = true;
     setText("");
     setMessages((list) => [...list, { id: `local-${Date.now()}`, sender: "customer", content }]);
     try {
@@ -119,35 +174,41 @@ export function ChatWidget({
         save(key, saved.current);
       }
       setMessages(data.messages);
+      setStatus(data.status);
+      setHasConversation(true);
     } catch {
       setError(t("errors.generic"));
       setText(content);
       setMessages((list) => list.filter((m) => !m.id.startsWith("local-")));
     } finally {
       setSending(false);
+      sendingRef.current = false;
     }
   };
 
   const close = () => window.parent.postMessage({ type: "air:close" }, "*");
 
   return (
-    <div className="flex h-dvh flex-col bg-white text-stone-900">
-      <header className="flex items-center gap-3 bg-brand-600 px-4 py-3 text-white">
-        <div aria-hidden className="grid size-9 shrink-0 place-items-center rounded-full bg-white/20 text-sm font-semibold">
-          AI
-        </div>
+    <div
+      className="flex h-dvh flex-col bg-(--w-bg) font-(family-name:--w-font) text-(--w-text)"
+      style={widgetThemeStyle(theme) as CSSProperties}
+    >
+      <header className="flex items-center gap-3 border-b border-(--w-border) px-4 py-3">
+        <Smiley size={40} />
         <div className="min-w-0 flex-1">
           <p className="truncate font-semibold">{t("title", { business: businessName })}</p>
-          <p className="truncate text-xs text-white/80">{t("subtitle")}</p>
+          <p className="truncate text-xs text-(--w-muted)">{t("subtitle")}</p>
         </div>
         {preview ? null : (
           <button
             type="button"
             onClick={close}
-            aria-label={t("close")}
-            className="grid size-11 place-items-center rounded-full text-xl hover:bg-white/15"
+            aria-label={t("minimize")}
+            className="grid size-11 place-items-center rounded-full text-(--w-muted) hover:bg-(--w-ai)"
           >
-            ×
+            <svg aria-hidden width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+              <path d="M3 6l5 5 5-5" />
+            </svg>
           </button>
         )}
       </header>
@@ -160,7 +221,8 @@ export function ChatWidget({
           <Bubble
             key={m.id}
             sender={m.sender}
-            label={m.sender === "customer" ? t("you") : m.sender === "human" ? t("team") : t("assistant")}
+            label={m.sender === "customer" ? t("you") : m.sender === "human" ? t("teamLabel", { business: businessName }) : t("assistant")}
+            showLabel={m.sender === "human"}
           >
             <Linkified text={m.content} />
           </Bubble>
@@ -168,9 +230,9 @@ export function ChatWidget({
         {sending ? (
           <Bubble sender="ai" label={t("assistant")}>
             <span className="inline-flex gap-1" aria-label={t("typing")}>
-              <span className="size-2 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.3s]" />
-              <span className="size-2 animate-bounce rounded-full bg-stone-400 [animation-delay:-0.15s]" />
-              <span className="size-2 animate-bounce rounded-full bg-stone-400" />
+              <span className="size-2 animate-bounce rounded-full bg-(--w-muted) [animation-delay:-0.3s]" />
+              <span className="size-2 animate-bounce rounded-full bg-(--w-muted) [animation-delay:-0.15s]" />
+              <span className="size-2 animate-bounce rounded-full bg-(--w-muted)" />
             </span>
           </Bubble>
         ) : null}
@@ -183,7 +245,7 @@ export function ChatWidget({
         </p>
       ) : null}
 
-      <form onSubmit={send} className="flex items-end gap-2 border-t border-stone-200 p-3">
+      <form onSubmit={send} className="flex items-end gap-2 px-3 pb-2 pt-1">
         <label htmlFor="air-message" className="sr-only">
           {t("placeholder")}
         </label>
@@ -201,17 +263,20 @@ export function ChatWidget({
               e.currentTarget.form?.requestSubmit();
             }
           }}
-          className="max-h-32 min-h-11 flex-1 resize-none rounded-xl border border-stone-400 px-3 py-2.5 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-200"
+          className="max-h-32 min-h-11 flex-1 resize-none rounded-[calc(var(--w-radius)*0.7)] border border-(--w-border) bg-(--w-bg) px-3.5 py-2.5 text-(--w-text) placeholder:text-(--w-muted) focus:border-(--w-accent) focus:outline-none focus:ring-2 focus:ring-(--w-accent)/25"
         />
         <button
           type="submit"
+          aria-label={t("send")}
           disabled={!ready || sending || !text.trim()}
-          className="min-h-11 rounded-xl bg-brand-600 px-4 text-sm font-medium text-white hover:bg-brand-700 disabled:opacity-50"
+          className="grid size-11 shrink-0 place-items-center rounded-[calc(var(--w-radius)*0.7)] bg-(--w-accent) text-(--w-on-accent) hover:opacity-90 disabled:opacity-40"
         >
-          {t("send")}
+          <svg aria-hidden width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M10 16V4M4.5 9.5L10 4l5.5 5.5" />
+          </svg>
         </button>
       </form>
-      <p className="px-4 pb-3 text-center text-[11px] leading-tight text-stone-500">{t("disclaimer")}</p>
+      <p className="px-4 pb-3 text-center text-[11px] leading-tight text-(--w-muted)">{t("disclaimer")}</p>
     </div>
   );
 }
@@ -219,22 +284,25 @@ export function ChatWidget({
 function Bubble({
   sender,
   label,
+  showLabel = false,
   children,
 }: {
   sender: Message["sender"];
   label: string;
+  showLabel?: boolean;
   children: React.ReactNode;
 }) {
   const mine = sender === "customer";
   return (
-    <div className={cn("flex", mine ? "justify-end" : "justify-start")}>
+    <div className={cn("flex flex-col", mine ? "items-end" : "items-start")}>
+      {showLabel ? <span className="mb-1 px-1 text-xs font-semibold text-(--w-muted)">{label}</span> : null}
       <div
         className={cn(
-          "max-w-[85%] whitespace-pre-wrap rounded-2xl px-3.5 py-2.5 text-[15px] leading-snug",
-          mine ? "rounded-br-sm bg-brand-600 text-white" : "rounded-bl-sm bg-stone-100 text-stone-900",
+          "max-w-[85%] whitespace-pre-wrap rounded-(--w-radius) px-3.5 py-2.5 text-[15px] leading-snug",
+          mine ? "rounded-br-md bg-(--w-accent) text-(--w-on-accent)" : "rounded-bl-md bg-(--w-ai) text-(--w-on-ai)",
         )}
       >
-        <span className="sr-only">{label}: </span>
+        {showLabel ? null : <span className="sr-only">{label}: </span>}
         {children}
       </div>
     </div>

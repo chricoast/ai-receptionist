@@ -32,3 +32,21 @@ export const CHAT_LIMITS = {
   // AI replies per business per 24 hours; after that, messages are passed to the team.
   aiRepliesPerBusinessPerDay: 300,
 };
+
+/** The AI team. Only the receptionist works so far; the others are shown as "coming soon". */
+export const AI_TEAM = [
+  { key: "receptionist", active: true },
+  { key: "marketer", active: false },
+  { key: "officeManager", active: false },
+  { key: "analyst", active: false },
+] as const;
+
+/** Owner inbox. */
+export const INBOX = {
+  maxReplyLength: 2000,
+  // How often an open inbox re-checks for news if live updates are unavailable.
+  fallbackRefreshMs: 30_000,
+  // How often the website chat checks for replies from the team.
+  widgetPollWaitingMs: 4_000,
+  widgetPollIdleMs: 15_000,
+};

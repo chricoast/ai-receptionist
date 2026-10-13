@@ -5,6 +5,8 @@ import { Alert, buttonClass, Card } from "@/components/ui";
 import { requireBusiness } from "@/lib/business";
 import { setWidgetEnabled } from "@/lib/chat/actions";
 import { getOrCreateWebChat } from "@/lib/chat/channel";
+import { parseWidgetTheme } from "@/lib/chat/theme";
+import { AppearanceForm } from "@/components/widget/appearance-form";
 import { getSiteUrl } from "@/lib/site-url";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -29,16 +31,16 @@ export default async function WidgetSettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">{t("title")}</h1>
-        <p className="mt-1 text-stone-600">{t("intro")}</p>
+        <p className="mt-1 text-neutral-600">{t("intro")}</p>
       </div>
 
       <Card className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <p className="font-medium">{t("status")}</p>
-          <p className={channel.enabled ? "text-sm font-medium text-brand-700" : "text-sm text-stone-600"}>
+          <p className={channel.enabled ? "text-sm font-medium text-ink underline-offset-2" : "text-sm text-neutral-600"}>
             {channel.enabled ? `● ${t("on")}` : `○ ${t("off")}`}
           </p>
-          {channel.enabled ? null : <p className="mt-1 text-sm text-stone-500">{t("offHint")}</p>}
+          {channel.enabled ? null : <p className="mt-1 text-sm text-neutral-500">{t("offHint")}</p>}
         </div>
         {isOwner ? (
           <form action={setWidgetEnabled}>
@@ -52,21 +54,32 @@ export default async function WidgetSettingsPage() {
 
       <Card className="space-y-3">
         <h2 className="text-lg font-semibold">{t("snippetTitle")}</h2>
-        <pre className="overflow-x-auto rounded-lg bg-stone-900 p-4 text-sm text-stone-100">
+        <pre className="overflow-x-auto rounded-2xl bg-ink p-4 text-sm text-neutral-100">
           <code>{snippet}</code>
         </pre>
         <CopyButton text={snippet} label={t("copy")} copiedLabel={t("copied")} />
-        <p className="text-sm text-stone-600">{t("snippetHint")}</p>
+        <p className="text-sm text-neutral-600">{t("snippetHint")}</p>
       </Card>
+
+      {isOwner ? (
+        <Card className="space-y-4">
+          <div>
+            <h2 className="text-lg font-semibold">{t("appearanceTitle")}</h2>
+            <p className="text-sm text-neutral-600">{t("appearanceIntro")}</p>
+          </div>
+          <AppearanceForm initial={parseWidgetTheme(channel.appearance)} businessName={current.business.name} />
+        </Card>
+      ) : null}
 
       {channel.enabled ? (
         <Card className="space-y-3">
           <h2 className="text-lg font-semibold">{t("tryTitle")}</h2>
-          <p className="text-sm text-stone-600">{t("tryHint")}</p>
+          <p className="text-sm text-neutral-600">{t("tryHint")}</p>
           <iframe
+            key={channel.updated_at}
             title={t("tryTitle")}
             src={`/widget/${channel.public_key}?preview=1&lang=${locale}`}
-            className="h-[600px] w-full max-w-md rounded-2xl border border-stone-300 shadow-sm"
+            className="h-[600px] w-full max-w-md rounded-3xl border border-neutral-200 bg-white"
           />
         </Card>
       ) : null}

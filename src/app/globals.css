@@ -1,18 +1,37 @@
 @import "tailwindcss";
 
+/*
+ * Design: "CostaHub × Máta" (see CLAUDE.md). Colours come from costahub.co.
+ * The website chat widget does NOT use these: it is neutral and themed per
+ * business (src/lib/chat/theme.ts).
+ */
 @theme {
-  --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --color-brand-50: #eefbf7;
-  --color-brand-100: #d5f5ea;
-  --color-brand-200: #aeead8;
-  --color-brand-500: #14a37f;
-  --color-brand-600: #0b8467;
-  --color-brand-700: #0a6a54;
-  --color-brand-900: #08392f;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-hand: var(--font-hand-family), "Comic Sans MS", cursive;
+
+  --color-ink: #000000;
+  --color-lime: #c6f02e;
+  --color-lime-tint: #eef9cc;
+  --color-lime-ink: #3a4d00;
+  --color-pink: #ff2e7e;
+  --color-pink-tint: #ffe3ee;
+  --color-pink-ink: #8a0039;
+  --color-blue: #0156ff;
+  --color-blue-tint: #e3e8ff;
+  --color-blue-ink: #00308f;
+
+  /* "brand" = the lime family, darkened where text sits on it. */
+  --color-brand-50: #f6fce4;
+  --color-brand-100: #eef9cc;
+  --color-brand-200: #ddf29a;
+  --color-brand-500: #8fb800;
+  --color-brand-600: #4c6300;
+  --color-brand-700: #3a4d00;
+  --color-brand-900: #1f2900;
 }
 
 body {
-  @apply bg-stone-50 text-stone-900 antialiased;
+  @apply bg-neutral-100 text-ink antialiased;
 }
 
 /* Bigger tap targets and no zoom-on-focus on iPhone (needs >= 16px text). */

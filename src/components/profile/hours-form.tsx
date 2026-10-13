@@ -91,7 +91,7 @@ export function HoursForm({
 
   return (
     <ProfileForm section="hours" mode={mode} action={saveHours} payload={payload} readOnly={readOnly}>
-      <Card className="divide-y divide-stone-100 p-0 sm:p-0">
+      <Card className="divide-y divide-neutral-100 p-0 sm:p-0">
         {WEEKDAYS.map((day) => {
           const dayIntervals = forDay(day);
           const open = dayIntervals.length > 0;
@@ -100,7 +100,7 @@ export function HoursForm({
               <label className="flex min-h-11 shrink-0 items-center gap-3 font-medium sm:w-40">
                 <input
                   type="checkbox"
-                  className="size-5 accent-brand-600"
+                  className="size-5 accent-ink"
                   checked={open}
                   onChange={(e) => setDayOpen(day, e.target.checked)}
                 />
@@ -118,7 +118,7 @@ export function HoursForm({
                         value={interval.opens_at}
                         onChange={(e) => updateInterval(interval.id, { opens_at: e.target.value })}
                       />
-                      <span className="text-stone-400">–</span>
+                      <span className="text-neutral-400">–</span>
                       <Input
                         type="time"
                         required
@@ -141,7 +141,7 @@ export function HoursForm({
                   {readOnly ? null : (
                     <button
                       type="button"
-                      className="min-h-11 text-sm text-brand-700 hover:underline"
+                      className="min-h-11 text-sm text-ink underline-offset-2 hover:underline"
                       onClick={() => addNextInterval(day)}
                     >
                       + {t("addInterval")}
@@ -149,7 +149,7 @@ export function HoursForm({
                   )}
                 </div>
               ) : (
-                <p className="flex min-h-11 items-center text-stone-500">{t("closed")}</p>
+                <p className="flex min-h-11 items-center text-neutral-500">{t("closed")}</p>
               )}
             </div>
           );
@@ -161,14 +161,14 @@ export function HoursForm({
           <Button variant="secondary" onClick={copyMondayToWeekdays} disabled={forDay(1).length === 0}>
             {t("copyToWeekdays")}
           </Button>
-          <p className="text-sm text-stone-500">{t("overnightHint")}</p>
+          <p className="text-sm text-neutral-500">{t("overnightHint")}</p>
         </div>
       )}
 
       <div className="space-y-3 pt-4">
         <div>
           <h2 className="text-lg font-semibold">{t("exceptionsTitle")}</h2>
-          <p className="text-sm text-stone-600">{t("exceptionsIntro")}</p>
+          <p className="text-sm text-neutral-600">{t("exceptionsIntro")}</p>
         </div>
         {specialDays.map((day) => (
           <Card key={day.id} className="space-y-3">
@@ -184,7 +184,7 @@ export function HoursForm({
               <label className="flex min-h-11 items-center gap-2 text-sm">
                 <input
                   type="checkbox"
-                  className="size-4 accent-brand-600"
+                  className="size-4 accent-ink"
                   checked={day.closed}
                   onChange={(e) =>
                     updateSpecialDay(day.id, {
@@ -214,7 +214,7 @@ export function HoursForm({
                   value={day.opens_at}
                   onChange={(e) => updateSpecialDay(day.id, { opens_at: e.target.value })}
                 />
-                <span className="text-stone-400">–</span>
+                <span className="text-neutral-400">–</span>
                 <Input
                   type="time"
                   required

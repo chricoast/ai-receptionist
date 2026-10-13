@@ -68,7 +68,7 @@ export function BasicsForm({
       payload={found ? { ...values, found } : values}
       readOnly={readOnly}
     >
-      <div className="space-y-3 rounded-2xl border border-brand-200 bg-brand-50 p-4">
+      <div className="space-y-3 rounded-3xl bg-lime-tint p-4">
         <Field label={t("sections.basics.website")} hint={t("sections.basics.websiteHint")} htmlFor="website">
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
@@ -132,18 +132,18 @@ export function BasicsForm({
       </Field>
 
       <fieldset className="space-y-1.5">
-        <legend className="text-sm font-medium text-stone-800">{t("sections.basics.languages")}</legend>
+        <legend className="text-sm font-medium text-neutral-800">{t("sections.basics.languages")}</legend>
         <div className="flex flex-wrap gap-3">
           {CUSTOMER_LANGUAGES.map((lang) => {
             const checked = values.languages.includes(lang);
             return (
               <label
                 key={lang}
-                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-lg border border-stone-400 bg-white px-4 has-[:checked]:border-brand-500 has-[:checked]:bg-brand-50"
+                className="flex min-h-11 cursor-pointer items-center gap-2 rounded-2xl border-2 border-neutral-200 bg-white px-4 has-[:checked]:border-ink has-[:checked]:bg-lime-tint"
               >
                 <input
                   type="checkbox"
-                  className="size-4 accent-brand-600"
+                  className="size-4 accent-ink"
                   checked={checked}
                   // At least one language must stay selected.
                   disabled={checked && values.languages.length === 1}
@@ -154,7 +154,7 @@ export function BasicsForm({
             );
           })}
         </div>
-        <p className="text-sm text-stone-500">{t("sections.basics.languagesHint")}</p>
+        <p className="text-sm text-neutral-500">{t("sections.basics.languagesHint")}</p>
       </fieldset>
 
       {values.languages.length > 1 ? (

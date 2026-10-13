@@ -5,6 +5,7 @@ import { getReceptionistReply, holdingReply, type ChatTurn } from "@/lib/ai/rece
 import type { ReceptionistKnowledge } from "@/lib/ai/prompt";
 import type { ConversationRow, MessageRow } from "@/lib/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { parseWidgetTheme, type WidgetTheme } from "./theme";
 
 type Admin = ReturnType<typeof createAdminClient>;
 
@@ -24,13 +25,19 @@ export function hashIp(ip: string): string {
   return createHmac("sha256", process.env.SUPABASE_SECRET_KEY ?? "salt").update(ip).digest("hex");
 }
 
-export type WidgetChannel = { id: string; businessId: string; businessName: string; enabled: boolean };
+export type WidgetChannel = {
+  id: string;
+  businessId: string;
+  businessName: string;
+  enabled: boolean;
+  theme: WidgetTheme;
+};
 
 export async function findWidgetChannel(publicKey: string, admin: Admin = createAdminClient()): Promise<WidgetChannel | null> {
   if (!/^wc_[a-f0-9]{32}$/.test(publicKey)) return null;
   const { data: channel, error } = await admin
     .from("channels")
-    .select("id, business_id, enabled")
+    .select("id, business_id, enabled, appearance")
     .eq("public_key", publicKey)
     .eq("type", "web_chat")
     .maybeSingle();
@@ -42,7 +49,13 @@ export async function findWidgetChannel(publicKey: string, admin: Admin = create
     .eq("id", channel.business_id)
     .single();
   if (bError) throw bError;
-  return { id: channel.id, businessId: channel.business_id, businessName: business.name, enabled: channel.enabled };
+  return {
+    id: channel.id,
+    businessId: channel.business_id,
+    businessName: business.name,
+    enabled: channel.enabled,
+    theme: parseWidgetTheme(channel.appearance),
+  };
 }
 
 /** Everything the receptionist needs to know about one business. */
@@ -188,13 +201,18 @@ export async function postCustomerMessage(input: {
   if (recentMessages >= CHAT_LIMITS.messagesPerConversationPerHour) return { ok: false, error: "rate_limited" };
 
   // 3. Store the customer's message.
+  const customerText = clean(input.text, CHAT_LIMITS.maxMessageLength);
+  let lastMessage = customerText;
   const { error: mError } = await admin.from("messages").insert({
     conversation_id: conversation.id,
     business_id: channel.businessId,
     sender: "customer",
-    content: clean(input.text, CHAT_LIMITS.maxMessageLength),
+    content: customerText,
   });
   if (mError) throw mError;
+
+  // A customer writing again reopens a closed conversation.
+  let newStatus: ConversationRow["status"] | null = conversation.status === "closed" ? "ai_active" : null;
 
   // 4. When a person from the team has taken over, the AI stays quiet.
   if (conversation.status !== "human_active") {
@@ -210,19 +228,25 @@ export async function postCustomerMessage(input: {
         ? holdingReply(input.language, "Daily AI reply limit reached for this business.")
         : await getReceptionistReply(await loadKnowledge(admin, channel.businessId), history, input.language);
 
-    const { error: aError } = await admin.from("messages").insert({
-      conversation_id: conversation.id,
-      business_id: channel.businessId,
-      sender: "ai",
-      content: reply.reply,
-      metadata: {
-        decision: reply.decision,
-        handoff_reason: reply.handoff_reason,
-        from_ai: reply.fromAi,
-        ...reply.meta,
-      },
-    });
-    if (aError) throw aError;
+    // The team may have taken over while the receptionist was thinking.
+    const { data: fresh } = await admin.from("conversations").select("status").eq("id", conversation.id).single();
+    if (fresh?.status !== "human_active") {
+      const { error: aError } = await admin.from("messages").insert({
+        conversation_id: conversation.id,
+        business_id: channel.businessId,
+        sender: "ai",
+        content: reply.reply,
+        metadata: {
+          decision: reply.decision,
+          handoff_reason: reply.handoff_reason,
+          from_ai: reply.fromAi,
+          ...reply.meta,
+        },
+      });
+      if (aError) throw aError;
+      lastMessage = reply.reply;
+      if (reply.decision === "handoff") newStatus = "needs_human";
+    }
 
     // 5. Remember contact details the customer gave, without overwriting.
     const details = {
@@ -241,24 +265,28 @@ export async function postCustomerMessage(input: {
       }
     }
 
-    if (reply.decision === "handoff") conversation.status = "needs_human";
     // An enquiry with contact details: keep the latest summary for the owner.
     if (reply.lead_ready && reply.lead_summary.trim()) {
       conversation.summary = clean(reply.lead_summary, 3000);
       conversation.lead_at ??= new Date().toISOString();
-      conversation.status = "needs_human";
+      newStatus = "needs_human";
     }
   }
 
   await admin
     .from("conversations")
     .update({
-      status: conversation.status,
       summary: conversation.summary,
       lead_at: conversation.lead_at,
+      last_message: lastMessage.slice(0, 300),
       last_message_at: new Date().toISOString(),
     })
     .eq("id", conversation.id);
+  // Never override a team member who has taken over in the meantime.
+  if (newStatus) {
+    await admin.from("conversations").update({ status: newStatus }).eq("id", conversation.id).neq("status", "human_active");
+    if (conversation.status !== "human_active") conversation.status = newStatus;
+  }
 
   return {
     ok: true,

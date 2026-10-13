@@ -21,7 +21,7 @@ export default async function WidgetPage({ params, searchParams }: PageProps<"/w
 
   if (!channel || !channel.enabled) {
     return (
-      <main className="grid h-dvh place-items-center bg-white p-6 text-center text-stone-600">
+      <main className="grid h-dvh place-items-center bg-white p-6 text-center text-neutral-600">
         <p>{messages.widget.unavailable}</p>
       </main>
     );
@@ -34,6 +34,7 @@ export default async function WidgetPage({ params, searchParams }: PageProps<"/w
         publicKey={key}
         businessName={channel.businessName}
         language={locale}
+        theme={channel.theme}
         preview={preview === "1"}
       />
     </NextIntlClientProvider>

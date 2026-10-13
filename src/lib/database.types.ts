@@ -94,6 +94,8 @@ export type ChannelRow = {
   public_key: string;
   enabled: boolean;
   config: Json;
+  /** Website chat look; validated by src/lib/chat/theme.ts. */
+  appearance: Json;
 } & Timestamps;
 
 export type ContactRow = {
@@ -116,6 +118,8 @@ export type ConversationRow = {
   last_message_at: string;
   summary: string;
   lead_at: string | null;
+  /** Short preview of the latest message, for the inbox list. */
+  last_message: string;
 } & Timestamps;
 
 export type KnowledgePageRow = {
@@ -164,6 +168,14 @@ export type Database = {
     Functions: {
       create_business: {
         Args: { p_name: string; p_type: string; p_languages: string[] };
+        Returns: string;
+      };
+      set_conversation_status: {
+        Args: { p_conversation_id: string; p_status: "ai_active" | "human_active" | "closed" };
+        Returns: undefined;
+      };
+      send_human_reply: {
+        Args: { p_conversation_id: string; p_content: string };
         Returns: string;
       };
     };

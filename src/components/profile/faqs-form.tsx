@@ -44,7 +44,7 @@ export function FaqsForm({
     <ProfileForm section="faqs" mode={mode} action={saveFaqs} payload={{ faqs: items }} readOnly={readOnly}>
       {!readOnly && openSuggestions.length > 0 ? (
         <div className="space-y-2">
-          <p className="text-sm text-stone-600">{t("suggestions")}</p>
+          <p className="text-sm text-neutral-600">{t("suggestions")}</p>
           <div className="flex flex-wrap gap-2">
             {openSuggestions.map((s) => (
               <Chip key={s} onClick={() => add(s)}>
@@ -55,7 +55,7 @@ export function FaqsForm({
         </div>
       ) : null}
 
-      {items.length === 0 ? <p className="text-stone-500">{t("empty")}</p> : null}
+      {items.length === 0 ? <p className="text-neutral-500">{t("empty")}</p> : null}
 
       <div className="space-y-4">
         {items.map((item) => (

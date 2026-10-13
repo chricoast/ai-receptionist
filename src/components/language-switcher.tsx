@@ -19,7 +19,7 @@ export async function LanguageSwitcher() {
             title={t(`languageNames.${locale}`)}
             className={cn(
               "min-h-11 min-w-11 rounded-md px-2 text-sm font-medium uppercase",
-              locale === current ? "bg-stone-200 text-stone-900" : "text-stone-500 hover:text-stone-900",
+              locale === current ? "bg-neutral-200 text-neutral-900" : "text-neutral-500 hover:text-neutral-900",
             )}
           >
             {locale}

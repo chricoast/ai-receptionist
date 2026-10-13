@@ -21,7 +21,9 @@
     "dashboard": "Dashboard",
     "settings": "Settings",
     "privacy": "Privacy",
-    "main": "Main menu"
+    "main": "Main menu",
+    "inbox": "Inbox",
+    "leads": "Enquiries"
   },
   "home": {
     "title": "The receptionist that never sleeps",
@@ -107,7 +109,28 @@
       "tryTitle": "2. Try your receptionist",
       "tryHint": "Ask what your customers usually ask. Test conversations are marked so they don't count in your statistics.",
       "staffOnly": "Only the owner can set up the chat widget.",
-      "notReady": "Finish the basics of your business profile first."
+      "notReady": "Finish the basics of your business profile first.",
+      "appearanceTitle": "Chat appearance",
+      "appearanceIntro": "The chat is deliberately neutral so it fits your website. Pick a colour that matches your logo or site.",
+      "accent": "Main colour",
+      "accentHint": "Customer messages and buttons. We pick the text colour on it so it's always readable.",
+      "customColor": "Custom colour",
+      "corners": "Corners",
+      "cornerOptions": {
+        "round": "Round",
+        "soft": "Soft",
+        "square": "Square"
+      },
+      "font": "Font",
+      "fontOptions": {
+        "system": "Modern",
+        "serif": "Serif",
+        "rounded": "Rounded"
+      },
+      "reset": "Default look",
+      "saveAppearance": "Save appearance",
+      "appearanceSaved": "Appearance saved. The preview below already uses it.",
+      "appearanceFailed": "Couldn't save the appearance. Please try again."
     }
   },
   "dashboard": {
@@ -125,14 +148,26 @@
       "bookingMissing": "No booking link yet",
       "rules": "{count, plural, =0 {No \"never answer\" topics} one {# \"never answer\" topic} other {# \"never answer\" topics}}"
     },
-    "chat": {
-      "title": "Website chat",
-      "last7": "{count, plural, =0 {No conversations in the last 7 days} one {# conversation in the last 7 days} other {# conversations in the last 7 days}}",
-      "needsHuman": "{count, plural, =0 {Nothing waiting for you} one {# conversation needs you} other {# conversations need you}}",
-      "inboxSoon": "You'll be able to read and answer them in the inbox (coming in the next milestone).",
-      "setup": "Set up the chat widget",
-      "off": "The chat is switched off."
-    }
+    "greeting": {
+      "morning": "Good morning!",
+      "day": "Hello!",
+      "evening": "Good evening!"
+    },
+    "handNote": "{total, plural, =0 {no conversations in the last 7 days yet} one {in 7 days the receptionist handled {handled} of # conversation} other {in 7 days the receptionist handled {handled} of # conversations}}",
+    "tiles": {
+      "handled": "handled by AI",
+      "waiting": "waiting for you",
+      "leads": "{count, plural, one {new enquiry} other {new enquiries}}",
+      "total": "{count, plural, one {conversation in 7 days} other {conversations in 7 days}}"
+    },
+    "waitingTitle": "Waiting for you",
+    "waitingEmpty": "Nothing is waiting for you.",
+    "openInbox": "Whole inbox",
+    "leadsTitle": "New enquiries",
+    "allLeads": "All enquiries",
+    "chatOff": "The website chat is switched off.",
+    "chatMissing": "The chat isn't on your website yet.",
+    "chatSetup": "Set up the website chat"
   },
   "errors": {
     "invalid": "Some fields are not filled in correctly. Please check them and try again.",
@@ -327,8 +362,8 @@
   },
   "widget": {
     "title": "{business}",
-    "subtitle": "AI assistant · usually replies in seconds",
-    "greeting": "Hi! 👋 I'm the AI assistant of {business}. How can I help you?",
+    "subtitle": "Receptionist · usually replies instantly",
+    "greeting": "Hello! I'm the AI receptionist of {business}. How can I help?",
     "placeholder": "Write a message…",
     "send": "Send",
     "close": "Close chat",
@@ -342,34 +377,85 @@
     },
     "you": "You",
     "assistant": "Assistant",
-    "team": "Team"
+    "team": "Team",
+    "teamLabel": "{business} · team",
+    "minimize": "Minimise chat"
   },
   "leads": {
     "title": "Enquiries",
     "empty": "No enquiries yet. Once a customer leaves their contact details and says what they need in the chat, you'll see a summary here.",
     "test": "Test",
     "open": "View conversation",
-    "noName": "No name"
+    "noName": "No name",
+    "intro": "Customers who left their contact details and said what they need. The receptionist wrote the summary."
   },
-  "conversation": {
-    "title": "Conversation",
-    "back": "Back to dashboard",
+  "team": {
+    "title": "Your AI team",
+    "receptionist": "Receptionist",
+    "marketer": "Marketer",
+    "officeManager": "Office manager",
+    "analyst": "Analyst",
+    "working": "Working",
+    "soon": "Coming soon"
+  },
+  "inbox": {
+    "title": "Inbox",
+    "filters": {
+      "open": "Open",
+      "waiting": "Waiting for you",
+      "leads": "Enquiries",
+      "closed": "Closed"
+    },
+    "empty": {
+      "open": "No conversations yet. As soon as someone writes to you through the website chat, you'll see it here.",
+      "waiting": "Nothing is waiting for you. The receptionist has it covered.",
+      "leads": "No enquiries yet. Once a customer leaves their contact details and says what they need, you'll see a summary here.",
+      "closed": "No closed conversations."
+    },
+    "visitor": "Website visitor",
+    "test": "Test",
+    "pick": "Pick a conversation from the list.",
+    "back": "Inbox",
+    "status": {
+      "ai_active": "Receptionist replying",
+      "needs_human": "Waiting for you",
+      "human_active": "You're replying",
+      "closed": "Closed"
+    },
+    "lead": "Enquiry",
+    "channel": "Website chat",
+    "started": "Started {date}",
+    "actions": {
+      "takeOver": "Take over",
+      "handBack": "Hand back to receptionist",
+      "close": "Close",
+      "reopen": "Reopen",
+      "failed": "That didn't work. Please try again."
+    },
     "summary": "Enquiry summary",
-    "noSummary": "No summary yet. It appears once the customer leaves contact details and says what they need.",
     "contact": "Contact",
     "noContact": "No contact details yet",
-    "transcript": "Conversation",
     "customer": "Customer",
     "assistant": "Receptionist (AI)",
     "team": "Team",
     "handedOver": "Handed over to you: {reason}",
-    "test": "Test conversation from settings",
-    "status": {
-      "ai_active": "Receptionist answering",
-      "needs_human": "Waiting for you",
-      "human_active": "Taken over by the team",
-      "closed": "Closed"
+    "notes": {
+      "needs_human": "the receptionist handed this over to you",
+      "human_active": "You're replying. The receptionist stays quiet until you hand the conversation back.",
+      "closed": "This conversation is closed. If the customer writes again, it reopens and the receptionist replies."
     },
-    "replySoon": "You'll be able to reply to customers right here in the next version (inbox)."
+    "testNote": "Test conversation from settings",
+    "reply": {
+      "label": "Your reply",
+      "placeholder": "Reply as {business}…",
+      "send": "Send",
+      "sending": "Sending…",
+      "hint": "Sending takes the conversation over. The customer sees your reply in the chat while your website is open; if they've left, reach out using the contact details above.",
+      "errors": {
+        "invalid": "The message is empty or too long.",
+        "failed": "Couldn't send the reply. Please try again."
+      }
+    },
+    "transcript": "Conversation"
   }
 }

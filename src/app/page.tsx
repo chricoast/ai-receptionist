@@ -18,12 +18,12 @@ export default async function HomePage() {
         <LanguageSwitcher />
       </header>
       <main className="mx-auto flex w-full max-w-3xl flex-1 flex-col justify-center px-4 py-12">
-        <h1 className="text-4xl font-bold tracking-tight text-stone-900 sm:text-5xl">{t("title")}</h1>
-        <p className="mt-4 text-lg text-stone-600">{t("subtitle")}</p>
+        <h1 className="text-5xl font-extrabold tracking-tighter text-ink sm:text-6xl">{t("title")}</h1>
+        <p className="mt-4 text-lg text-neutral-600">{t("subtitle")}</p>
         <ul className="mt-8 space-y-3">
           {(["instant", "honest", "control"] as const).map((key) => (
-            <li key={key} className="flex gap-3 text-stone-700">
-              <span aria-hidden className="mt-0.5 text-brand-600">✓</span>
+            <li key={key} className="flex gap-3 text-neutral-700">
+              <span aria-hidden className="grid size-6 shrink-0 place-items-center rounded-lg bg-lime text-sm font-bold text-ink">✓</span>
               {t(`points.${key}`)}
             </li>
           ))}
@@ -37,8 +37,8 @@ export default async function HomePage() {
           </Link>
         </div>
       </main>
-      <footer className="mx-auto w-full max-w-5xl px-4 py-6 text-sm text-stone-500">
-        <Link href="/privacy" className="hover:text-stone-800">
+      <footer className="mx-auto w-full max-w-5xl px-4 py-6 text-sm text-neutral-500">
+        <Link href="/privacy" className="hover:text-neutral-800">
           {nav("privacy")}
         </Link>
       </footer>
