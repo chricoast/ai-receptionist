@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { BUSINESS_TYPES, CURRENCIES, CUSTOMER_LANGUAGES, TONES } from "./constants";
+import { CURRENCIES, CUSTOMER_LANGUAGES, TONES } from "./constants";
 
 const text = (max: number) => z.string().trim().max(max);
 const requiredText = (max: number) => z.string().trim().min(1).max(max);
@@ -34,20 +34,31 @@ const money = z.number().min(0).max(10_000_000).nullable();
 
 export const basicsSchema = z.object({
   name: requiredText(120),
-  type: z.enum(BUSINESS_TYPES),
+  // Free text, in the owner's words (e.g. "Tetovací studio a piercing").
+  type: requiredText(100),
   // First language = main language (the one business content is written in).
   languages: z
     .array(z.enum(CUSTOMER_LANGUAGES))
     .min(1)
     .refine((l) => new Set(l).size === l.length),
-  description: text(2000),
+  description: requiredText(2000),
+  website: optionalUrl(300),
+  // Contact details found on the website ("fill in from website"); saved only
+  // into fields that are still empty, the owner reviews them in the next step.
+  found: z
+    .object({
+      address: text(300),
+      phone: text(50),
+      email: optionalEmail,
+      booking_url: optionalUrl(500),
+    })
+    .optional(),
 });
 
 export const contactSchema = z.object({
   address: text(300),
   phone: text(50),
   email: optionalEmail,
-  website: optionalUrl(300),
   booking_url: optionalUrl(500),
 });
 
@@ -146,7 +157,6 @@ export const faqsSchema = z.object({
 export const assistantSchema = z.object({
   tone: z.enum(TONES),
   tone_notes: text(1000),
-  approve_replies: z.boolean(),
   rules: z
     .array(
       z.object({

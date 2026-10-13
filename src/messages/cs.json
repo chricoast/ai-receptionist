@@ -173,9 +173,22 @@
       "description": "Krátký popis",
       "descriptionHint": "Čím se zabýváte, čím jste výjimeční, kde vás najít. Stačí pár vět.",
       "descriptionPlaceholder": "např. Útulná výběrová kavárna na Vinohradech s domácími dorty a klidnou zadní místností na práci s notebookem.",
-      "typePlaceholder": "Vyberte typ podniku",
+      "typePlaceholder": "např. Tetovací studio, Kavárna s pekárnou",
       "mainLanguage": "Hlavní jazyk",
-      "mainLanguageHint": "Jazyk, ve kterém budete psát služby a časté dotazy."
+      "mainLanguageHint": "Jazyk, ve kterém budete psát služby a časté dotazy.",
+      "typeHint": "Napište vlastními slovy, čím se zabýváte.",
+      "website": "Váš web",
+      "websiteHint": "Podle webu můžeme vyplnit typ podniku, popis i kontakty. Vše si pak zkontrolujete.",
+      "import": "Vyplnit podle webu",
+      "importing": "Čtu váš web…",
+      "imported": "Hotovo! Zkontrolujte prosím vyplněné údaje a případně je upravte.",
+      "importedContacts": "Na webu jsme našli i kontaktní údaje. Uložíme je a v dalším kroku je zkontrolujete.",
+      "importErrors": {
+        "invalid_url": "Zadejte prosím platnou adresu webu, např. mujpodnik.cz.",
+        "fetch_failed": "Web se nepodařilo načíst. Zkontrolujte adresu, nebo údaje vyplňte ručně.",
+        "nothing_found": "Na webu jsme nenašli dost informací. Vyplňte prosím údaje ručně.",
+        "ai_unavailable": "Načtení z webu teď nefunguje. Vyplňte prosím údaje ručně."
+      }
     },
     "contact": {
       "title": "Kontakt a rezervace",
@@ -243,7 +256,10 @@
         "professional": "Profesionální",
         "professionalHint": "Zdvořilý a věcný.",
         "casual": "Neformální",
-        "casualHint": "Uvolněný, klidně i s emoji."
+        "casualHint": "Uvolněný, klidně i s emoji.",
+        "friendlyExample": "Dobrý den! 😊 V sobotu máme otevřeno od 9 do 14 hodin. Těšíme se na vás!",
+        "professionalExample": "Dobrý den, v sobotu máme otevřeno od 9:00 do 14:00.",
+        "casualExample": "Ahoj! Jasně, v sobotu jsme tu od 9 do 14 🙌"
       },
       "toneNotes": "Ještě něco k tomu, jak komunikujete?",
       "toneNotesPlaceholder": "např. Se zákazníky si tykáme. Podepisujeme se „Tým Kavárny“.",
@@ -256,10 +272,10 @@
       "instructionsIntro": "Cokoli dalšího, na co má recepční vždy myslet.",
       "addInstruction": "Přidat pokyn",
       "instructionPlaceholder": "např. Vždy zmínit, že bereme jen platby kartou.",
-      "approveReplies": "Chci odpovědi před odesláním schvalovat (již brzy)",
-      "approveRepliesHint": "Bude k dispozici spolu se schránkou zpráv. Do té doby se zákazníkům nic neposílá.",
       "topic": "Téma",
-      "instruction": "Pokyn"
+      "instruction": "Pokyn",
+      "toneExampleQuestion": "Ukázka – zákazník se ptá: „Máte v sobotu otevřeno?“",
+      "toneChangeLater": "Tón můžete kdykoli později změnit v Nastavení."
     }
   },
   "privacy": {

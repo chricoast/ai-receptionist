@@ -22,7 +22,6 @@ export function ContactForm({
     address: business.address,
     phone: business.phone,
     email: business.email,
-    website: business.website,
     booking_url: business.booking_url,
   });
   const set = (patch: Partial<typeof values>) => setValues((v) => ({ ...v, ...patch }));
@@ -71,17 +70,6 @@ export function ContactForm({
           />
         </Field>
       </div>
-      <Field label={t("sections.contact.website")} optional={optional} htmlFor="website">
-        <Input
-          id="website"
-          inputMode="url"
-          autoCapitalize="none"
-          maxLength={300}
-          placeholder="https://"
-          value={values.website}
-          onChange={(e) => set({ website: e.target.value })}
-        />
-      </Field>
     </ProfileForm>
   );
 }

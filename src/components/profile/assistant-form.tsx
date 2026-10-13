@@ -27,7 +27,6 @@ export function AssistantForm({
   const common = useTranslations("common");
   const [tone, setTone] = useState(business.tone);
   const [toneNotes, setToneNotes] = useState(business.tone_notes);
-  const [approveReplies, setApproveReplies] = useState(business.approve_replies);
   const [items, setItems] = useState<Rule[]>(() =>
     rules.map((r) => ({ id: r.id, kind: r.kind === "instruction" ? "instruction" : "never_answer", content: r.content })),
   );
@@ -45,7 +44,7 @@ export function AssistantForm({
   const used = new Set(items.map((r) => r.content.trim().toLowerCase()));
   const openSuggestions = suggestions.filter((s) => !used.has(s.toLowerCase()));
 
-  const payload = { tone, tone_notes: toneNotes, approve_replies: approveReplies, rules: items };
+  const payload = { tone, tone_notes: toneNotes, rules: items };
 
   const ruleList = (kind: Rule["kind"], placeholder: string, label: string) => (
     <div className="space-y-2">
@@ -95,9 +94,14 @@ export function AssistantForm({
                 {t(`tones.${value}`)}
               </span>
               <span className="mt-1 text-sm text-stone-600">{t(`tones.${value}Hint`)}</span>
+              <span className="mt-3 rounded-xl rounded-bl-sm bg-stone-100 px-3 py-2 text-sm text-stone-800">
+                {t(`tones.${value}Example`)}
+              </span>
             </label>
           ))}
         </div>
+        <p className="text-sm text-stone-500">{t("toneExampleQuestion")}</p>
+        <p className="text-sm text-stone-500">{t("toneChangeLater")}</p>
       </fieldset>
 
       <Field label={t("toneNotes")} optional={common("optional")} htmlFor="tone_notes">
@@ -149,20 +153,6 @@ export function AssistantForm({
         )}
       </section>
 
-      {/* Not active until the inbox exists (Milestone 4), so it can't be switched on yet. */}
-      <label className="flex gap-3 rounded-xl border border-stone-200 bg-stone-100 p-4 text-stone-500">
-        <input
-          type="checkbox"
-          className="mt-1 size-4 accent-brand-600"
-          disabled
-          checked={approveReplies}
-          onChange={(e) => setApproveReplies(e.target.checked)}
-        />
-        <span>
-          <span className="font-medium">{t("approveReplies")}</span>
-          <span className="block text-sm text-stone-600">{t("approveRepliesHint")}</span>
-        </span>
-      </label>
     </ProfileForm>
   );
 }

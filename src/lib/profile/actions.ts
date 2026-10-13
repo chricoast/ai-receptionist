@@ -112,9 +112,23 @@ export async function saveBasics(_prev: FormState, formData: FormData): Promise<
       }
       businessId = data;
     }
+    // Contact details found on the website only fill fields that are still empty.
+    const found = input.found ?? { address: "", phone: "", email: "", booking_url: "" };
+    const existing = current?.business;
+    const fill = (key: keyof typeof found) => (existing?.[key] ? {} : found[key] ? { [key]: found[key] } : {});
     const { error } = await supabase
       .from("businesses")
-      .update({ name: input.name, type: input.type, languages, description: input.description })
+      .update({
+        name: input.name,
+        type: input.type,
+        languages,
+        description: input.description,
+        website: input.website,
+        ...fill("address"),
+        ...fill("phone"),
+        ...fill("email"),
+        ...fill("booking_url"),
+      })
       .eq("id", businessId);
     if (error) throw error;
   } catch (error) {

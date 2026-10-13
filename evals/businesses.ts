@@ -21,7 +21,7 @@ export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
     business: {
       ...base,
       name: "Inkoust Studio",
-      type: "tattoo",
+      type: "Tetovací studio",
       description: "Tetovací studio na Žižkově, specializace fine-line a blackwork.",
       address: "Seifertova 12, Praha 3",
       phone: "+420 777 111 222",
@@ -50,7 +50,7 @@ export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
     business: {
       ...base,
       name: "Studio Balance",
-      type: "studio",
+      type: "Pilates studio",
       description: "Pilates studio na Vinohradech, lekce v malých skupinách do 8 lidí.",
       address: "Mánesova 40, Praha 2",
       phone: "+420 777 333 444",
@@ -76,7 +76,7 @@ export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
     business: {
       ...base,
       name: "Kavárna U Mostu",
-      type: "cafe",
+      type: "Kavárna",
       description: "Výběrová kavárna u Karlova mostu, domácí dorty, snídaně do 12:00.",
       address: "Mostecká 5, Praha 1",
       phone: "+420 777 555 666",
@@ -98,7 +98,7 @@ export const BUSINESSES: Record<string, ReceptionistKnowledge> = {
     business: {
       ...base,
       name: "Bike Clinic",
-      type: "service_shop",
+      type: "Servis kol a e-shop",
       description: "Servis jízdních kol a e-shop s díly v Holešovicích.",
       address: "Dukelských hrdinů 20, Praha 7",
       phone: "+420 777 777 888",

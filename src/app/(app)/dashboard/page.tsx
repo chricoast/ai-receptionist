@@ -16,7 +16,6 @@ export default async function DashboardPage() {
   const profile = await getBusinessProfile(business.id);
   const t = await getTranslations("dashboard");
   const chat = await getChatStats(business.id);
-  const types = await getTranslations("businessTypes");
 
   const openDays = new Set(profile.hours.map((h) => h.weekday)).size;
   const activeServices = profile.services.filter((s) => s.active).length;
@@ -43,7 +42,7 @@ export default async function DashboardPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-2xl font-semibold">{business.name}</h1>
-        <p className="text-stone-600">{types(business.type as "other")}</p>
+        {business.type ? <p className="text-stone-600">{business.type}</p> : null}
       </div>
 
       {business.onboarding_completed_at || role !== "owner" ? null : (

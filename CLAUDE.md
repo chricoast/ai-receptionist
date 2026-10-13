@@ -71,14 +71,14 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 4. Call Claude with a system prompt that enforces: answer only from the provided business info; reply in the customer's language; short, friendly, matching the business's tone; share the booking link when someone wants to book; if unsure or a rule applies, hand off.
 5. The AI returns a reply **and** a decision (`answer` or `handoff`). Use structured output for this.
 6. On `handoff`: send a polite holding message ("I'll check with the team and get back to you"), set the status to `needs_human`, and notify the owner (email now, push later).
-7. In approve mode, AI replies are saved as drafts for the owner to approve or edit.
+7. ~~Approve mode for all replies~~ dropped (founder: owners would drown in approvals). Instead, sensitive/risky topics are always handed over; Milestone 4 may add "approval only for risky replies".
 
 ## Milestones (build in this order — one at a time, test before moving on)
 
 1. **Accounts & business profile** — sign-up/login, create a business, onboarding flow to enter services, prices, hours, FAQs, booking link, tone and "never answer" rules. Editable later in settings.
 2. **Website chat widget** — an embeddable script (`<script>` snippet) the business pastes into its website. Opens a chat bubble; messages go to our backend; the AI replies from the business profile. No Meta approval needed, so this is our first real test with customers.
 3. **Owner inbox** — dashboard listing all conversations with status, live updates, and the ability to read, take over, reply and hand back to the AI.
-4. **Handoff & notifications** — the handoff logic above, plus email notifications to the owner. Approve-replies mode.
+4. **Handoff & notifications** — the handoff logic above, plus email notifications to the owner. Possibly: approval only for replies the AI marks as risky/sensitive (no approve-everything mode).
 5. **Instagram & Facebook DMs** — connect via Meta Graph API (OAuth to connect a business's page/account, webhooks for incoming messages, respect Meta's 24-hour messaging window). *Meta app review takes weeks — start the application in parallel with milestones 1–2.*
 6. **Weekly summary** — email to the owner: number of conversations, answered by AI vs. handed off, common questions, suggested FAQs to add.
 
@@ -106,7 +106,10 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - **Chat widget:** `public/widget.js` adds a button and an iframe to `/widget/[key]` (our origin, so no CORS, isolated styles). The visitor's browser keeps a random conversation token (only its SHA-256 is stored). Visitors are anonymous, so `/api/widget/messages` uses the server-only Supabase secret key (`src/lib/supabase/admin.ts`, used only in `src/lib/chat/`) after checking the widget key, token and rate limits (`CHAT_LIMITS` in `src/config/app.ts`). App pages send `X-Frame-Options: DENY`; only `/widget/*` may be embedded.
 - **Receptionist prompt:** the business profile goes into a cached system prompt (no date in it); the current local time is appended as a mid-conversation system message. Claude returns structured JSON (`decision` answer/handoff, `reply`, `handoff_reason`, extracted contact details). Any failure (no key, API error, refusal, daily cap) falls back to a polite holding message and marks the conversation `needs_human`. Server-side refusal fallback (`fallbacks: "default"`) is on. The widget tells customers they are chatting with an AI (EU AI Act transparency).
 - **Gotcha:** during one server render Next.js reuses the result of an identical earlier GET (Supabase reads are fetches). Don't "re-read to check" with the same query in the same render; take the row from the insert (`.insert().select()`).
-- **Suggestions** per business type (`src/lib/profile/suggestions.ts`) only propose names and questions, never prices or answers.
+- **Type of business is free text** in the owner's words (`businesses.type`, max 100 chars). For suggestions, `categorize()` in `src/lib/profile/suggestions.ts` maps it to a category by keywords. The receptionist sees the free text.
+- **Description is required.** "Vyplnit podle webu" (`src/lib/ai/website.ts`): the server downloads the owner's homepage (only public addresses, re-checked after redirects; 8 s / 1.5 MB limits), extracts text, and Claude drafts type, description and contact details from it (only facts on the page). Nothing is saved until the owner continues; found contact details fill only empty fields. Known gap: DNS rebinding between the address check and the fetch is not prevented (low risk for this use).
+- **Suggestions** (services, FAQs, never-answer topics) are shown in the language the owner uses the app in, and only propose names and questions, never prices or answers.
+- **No "approve every reply" mode**: the checkbox was removed (the `approve_replies` column is unused). Sensitive topics (complaints, refunds, health, legal, specific orders/people) are handed over by the receptionist prompt.
 
 ## Known limitations (fix when relevant)
 

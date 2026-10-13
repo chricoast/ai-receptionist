@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { getLocale } from "next-intl/server";
 import { getBusinessProfile, type CurrentBusiness } from "@/lib/business";
 import type { FormMode, Section } from "@/lib/profile/constants";
 import { getSuggestions } from "@/lib/profile/suggestions";
@@ -28,7 +29,8 @@ export async function ProfileSection({
 
   const { business } = current;
   const profile = await getBusinessProfile(business.id);
-  const suggestions = getSuggestions(business.type, business.languages[0]);
+  // Suggestions in the language the owner is using the app in.
+  const suggestions = getSuggestions(business.type, await getLocale());
 
   switch (section) {
     case "contact":

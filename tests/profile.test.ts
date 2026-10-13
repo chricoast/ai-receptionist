@@ -6,7 +6,7 @@ import {
   hoursSchema,
   servicesSchema,
 } from "@/lib/profile/schemas";
-import { getSuggestions } from "@/lib/profile/suggestions";
+import { categorize, getSuggestions } from "@/lib/profile/suggestions";
 import { parseAmount } from "@/lib/profile/amount";
 import { safeNextPath } from "@/lib/safe-next";
 
@@ -19,15 +19,29 @@ describe("onboarding order", () => {
 });
 
 describe("validation", () => {
-  it("requires a name and at least one language", () => {
-    expect(basicsSchema.safeParse({ name: " ", type: "cafe", languages: ["cs"], description: "" }).success).toBe(false);
-    expect(basicsSchema.safeParse({ name: "Café", type: "cafe", languages: [], description: "" }).success).toBe(false);
-    expect(basicsSchema.safeParse({ name: "Café", type: "cafe", languages: ["cs"], description: "" }).success).toBe(true);
+  const basics = { name: "Café", type: "Kavárna", languages: ["cs"], description: "Útulná kavárna.", website: "" };
+
+  it("requires a name, type of business, description and at least one language", () => {
+    expect(basicsSchema.safeParse(basics).success).toBe(true);
+    expect(basicsSchema.safeParse({ ...basics, name: " " }).success).toBe(false);
+    expect(basicsSchema.safeParse({ ...basics, type: "" }).success).toBe(false);
+    expect(basicsSchema.safeParse({ ...basics, description: "  " }).success).toBe(false);
+    expect(basicsSchema.safeParse({ ...basics, languages: [] }).success).toBe(false);
   });
 
-  it("rejects unknown business types and languages", () => {
-    expect(basicsSchema.safeParse({ name: "X", type: "casino", languages: ["cs"], description: "" }).success).toBe(false);
-    expect(basicsSchema.safeParse({ name: "X", type: "cafe", languages: ["xx"], description: "" }).success).toBe(false);
+  it("accepts any type of business in the owner's words, but no unknown languages", () => {
+    expect(basicsSchema.safeParse({ ...basics, type: "Tetovací studio a piercing" }).success).toBe(true);
+    expect(basicsSchema.safeParse({ ...basics, languages: ["xx"] }).success).toBe(false);
+  });
+
+  it("normalizes the website and contact details found on it", () => {
+    const parsed = basicsSchema.parse({
+      ...basics,
+      website: "kavarna.cz",
+      found: { address: "Mostecká 5", phone: "", email: "", booking_url: "reservio.com/kavarna" },
+    });
+    expect(parsed.website).toBe("https://kavarna.cz");
+    expect(parsed.found?.booking_url).toBe("https://reservio.com/kavarna");
   });
 
   it("adds https:// to web addresses and rejects other schemes", () => {
@@ -91,8 +105,8 @@ describe("more validation", () => {
 
   it("keeps the language order (first = main) and rejects duplicates", () => {
     const parse = (languages: string[]) =>
-      basicsSchema.safeParse({ name: "X", type: "cafe", languages, description: "" });
-    expect(parse(["en", "cs"]).success && basicsSchema.parse({ name: "X", type: "cafe", languages: ["en", "cs"], description: "" }).languages).toEqual(["en", "cs"]);
+      basicsSchema.safeParse({ name: "X", type: "cafe", languages, description: "d", website: "" });
+    expect(parse(["en", "cs"]).success && basicsSchema.parse({ name: "X", type: "cafe", languages: ["en", "cs"], description: "d", website: "" }).languages).toEqual(["en", "cs"]);
     expect(parse(["cs", "cs"]).success).toBe(false);
   });
 
@@ -135,6 +149,24 @@ describe("suggestions", () => {
     expect(cs.services).toContain("Tetování na míru");
     expect(en.services).toContain("Custom tattoo");
     expect([...cs.services, ...en.services].some((s) => /\d/.test(s))).toBe(false);
+  });
+
+  it("recognize the category from the owner's own words", () => {
+    expect(categorize("Tetovací studio a piercing")).toBe("tattoo");
+    expect(categorize("Kavárna s pekárnou")).toBe("cafe");
+    expect(categorize("Pilates a jóga studio")).toBe("studio");
+    expect(categorize("Fyzioterapie Vinohrady")).toBe("clinic");
+    expect(categorize("Servis kol a e-shop")).toBe("service_shop");
+    expect(categorize("Barbershop")).toBe("barber");
+    expect(categorize("Kadeřnictví")).toBe("salon");
+    expect(categorize("tattoo")).toBe("tattoo");
+    expect(categorize("Účetní kancelář")).toBe("other");
+  });
+
+  it("are in the language the owner uses the app in", () => {
+    expect(getSuggestions("Kavárna", "cs").faqs).toContain("Máte Wi-Fi?");
+    expect(getSuggestions("Kavárna", "en").faqs).toContain("Do you have Wi-Fi?");
+    expect(getSuggestions("", "cs").neverAnswer).toContain("Stížnosti a reklamace");
   });
 
   it("fall back to generic ones for unknown types", () => {

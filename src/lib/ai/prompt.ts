@@ -121,6 +121,7 @@ export function buildSystemPrompt(k: ReceptionistKnowledge, today: string): stri
 
   const contact = [
     `Name: ${b.name}`,
+    b.type && `Type of business: ${b.type}`,
     b.description && `About: ${b.description}`,
     b.address && `Address: ${b.address}`,
     b.phone && `Phone: ${b.phone}`,
@@ -145,7 +146,8 @@ export function buildSystemPrompt(k: ReceptionistKnowledge, today: string): stri
 # When to hand over to the team
 Choose decision "handoff" when:
 - the answer is not in the business information, or you are not sure;
-- the customer asks for a person, wants to complain, or needs a decision only the team can make;
+- the customer asks for a person, or needs a decision only the team can make;
+- the topic is sensitive or risky: complaints, refunds or payment problems, health or medical questions, legal matters, anything about a specific person's data or a specific order;
 - the topic is on the business's "never answer" list:
 ${neverAnswer.length ? neverAnswer.join("\n") : "- (none listed)"}
 When handing over, reply warmly that you will check with the team and they will get back to the customer. If the conversation does not yet contain the customer's name and a phone number or email, ask for them. Do not answer the never-answer topic itself, not even partially.

@@ -228,8 +228,32 @@ const byType: Record<BusinessType, Suggestions> = {
   },
 };
 
+/**
+ * Guesses the closest category from what the owner wrote as their type of
+ * business (Czech or English), so we can offer fitting suggestions.
+ */
+export function categorize(typeText: string): BusinessType {
+  const t = typeText.toLowerCase();
+  const rules: Array<[BusinessType, RegExp]> = [
+    ["tattoo", /tetov|tattoo|piercing/],
+    ["barber", /barber|holič/],
+    ["salon", /kadeř|kosmet|salon|nehty|manikúr|beauty|hair|nail|lash|řas|vizáž/],
+    ["clinic", /fyzio|masáž|masaz|klinik|ordinac|terap|zdrav|physio|massage|clinic|therap|osteo|dent|zub/],
+    ["studio", /pilates|jóg|jog|yoga|fitness|posilov|cvič|studio|gym|tanec|dance|crossfit/],
+    ["cafe", /kavár|kavar|café|cafe|coffee|bistro|cukrár|pekár|bakery/],
+    ["restaurant", /restaur|hosp|bar\b|pizz|jídeln|food/],
+    ["service_shop", /servis|e-shop|eshop|obchod|shop|store|oprav|repair|kol[ao]|bike|cykl/],
+  ];
+  return (BUSINESS_TYPES_ORDER.includes(t as BusinessType) ? (t as BusinessType) : undefined) ??
+    rules.find(([, re]) => re.test(t))?.[0] ??
+    "other";
+}
+
+const BUSINESS_TYPES_ORDER = Object.keys(byType) as BusinessType[];
+
+/** Suggestions for a type of business, in the language the owner is using. */
 export function getSuggestions(type: string, language: string) {
-  const t = (byType as Record<string, Suggestions>)[type] ?? byType.other;
+  const t = byType[categorize(type)];
   const lang: CustomerLanguage = language === "en" ? "en" : "cs";
   return {
     services: t.services[lang],

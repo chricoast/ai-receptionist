@@ -173,9 +173,22 @@
       "description": "Short description",
       "descriptionHint": "What you do, what makes you special, where to find you. A few sentences is enough.",
       "descriptionPlaceholder": "e.g. A cosy specialty coffee café in Vinohrady with homemade cakes and a quiet back room for laptop work.",
-      "typePlaceholder": "Choose a type of business",
+      "typePlaceholder": "e.g. Tattoo studio, Café and bakery",
       "mainLanguage": "Main language",
-      "mainLanguageHint": "The language you'll write your services and FAQs in."
+      "mainLanguageHint": "The language you'll write your services and FAQs in.",
+      "typeHint": "Describe in your own words what you do.",
+      "website": "Your website",
+      "websiteHint": "We can fill in your type of business, description and contact details from your website. You'll review everything.",
+      "import": "Fill in from website",
+      "importing": "Reading your website…",
+      "imported": "Done! Please review what we filled in and adjust it if needed.",
+      "importedContacts": "We also found contact details on your website. We'll save them and you'll review them in the next step.",
+      "importErrors": {
+        "invalid_url": "Please enter a valid website address, e.g. mybusiness.com.",
+        "fetch_failed": "We couldn't load the website. Check the address, or fill in the details yourself.",
+        "nothing_found": "We didn't find enough information on the website. Please fill in the details yourself.",
+        "ai_unavailable": "Filling in from the website isn't working right now. Please fill in the details yourself."
+      }
     },
     "contact": {
       "title": "Contact & booking",
@@ -243,7 +256,10 @@
         "professional": "Professional",
         "professionalHint": "Polite and to the point.",
         "casual": "Casual",
-        "casualHint": "Relaxed and informal, emojis welcome."
+        "casualHint": "Relaxed and informal, emojis welcome.",
+        "friendlyExample": "Hi there! 😊 On Saturday we're open from 9 am to 2 pm. Looking forward to seeing you!",
+        "professionalExample": "Hello, on Saturday we are open from 9:00 to 14:00.",
+        "casualExample": "Hey! Sure, we're here Saturday 9 to 2 🙌"
       },
       "toneNotes": "Anything else about how you talk?",
       "toneNotesPlaceholder": "e.g. We're on first-name terms with customers. Sign off as \"The Café Team\".",
@@ -256,10 +272,10 @@
       "instructionsIntro": "Anything else your receptionist should always keep in mind.",
       "addInstruction": "Add instruction",
       "instructionPlaceholder": "e.g. Always mention we only accept card payments.",
-      "approveReplies": "Let me approve replies before they are sent (coming soon)",
-      "approveRepliesHint": "Available together with the inbox. Until then, nothing is sent to customers.",
       "topic": "Topic",
-      "instruction": "Instruction"
+      "instruction": "Instruction",
+      "toneExampleQuestion": "Example – a customer asks: \"Are you open on Saturday?\"",
+      "toneChangeLater": "You can change the tone any time later in Settings."
     }
   },
   "privacy": {
