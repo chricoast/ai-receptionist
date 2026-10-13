@@ -147,5 +147,5 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 
 - Umbrella brand for the whole AI team (employees are named by role; domain for now receptionist.costahub.co)
 - Pricing (to be informed by client interviews — "what would answering every message within a minute be worth to you per month?"). Founder's direction: premium positioning, around 10,000 Kč/month (possibly plus a setup fee). Pilot: the 4 test clients free for 2–3 months in exchange for feedback.
-- Look: friendly and playful. Variants A Slunce, B Máta, C Hrozen and, based on costahub.co (black/white, pink #ff2e7e, blue #0156ff, lime #c6f02e, Inter + Shantell Sans), D Pink, E Night, F Blue, G CostaHub × Máta are on a design canvas. Founder liked B Máta; final pick pending, then it becomes Tailwind theme tokens and the redesign happens together with Milestone 3.
+- Look: friendly and playful. Variants A Slunce, B Máta, C Hrozen and, based on costahub.co (black/white, pink #ff2e7e, blue #0156ff, lime #c6f02e, Inter + Shantell Sans), D Pink, E Night, F Blue, G CostaHub × Máta, plus H Glass (Apple Liquid Glass style, Máta colours) are on a design canvas. Founder liked B Máta; final pick pending, then it becomes Tailwind theme tokens and the redesign happens together with Milestone 3.
 - Which booking systems the test clients use
