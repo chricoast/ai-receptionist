@@ -15,23 +15,19 @@ export const getCurrentBusiness = cache(async (): Promise<CurrentBusiness | null
   const user = await requireUser();
   const supabase = await createClient();
 
-  const { data: membership, error } = await supabase
-    .from("business_members")
-    .select("business_id, role")
-    .eq("user_id", user.id)
-    .order("created_at", { ascending: true })
-    .limit(1)
-    .maybeSingle();
-  if (error) throw error;
-  if (!membership) return null;
-
-  const { data: business, error: businessError } = await supabase
+  // One request: the first business the user joined, with their role in it.
+  // (Row Level Security only returns businesses the user is a member of.)
+  const { data, error } = await supabase
     .from("businesses")
-    .select("*")
-    .eq("id", membership.business_id)
-    .single();
-  if (businessError) throw businessError;
-
+    .select("*, business_members!inner(role, user_id, created_at)")
+    .eq("business_members.user_id", user.id)
+    .order("created_at", { ascending: true })
+    .limit(1);
+  if (error) throw error;
+  const row = (data as unknown as Array<BusinessRow & { business_members: Array<{ role: string }> }>)[0];
+  if (!row) return null;
+  const { business_members: memberships, ...business } = row;
+  const membership = memberships[0];
   return { business, role: membership.role === "owner" ? "owner" : "staff" };
 });
 

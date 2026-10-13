@@ -1,5 +1,5 @@
 import { getFormatter, getTranslations } from "next-intl/server";
-import { Card, cn, HandNote, Pill } from "@/components/ui";
+import { Card, cn, Note, Pill } from "@/components/ui";
 import type { ConversationDetail } from "@/lib/inbox/queries";
 import { ConversationActions } from "./conversation-actions";
 import { Initials, StatusPill } from "./inbox-list";
@@ -93,7 +93,7 @@ export async function ConversationView({ detail, businessName }: { detail: Conve
         </ol>
         <ScrollOnNew count={messages.length} />
         {conversation.status === "needs_human" ? (
-          <HandNote className="mx-auto w-fit rounded-full bg-neutral-100 px-4 py-1.5 text-center">{t("notes.needs_human")}</HandNote>
+          <Note className="mx-auto w-fit rounded-full bg-neutral-100 px-4 py-1.5 text-center">{t("notes.needs_human")}</Note>
         ) : conversation.status !== "ai_active" ? (
           <p className="rounded-2xl bg-neutral-100 px-4 py-2.5 text-center text-sm text-neutral-700">
             {t(`notes.${conversation.status}`)}

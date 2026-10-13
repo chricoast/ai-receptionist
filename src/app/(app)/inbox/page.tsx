@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations } from "next-intl/server";
-import { HandNote } from "@/components/ui";
+import { Note } from "@/components/ui";
 import { requireBusiness } from "@/lib/business";
 import { isInboxFilter } from "@/lib/inbox/queries";
 import { InboxShell } from "./inbox-shell";
@@ -17,7 +17,7 @@ export default async function InboxPage({ searchParams }: PageProps<"/inbox">) {
   return (
     <InboxShell businessId={business.id} filter={isInboxFilter(filter) ? filter : "open"}>
       <div className="grid min-h-80 place-items-center rounded-3xl border-2 border-dashed border-neutral-300 p-8">
-        <HandNote>{t("pick")}</HandNote>
+        <Note>{t("pick")}</Note>
       </div>
     </InboxShell>
   );

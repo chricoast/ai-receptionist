@@ -4,7 +4,7 @@ import type { Database } from "@/lib/database.types";
 import { getSupabaseEnv } from "./env";
 
 /** Pages that require being logged in. */
-const PROTECTED_PREFIXES = ["/dashboard", "/onboarding", "/settings", "/reset-password"];
+const PROTECTED_PREFIXES = ["/dashboard", "/inbox", "/leads", "/conversations", "/onboarding", "/settings", "/reset-password"];
 /** Pages that make no sense once logged in. */
 const AUTH_PAGES = ["/login", "/signup"];
 

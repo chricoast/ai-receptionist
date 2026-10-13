@@ -108,9 +108,9 @@ export function Chip({ className, ...props }: ComponentProps<"button">) {
   );
 }
 
-/** Small handwritten note (Shantell Sans), used sparingly for a friendly touch. */
-export function HandNote({ className, children }: { className?: string; children: ReactNode }) {
-  return <p className={cn("font-hand text-[15px] text-neutral-700", className)}>{children}</p>;
+/** Short secondary line (e.g. under a heading). */
+export function Note({ className, children }: { className?: string; children: ReactNode }) {
+  return <p className={cn("text-[15px] text-neutral-700", className)}>{children}</p>;
 }
 
 /** Coloured status label. */

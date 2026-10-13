@@ -35,20 +35,23 @@ export type WidgetChannel = {
 
 export async function findWidgetChannel(publicKey: string, admin: Admin = createAdminClient()): Promise<WidgetChannel | null> {
   if (!/^wc_[a-f0-9]{32}$/.test(publicKey)) return null;
-  const { data: channel, error } = await admin
+  // One request: the channel with its business's name.
+  const { data, error } = await admin
     .from("channels")
-    .select("id, business_id, enabled, appearance")
+    .select("id, business_id, enabled, appearance, businesses(name)")
     .eq("public_key", publicKey)
     .eq("type", "web_chat")
     .maybeSingle();
   if (error) throw error;
-  if (!channel) return null;
-  const { data: business, error: bError } = await admin
-    .from("businesses")
-    .select("name")
-    .eq("id", channel.business_id)
-    .single();
-  if (bError) throw bError;
+  if (!data) return null;
+  const channel = data as unknown as {
+    id: string;
+    business_id: string;
+    enabled: boolean;
+    appearance: unknown;
+    businesses: { name: string } | null;
+  };
+  const business = { name: channel.businesses?.name ?? "" };
   return {
     id: channel.id,
     businessId: channel.business_id,
@@ -216,17 +219,16 @@ export async function postCustomerMessage(input: {
 
   // 4. When a person from the team has taken over, the AI stays quiet.
   if (conversation.status !== "human_active") {
-    const repliesToday = await countSince(
-      admin,
-      "messages",
-      { business_id: channel.businessId, sender: "ai" },
-      hoursAgo(24),
-    );
-    const history = (await listMessages(admin, conversation.id, AI.historyLimit)) as ChatTurn[];
+    // Independent reads, done together to keep the reply fast.
+    const [repliesToday, history, knowledge] = await Promise.all([
+      countSince(admin, "messages", { business_id: channel.businessId, sender: "ai" }, hoursAgo(24)),
+      listMessages(admin, conversation.id, AI.historyLimit) as Promise<ChatTurn[]>,
+      loadKnowledge(admin, channel.businessId),
+    ]);
     const reply =
       repliesToday >= CHAT_LIMITS.aiRepliesPerBusinessPerDay
         ? holdingReply(input.language, "Daily AI reply limit reached for this business.")
-        : await getReceptionistReply(await loadKnowledge(admin, channel.businessId), history, input.language);
+        : await getReceptionistReply(knowledge, history, input.language);
 
     // The team may have taken over while the receptionist was thinking.
     const { data: fresh } = await admin.from("conversations").select("status").eq("id", conversation.id).single();
@@ -273,26 +275,23 @@ export async function postCustomerMessage(input: {
     }
   }
 
-  await admin
-    .from("conversations")
-    .update({
-      summary: conversation.summary,
-      lead_at: conversation.lead_at,
-      last_message: lastMessage.slice(0, 300),
-      last_message_at: new Date().toISOString(),
-    })
-    .eq("id", conversation.id);
-  // Never override a team member who has taken over in the meantime.
-  if (newStatus) {
-    await admin.from("conversations").update({ status: newStatus }).eq("id", conversation.id).neq("status", "human_active");
-    if (conversation.status !== "human_active") conversation.status = newStatus;
-  }
+  const [, , messages] = await Promise.all([
+    admin
+      .from("conversations")
+      .update({
+        summary: conversation.summary,
+        lead_at: conversation.lead_at,
+        last_message: lastMessage.slice(0, 300),
+        last_message_at: new Date().toISOString(),
+      })
+      .eq("id", conversation.id),
+    // Never override a team member who has taken over in the meantime.
+    newStatus
+      ? admin.from("conversations").update({ status: newStatus }).eq("id", conversation.id).neq("status", "human_active")
+      : null,
+    listMessages(admin, conversation.id, 100),
+  ]);
+  if (newStatus && conversation.status !== "human_active") conversation.status = newStatus;
 
-  return {
-    ok: true,
-    conversationId: conversation.id,
-    token: newToken,
-    status: conversation.status,
-    messages: await listMessages(admin, conversation.id, 100),
-  };
+  return { ok: true, conversationId: conversation.id, token: newToken, status: conversation.status, messages };
 }

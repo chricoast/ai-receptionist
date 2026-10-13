@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getTranslations } from "next-intl/server";
 import { InboxList } from "@/components/inbox/inbox-list";
 import { LiveRefresh } from "@/components/inbox/live-refresh";
-import { buttonClass, Card, cn, HandNote } from "@/components/ui";
+import { buttonClass, Card, cn, Note } from "@/components/ui";
 import { getBusinessProfile, requireBusiness } from "@/lib/business";
 import { getInboxStats, listConversations } from "@/lib/inbox/queries";
 import type { Section } from "@/lib/profile/constants";
@@ -64,7 +64,7 @@ export default async function DashboardPage() {
       <LiveRefresh businessId={business.id} />
       <div className="space-y-1">
         <h1 className="text-4xl font-extrabold tracking-tighter">{t(`greeting.${greetingKey(business.timezone || "Europe/Prague")}`)}</h1>
-        <HandNote>{t("handNote", { total: stats.total, handled: stats.handled })}</HandNote>
+        <Note>{t("handNote", { total: stats.total, handled: stats.handled })}</Note>
       </div>
 
       {business.onboarding_completed_at || role !== "owner" ? null : (

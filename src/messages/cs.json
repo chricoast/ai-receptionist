@@ -153,7 +153,7 @@
       "day": "Dobrý den!",
       "evening": "Dobrý večer!"
     },
-    "handNote": "{total, plural, =0 {za posledních 7 dní zatím žádné rozhovory} one {za 7 dní recepční zvládla {handled} z # rozhovoru} other {za 7 dní recepční zvládla {handled} z # rozhovorů}}",
+    "handNote": "{total, plural, =0 {Za posledních 7 dní zatím žádné rozhovory} one {Za 7 dní recepční zvládla {handled} z # rozhovoru} other {Za 7 dní recepční zvládla {handled} z # rozhovorů}}",
     "tiles": {
       "handled": "vyřešila sama",
       "waiting": "{count, plural, one {čeká na vás} few {čekají na vás} other {čeká na vás}}",
@@ -440,7 +440,7 @@
     "team": "Tým",
     "handedOver": "Předáno vám: {reason}",
     "notes": {
-      "needs_human": "recepční předala konverzaci vám",
+      "needs_human": "Recepční předala konverzaci vám.",
       "human_active": "Odpovídáte vy. Recepční teď mlčí, dokud jí konverzaci nevrátíte.",
       "closed": "Konverzace je uzavřená. Když zákazník napíše znovu, otevře se a odpoví recepční."
     },

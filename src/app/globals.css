@@ -7,7 +7,6 @@
  */
 @theme {
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-hand: var(--font-hand-family), "Comic Sans MS", cursive;
 
   --color-ink: #000000;
   --color-lime: #c6f02e;

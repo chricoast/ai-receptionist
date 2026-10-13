@@ -153,7 +153,7 @@
       "day": "Hello!",
       "evening": "Good evening!"
     },
-    "handNote": "{total, plural, =0 {no conversations in the last 7 days yet} one {in 7 days the receptionist handled {handled} of # conversation} other {in 7 days the receptionist handled {handled} of # conversations}}",
+    "handNote": "{total, plural, =0 {No conversations in the last 7 days yet} one {In 7 days the receptionist handled {handled} of # conversation} other {In 7 days the receptionist handled {handled} of # conversations}}",
     "tiles": {
       "handled": "handled by AI",
       "waiting": "waiting for you",
@@ -440,7 +440,7 @@
     "team": "Team",
     "handedOver": "Handed over to you: {reason}",
     "notes": {
-      "needs_human": "the receptionist handed this over to you",
+      "needs_human": "The receptionist handed this over to you.",
       "human_active": "You're replying. The receptionist stays quiet until you hand the conversation back.",
       "closed": "This conversation is closed. If the customer writes again, it reopens and the receptionist replies."
     },
