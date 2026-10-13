@@ -10,7 +10,8 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:db": "./scripts/test-db.sh",
-    "eval": "vitest run --config vitest.eval.config.mts"
+    "eval": "vitest run --config vitest.eval.config.mts",
+    "eval:costahub": "vitest run --config vitest.eval.config.mts evals/costahub.eval.ts --sequence.concurrent=false"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.133.0",
