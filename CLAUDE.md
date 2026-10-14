@@ -148,7 +148,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - [x] Milestone 3 — Owner inbox + new design (tested locally end to end with a stand-in AI and local Supabase incl. Realtime; needs the 6th migration in production)
 - [ ] Milestone 4 — Handoff & notifications
 - [ ] Milestone 5 — Instagram & Facebook DMs (founder: on hold for now, "more risky"; keep in mind)
-- [x] Milestone 6 — Weekly summary, **in the app, no email** (tested locally end to end with a stand-in AI; needs the 7th migration in production)
+- [x] Milestone 6 — Weekly summary, **in the app, no email** (live; 7th migration run, founder confirmed it works)
 - [ ] Meta app review application started
 
 ## Open questions
