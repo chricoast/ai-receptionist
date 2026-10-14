@@ -6,6 +6,7 @@ import { CHAT_LIMITS, INBOX } from "@/config/app";
 import { Smiley } from "@/components/smiley";
 import { cn } from "@/components/ui";
 import { widgetThemeStyle, type WidgetTheme } from "@/lib/chat/theme";
+import { ReadySignal } from "./ready-signal";
 
 type Message = { id: string; sender: "customer" | "ai" | "human" | "system"; content: string };
 type Status = "ai_active" | "needs_human" | "human_active" | "closed";
@@ -193,6 +194,7 @@ export function ChatWidget({
       className="flex h-dvh flex-col bg-(--w-bg) font-(family-name:--w-font) text-(--w-text)"
       style={widgetThemeStyle(theme) as CSSProperties}
     >
+      <ReadySignal />
       <header className="flex items-center gap-3 border-b border-(--w-border) px-4 py-3">
         <Smiley size={40} />
         <div className="min-w-0 flex-1">

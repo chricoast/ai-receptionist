@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale } from "next-intl/server";
 import { ChatWidget } from "@/components/widget/chat-widget";
+import { ReadySignal } from "@/components/widget/ready-signal";
 import { isLocale, type Locale } from "@/i18n/config";
 import { findWidgetChannel } from "@/lib/chat/service";
 
@@ -16,12 +17,16 @@ export default async function WidgetPage({ params, searchParams }: PageProps<"/w
   const { lang, preview } = await searchParams;
   const locale: Locale = isLocale(lang) ? lang : await getLocale();
 
-  const channel = await findWidgetChannel(key).catch(() => null);
+  const channel = await findWidgetChannel(key).catch((error) => {
+    console.error("Widget page: could not load the chat channel", error);
+    return null;
+  });
   const messages = (await import(`../../../messages/${locale}.json`)).default;
 
   if (!channel || !channel.enabled) {
     return (
       <main className="grid h-dvh place-items-center bg-white p-6 text-center text-neutral-600">
+        <ReadySignal />
         <p>{messages.widget.unavailable}</p>
       </main>
     );
