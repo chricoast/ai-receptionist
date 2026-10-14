@@ -66,3 +66,15 @@ describe("widget theme secondary colours", () => {
     expect(contrastRatio(dark["--w-muted"], darkTheme.background)).toBeGreaterThan(4.5);
   });
 });
+
+import { redactSecrets } from "@/lib/chat/redact";
+
+describe("error details never show keys", () => {
+  it("masks the key, including one with a pasted space", () => {
+    const original = "sb_secret_ABCd efGH12345678_xyz";
+    const raw = `TypeError: Headers.set: "${original}" is an invalid header value.`;
+    const out = redactSecrets(raw, [original, original.replace(/\s+/g, "")]);
+    expect(out).toBe('TypeError: Headers.set: "[key]" is an invalid header value.');
+    expect(redactSecrets('bad "sb_secret_X1 rest_of_the_key_here" and sk-ant-api03-zzz', [])).not.toMatch(/X1|rest_of|zzz/);
+  });
+});

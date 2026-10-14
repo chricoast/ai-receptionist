@@ -128,7 +128,7 @@ export async function draftProfileFromWebsite(url: string, language: "cs" | "en"
 
   const lang = language === "en" ? "English" : "Czech";
   try {
-    const client = new Anthropic({ timeout: AI.timeoutMs, maxRetries: 1 });
+    const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY?.replace(/\s+/g, ""), timeout: AI.timeoutMs, maxRetries: 1 });
     const response = await client.beta.messages.parse({
       model: AI.model,
       max_tokens: AI.maxTokens,

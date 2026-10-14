@@ -10,8 +10,8 @@ import { getSupabaseEnv } from "./env";
  *  - always filter by the business the request was checked against.
  */
 export function createAdminClient() {
-  // Trimmed: a space or line break pasted along with the key would make it invalid.
-  const secret = process.env.SUPABASE_SECRET_KEY?.trim();
+  // Keys never contain spaces: drop any space or line break pasted along with it.
+  const secret = process.env.SUPABASE_SECRET_KEY?.replace(/\s+/g, "");
   if (!secret) throw new Error("Missing SUPABASE_SECRET_KEY (server-only environment variable).");
   return createClient<Database>(getSupabaseEnv().url, secret, {
     auth: { persistSession: false, autoRefreshToken: false },

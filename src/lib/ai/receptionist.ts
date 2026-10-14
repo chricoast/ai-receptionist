@@ -48,7 +48,7 @@ export function holdingReply(language: string, reason: string): ReceptionistRepl
 let client: Anthropic | null = null;
 function getClient() {
   if (!process.env.ANTHROPIC_API_KEY) return null;
-  client ??= new Anthropic({ timeout: AI.timeoutMs, maxRetries: 1 });
+  client ??= new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY?.replace(/\s+/g, ""), timeout: AI.timeoutMs, maxRetries: 1 });
   return client;
 }
 

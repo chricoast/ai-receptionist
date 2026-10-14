@@ -5,6 +5,7 @@ import { getReceptionistReply, holdingReply, type ChatTurn } from "@/lib/ai/rece
 import type { ReceptionistKnowledge } from "@/lib/ai/prompt";
 import type { ConversationRow, MessageRow } from "@/lib/database.types";
 import { createAdminClient } from "@/lib/supabase/admin";
+import { redactSecrets } from "./redact";
 import { parseWidgetTheme, type WidgetTheme } from "./theme";
 
 type Admin = ReturnType<typeof createAdminClient>;
@@ -312,7 +313,7 @@ export type ChatCheck = {
  */
 export async function checkChat(publicKey: string): Promise<ChatCheck> {
   const ai = process.env.ANTHROPIC_API_KEY?.trim() ? "set" : "missing";
-  const secret = process.env.SUPABASE_SECRET_KEY?.trim() ?? "";
+  const secret = process.env.SUPABASE_SECRET_KEY?.replace(/\s+/g, "") ?? "";
   if (!secret) return { database: "missing_key", channel: "unknown", ai, detail: "" };
   // A common mix-up: the public (publishable) key pasted as the secret one.
   if (!secret.startsWith("sb_secret_") && !secret.startsWith("eyJ")) {
@@ -324,7 +325,9 @@ export async function checkChat(publicKey: string): Promise<ChatCheck> {
     if (!channel) return { database: "ok", channel: "not_found", ai, detail: "" };
     return { database: "ok", channel: channel.enabled ? "ok" : "disabled", ai, detail: "" };
   } catch (error) {
-    const message = error && typeof error === "object" && "message" in error ? String(error.message) : String(error);
+    const raw = error && typeof error === "object" && "message" in error ? String(error.message) : String(error);
+    // Error texts can contain the key itself (e.g. "invalid header value"): never show it.
+    const message = redactSecrets(raw, [process.env.SUPABASE_SECRET_KEY ?? "", secret]);
     // An unknown key is treated like a visitor without rights: "permission denied".
     const wrongKey = /invalid api key|jwt|unauthori[sz]ed|401|apikey|permission denied/i.test(message);
     return { database: wrongKey ? "wrong_key" : "error", channel: "unknown", ai, detail: message.slice(0, 200) };
