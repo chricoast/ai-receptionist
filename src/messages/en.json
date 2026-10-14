@@ -23,7 +23,8 @@
     "privacy": "Privacy",
     "main": "Main menu",
     "inbox": "Inbox",
-    "leads": "Enquiries"
+    "leads": "Enquiries",
+    "summary": "Summary"
   },
   "home": {
     "title": "The receptionist that never sleeps",
@@ -476,5 +477,54 @@
       }
     },
     "transcript": "Conversation"
+  },
+  "summary": {
+    "title": "Weekly summary",
+    "intro": "How the receptionist did and what customers asked about. Test conversations from settings are not counted.",
+    "thisWeek": "This week (so far)",
+    "lastWeek": "Last week",
+    "range": "{from} – {to}",
+    "prev": "Previous week",
+    "next": "Next week",
+    "tiles": {
+      "conversations": "{count, plural, one {conversation} other {conversations}}",
+      "handled": "handled by AI",
+      "handedOver": "handed to you",
+      "leads": "{count, plural, one {new enquiry} other {new enquiries}}",
+      "reply": "typical reply time"
+    },
+    "seconds": "{count} s",
+    "minutes": "{count} min",
+    "delta": {
+      "up": "+{count} vs last week",
+      "down": "−{count} vs last week",
+      "same": "same as last week"
+    },
+    "share": "{percent}% of conversations",
+    "daysTitle": "When customers write",
+    "busiest": "Most messages arrive between {from}:00 and {to}:00.",
+    "noMessages": "No customer messages this week yet.",
+    "insightsTitle": "What customers ask about",
+    "insightsIntro": "The analysis reads this week's customer messages and finds the most common topics, questions the receptionist couldn't answer, and ideas for FAQs.",
+    "analyse": "Analyse the week",
+    "reanalyse": "Analyse again",
+    "analysing": "Analysing… (takes a few seconds)",
+    "analysedAt": "Analysed {date} from {count, plural, one {# message} other {# messages}}.",
+    "ownerOnly": "The owner can run the analysis.",
+    "topics": "Most common topics",
+    "inConversations": "{count, plural, one {in # conversation} other {in # conversations}}",
+    "unanswered": "What the receptionist couldn't answer",
+    "unansweredEmpty": "Nothing, the receptionist could answer everything.",
+    "suggested": "Suggested FAQs",
+    "suggestedHint": "Add the answer and the receptionist will handle it next time.",
+    "suggestedEmpty": "No new suggestions: your FAQs cover what customers ask.",
+    "addFaq": "Add to FAQs",
+    "errors": {
+      "ai_unavailable": "The analysis isn't available right now (AI unavailable). Please try later.",
+      "nothing_to_analyse": "No customer messages to analyse this week.",
+      "not_owner": "Only the owner can run the analysis.",
+      "failed": "Couldn't save the analysis. Please try again."
+    },
+    "dashboardLink": "Weekly summary"
   }
 }

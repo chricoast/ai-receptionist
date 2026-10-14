@@ -15,18 +15,23 @@ export function FaqsForm({
   suggestions,
   mode,
   readOnly,
+  prefill,
 }: {
   faqs: FaqRow[];
   suggestions: string[];
   mode: FormMode;
   readOnly?: boolean;
+  prefill?: { id: string; question: string };
 }) {
   const t = useTranslations("sections.faqs");
   const common = useTranslations("common");
-  const [items, setItems] = useState<Item[]>(() =>
-    faqs.map(({ id, question, answer }) => ({ id, question, answer })),
-  );
-  const [focusId, setFocusId] = useState<string | null>(null);
+  const [items, setItems] = useState<Item[]>(() => {
+    const list = faqs.map(({ id, question, answer }) => ({ id, question, answer }));
+    const known = list.some((f) => f.question.trim().toLowerCase() === prefill?.question.toLowerCase());
+    return prefill && !readOnly && !known ? [...list, { id: prefill.id, question: prefill.question, answer: "" }] : list;
+  });
+  // A question added from the weekly summary: put the cursor in its answer.
+  const [focusId, setFocusId] = useState<string | null>(prefill?.id ?? null);
 
   const update = (id: string, patch: Partial<Item>) =>
     setItems((list) => list.map((item) => (item.id === id ? { ...item, ...patch } : item)));

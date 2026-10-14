@@ -141,6 +141,16 @@ export type MessageRow = {
   created_at: string;
 };
 
+export type WeeklySummaryRow = {
+  id: string;
+  business_id: string;
+  /** Monday of the week (YYYY-MM-DD), business time zone. */
+  week_start: string;
+  /** AI insights; validated by src/lib/insights/ai.ts. */
+  insights: Json;
+  message_count: number;
+} & Timestamps;
+
 type Table<Row, Required extends keyof Row> = {
   Row: Row;
   Insert: Partial<Row> & Pick<Row, Required>;
@@ -163,6 +173,7 @@ export type Database = {
       conversations: Table<ConversationRow, "business_id" | "channel_id" | "contact_id" | "visitor_token_hash">;
       messages: Table<MessageRow, "conversation_id" | "business_id" | "sender" | "content">;
       knowledge_pages: Table<KnowledgePageRow, "business_id" | "url" | "content">;
+      weekly_summaries: Table<WeeklySummaryRow, "business_id" | "week_start">;
     };
     Views: { [_ in never]: never };
     Functions: {

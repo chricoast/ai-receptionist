@@ -9,6 +9,7 @@ const LINKS = [
   { href: "/dashboard", key: "dashboard", icon: "M3 9l7-6 7 6v8H3z" },
   { href: "/inbox", key: "inbox", icon: "M3 5h14v10H3zM3 5l7 6 7-6" },
   { href: "/leads", key: "leads", icon: "M4 4h12v12H4zM7 8h6M7 11h4" },
+  { href: "/summary", key: "summary", icon: "M4 16V10M8 16V5M12 16v-4M16 16V8" },
   { href: "/settings", key: "settings", icon: "M10 7a3 3 0 1 0 0 6 3 3 0 0 0 0-6zM10 2v2.5M10 15.5V18M2 10h2.5M15.5 10H18" },
 ] as const;
 
@@ -59,7 +60,7 @@ export function AppNav({ variant, waiting }: { variant: "side" | "bottom"; waiti
   return (
     <nav
       aria-label={t("main")}
-      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-4 gap-1 rounded-3xl bg-ink p-1.5 shadow-lg lg:hidden"
+      className="fixed inset-x-3 bottom-3 z-40 grid grid-cols-5 gap-1 rounded-3xl bg-ink p-1.5 shadow-lg lg:hidden"
     >
       {LINKS.map(({ href, key, icon }) => {
         const active = isActive(href);

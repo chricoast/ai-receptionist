@@ -50,3 +50,12 @@ export const INBOX = {
   widgetPollWaitingMs: 4_000,
   widgetPollIdleMs: 15_000,
 };
+
+/** Weekly summary: limits for the AI analysis (one Claude call per week, on request). */
+export const INSIGHTS = {
+  maxMessageChars: 300,
+  // Roughly 15k tokens of customer messages at most.
+  maxInputChars: 60_000,
+  // Rows read per week from the database (a safety cap for very busy businesses).
+  maxRows: 20_000,
+};

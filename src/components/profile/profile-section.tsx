@@ -16,10 +16,13 @@ export async function ProfileSection({
   section,
   mode,
   current,
+  faqPrefill,
 }: {
   section: Section;
   mode: FormMode;
   current: CurrentBusiness | null;
+  /** A question to add to the FAQs (from the weekly summary). */
+  faqPrefill?: { id: string; question: string };
 }) {
   const readOnly = current !== null && current.role !== "owner";
 
@@ -46,7 +49,7 @@ export async function ProfileSection({
     case "hours":
       return <HoursForm hours={profile.hours} exceptions={profile.exceptions} mode={mode} readOnly={readOnly} />;
     case "faqs":
-      return <FaqsForm faqs={profile.faqs} suggestions={suggestions.faqs} mode={mode} readOnly={readOnly} />;
+      return <FaqsForm faqs={profile.faqs} suggestions={suggestions.faqs} mode={mode} readOnly={readOnly} prefill={faqPrefill} />;
     case "assistant":
       return (
         <AssistantForm

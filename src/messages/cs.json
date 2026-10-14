@@ -23,7 +23,8 @@
     "privacy": "Ochrana osobních údajů",
     "main": "Hlavní menu",
     "inbox": "Schránka",
-    "leads": "Poptávky"
+    "leads": "Poptávky",
+    "summary": "Souhrn"
   },
   "home": {
     "title": "Recepční, která nikdy nespí",
@@ -476,5 +477,54 @@
       }
     },
     "transcript": "Průběh konverzace"
+  },
+  "summary": {
+    "title": "Týdenní souhrn",
+    "intro": "Jak si recepční vedla a na co se zákazníci ptali. Testovací konverzace z nastavení se nepočítají.",
+    "thisWeek": "Tento týden (zatím)",
+    "lastWeek": "Minulý týden",
+    "range": "{from} – {to}",
+    "prev": "Předchozí týden",
+    "next": "Další týden",
+    "tiles": {
+      "conversations": "{count, plural, one {rozhovor} few {rozhovory} other {rozhovorů}}",
+      "handled": "vyřešila sama",
+      "handedOver": "předala vám",
+      "leads": "{count, plural, one {nová poptávka} few {nové poptávky} other {nových poptávek}}",
+      "reply": "střední doba odpovědi"
+    },
+    "seconds": "{count} s",
+    "minutes": "{count} min",
+    "delta": {
+      "up": "+{count} oproti minulému týdnu",
+      "down": "−{count} oproti minulému týdnu",
+      "same": "stejně jako minulý týden"
+    },
+    "share": "{percent} % rozhovorů",
+    "daysTitle": "Kdy zákazníci píšou",
+    "busiest": "Nejvíc zpráv přichází mezi {from}:00 a {to}:00.",
+    "noMessages": "V tomto týdnu zatím nejsou žádné zprávy zákazníků.",
+    "insightsTitle": "Co zákazníci řeší",
+    "insightsIntro": "Analýza přečte zprávy zákazníků z tohoto týdne a najde nejčastější témata, otázky, na které recepční neznala odpověď, a návrhy na časté dotazy.",
+    "analyse": "Analyzovat týden",
+    "reanalyse": "Analyzovat znovu",
+    "analysing": "Analyzuji… (zabere to pár sekund)",
+    "analysedAt": "Analyzováno {date} z {count, plural, one {# zprávy} other {# zpráv}}.",
+    "ownerOnly": "Analýzu může spustit majitel.",
+    "topics": "Nejčastější témata",
+    "inConversations": "{count, plural, one {v # rozhovoru} other {v # rozhovorech}}",
+    "unanswered": "Na co recepční neznala odpověď",
+    "unansweredEmpty": "Nic, recepční zvládla odpovědět na všechno.",
+    "suggested": "Návrhy na časté dotazy",
+    "suggestedHint": "Doplňte odpověď a recepční je příště zodpoví sama.",
+    "suggestedEmpty": "Žádné nové návrhy, vaše časté dotazy pokrývají, na co se zákazníci ptají.",
+    "addFaq": "Přidat do častých dotazů",
+    "errors": {
+      "ai_unavailable": "Analýza teď nejde (AI není dostupná). Zkuste to prosím později.",
+      "nothing_to_analyse": "V tomto týdnu nejsou zprávy zákazníků k analýze.",
+      "not_owner": "Analýzu může spustit jen majitel.",
+      "failed": "Analýzu se nepodařilo uložit. Zkuste to prosím znovu."
+    },
+    "dashboardLink": "Týdenní souhrn"
   }
 }

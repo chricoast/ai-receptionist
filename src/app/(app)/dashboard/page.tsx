@@ -98,6 +98,10 @@ export default async function DashboardPage() {
         })}
       </div>
 
+      <Link href="/summary" className="inline-flex min-h-11 items-center text-sm font-semibold hover:underline">
+        {(await getTranslations("summary"))("dashboardLink")} →
+      </Link>
+
       {channel.data && channel.data.enabled ? null : (
         <Card className="flex flex-wrap items-center justify-between gap-3">
           <p className="font-semibold">{channel.data ? t("chatOff") : t("chatMissing")}</p>

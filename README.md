@@ -18,7 +18,7 @@ An AI receptionist for small, booking-based businesses: it answers customer mess
 2. Open [`supabase/migrations/20261012120000_business_profile.sql`](supabase/migrations/20261012120000_business_profile.sql), copy **all** of it, paste it into the editor and click **Run**. It should say "Success. No rows returned".
 3. Check under **Table Editor**: you should see `businesses`, `business_members`, `services`, `opening_hours`, `opening_hour_exceptions`, `faqs`, `rules`. Each one should be marked as protected by RLS.
 
-Run each migration file **once**, in date order. Future milestones will add new files. So far there are six:
+Run each migration file **once**, in date order. Future milestones will add new files. So far there are seven:
 
 | File | What it does |
 |---|---|
@@ -28,6 +28,7 @@ Run each migration file **once**, in date order. Future milestones will add new 
 | `20261013120000_free_text_business_type.sql` | Type of business becomes free text (in the owner's own words) |
 | `20261013150000_lead_mode.sql` | Lead mode: receptionist goal, questions to ask, website knowledge, enquiry summaries |
 | `20261014090000_owner_inbox.sql` | Inbox: take over / reply / hand back / close, message previews, chat appearance, live updates |
+| `20261015090000_weekly_summary.sql` | Weekly summary: saved AI analysis per week (topics, unanswered questions, FAQ ideas) |
 
 ### 2. Login settings in Supabase
 
@@ -85,6 +86,13 @@ On your phone and on a computer:
 2. Check: answers use only your information; unknown things are handed over ("ověřím s kolegy") with a request for your name and phone; English questions get English answers.
 3. Paste the code into a real website (or costahub.co) and try it on your phone.
 4. The dashboard shows the number of website conversations and how many are waiting for you (test chats from settings don't count).
+
+## How to test Milestone 6 (weekly summary)
+
+1. Menu → **Souhrn**. You see this week so far: conversations, how many the receptionist handled alone, how many it handed to you, new enquiries and the typical reply time, each compared with last week. Below: conversations per day and the busiest hour. Test chats from settings are not counted.
+2. Click **Analyzovat týden** (owner only; one Claude call, a few seconds). You get the most common topics, the questions the receptionist couldn't answer, and suggested FAQs.
+3. Click **+ Přidat do častých dotazů** on a suggestion: the FAQ settings open with that question added and the cursor in the answer. Write the answer and save; next time the receptionist answers it.
+4. Use ← to look at previous weeks.
 
 ## How to test Milestone 3 (inbox)
 
