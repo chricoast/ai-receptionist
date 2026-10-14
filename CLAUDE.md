@@ -129,7 +129,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 - RLS helpers (`private.is_business_member`) run once per row. Fine for profile tables; the chat tables already use `business_id in (select private.my_business_ids())`.
 - A customer who has left the website doesn't learn about the owner's reply (no email/SMS to customers yet); the reply box tells the owner to use the contact details. Team replies are shown as "{business} · tým", without the person's name (the user id is in `messages.metadata`).
 - The widget's "rounded" font uses the visitor's system rounded font (Apple devices); elsewhere it falls back to the normal system font.
-- The receptionist test set (`npm run eval`) has not been run against the real API yet (no key in the sandbox).
+- The automated receptionist test set (`npm run eval`, `npm run eval:costahub`) has not been run in the sandbox (no API key there); the founder ran the 10 Costa Hub scenarios by hand on the live site and was happy.
 - The privacy page is a draft: fill in `OPERATOR` in `src/config/app.ts` (legal name, IČO, address, contact email) and have it reviewed before paying customers.
 
 ## Commands
@@ -142,7 +142,7 @@ Secrets (API keys) live only in environment variables (`.env.local` locally, Ver
 ## Status
 
 - [x] Milestone 1 — Accounts & business profile (live at https://ai-receptionist-lac-mu.vercel.app, sign-up and onboarding confirmed working on the founder's phone)
-- [x] Milestone 2 — Website chat widget (built and tested locally with a stand-in AI; live test with real Claude pending: needs ANTHROPIC_API_KEY + SUPABASE_SECRET_KEY in Vercel and the third migration)
+- [x] Milestone 2 — Website chat widget (**live on costahub.co** since 2026-10-14; founder ran the 10 Costa Hub test customers by hand with real Claude: "works great")
 - [x] Extra (founder request): lead mode, optional whole-website knowledge, enquiries on the dashboard, read-only conversation page (tested locally with a stand-in AI; needs the 5th migration in production)
 - [x] Milestone 3 — Owner inbox + new design (tested locally end to end with a stand-in AI and local Supabase incl. Realtime; needs the 6th migration in production)
 - [ ] Milestone 4 — Handoff & notifications
