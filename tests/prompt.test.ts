@@ -63,6 +63,13 @@ describe("receptionist prompt", () => {
     expect(formatOpeningHours([])).toBe("Not provided.");
   });
 
+  it("speaks as the business ('we'), not as an individual assistant", () => {
+    const prompt = buildSystemPrompt(knowledge, "2026-10-12");
+    expect(prompt).toContain(`Speak as ${knowledge.business.name} itself, in the first person plural`);
+    expect(prompt).toContain('never speak as "I"');
+    expect(prompt).not.toContain("virtual receptionist");
+  });
+
   it("includes the business facts and rules, but hides inactive services and past special days", () => {
     const prompt = buildSystemPrompt(knowledge, "2026-10-12");
     expect(prompt).toContain("Tetování na míru: 2000–8000.50 CZK (záloha 1 000 Kč)");

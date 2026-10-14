@@ -382,13 +382,13 @@
   },
   "widget": {
     "title": "{business}",
-    "subtitle": "Receptionist · usually replies instantly",
-    "greeting": "Hello! I'm the AI receptionist of {business}. How can I help?",
+    "subtitle": "We usually reply instantly",
+    "greeting": "Hi! This is {business}. How can we help?",
     "placeholder": "Write a message…",
     "send": "Send",
     "close": "Close chat",
     "typing": "Writing…",
-    "disclaimer": "You're chatting with an AI. It can make mistakes; for anything important the team will confirm.",
+    "disclaimer": "Replies are written by AI on behalf of {business}. It can make mistakes; we will confirm anything important.",
     "unavailable": "The chat is not available right now.",
     "errors": {
       "rate_limited": "Too many messages. Please wait a little and try again.",
@@ -396,7 +396,6 @@
       "disabled": "The chat is switched off at the moment."
     },
     "you": "You",
-    "assistant": "Assistant",
     "team": "Team",
     "teamLabel": "{business} · team",
     "minimize": "Minimise chat"

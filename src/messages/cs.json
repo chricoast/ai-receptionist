@@ -382,13 +382,13 @@
   },
   "widget": {
     "title": "{business}",
-    "subtitle": "Recepční · obvykle odpoví hned",
-    "greeting": "Dobrý den! Jsem AI recepční podniku {business}. S čím vám můžu pomoct?",
+    "subtitle": "Obvykle odpovídáme hned",
+    "greeting": "Dobrý den! Tady {business}. S čím vám můžeme pomoct?",
     "placeholder": "Napište zprávu…",
     "send": "Odeslat",
     "close": "Zavřít chat",
     "typing": "Píše…",
-    "disclaimer": "Píšete si s umělou inteligencí. Může se splést; důležité věci vám potvrdí tým.",
+    "disclaimer": "Odpovídá umělá inteligence jménem {business}. Může se splést; důležité věci vám potvrdíme.",
     "unavailable": "Chat teď není k dispozici.",
     "errors": {
       "rate_limited": "Příliš mnoho zpráv. Chvíli počkejte a zkuste to znovu.",
@@ -396,7 +396,6 @@
       "disabled": "Chat je momentálně vypnutý."
     },
     "you": "Vy",
-    "assistant": "Asistent",
     "team": "Tým",
     "teamLabel": "{business} · tým",
     "minimize": "Zmenšit chat"

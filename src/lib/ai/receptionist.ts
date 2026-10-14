@@ -25,8 +25,8 @@ export type ReceptionistReply = z.infer<typeof ReplySchema> & {
 };
 
 const HOLDING_MESSAGE: Record<string, string> = {
-  cs: "Děkujeme za zprávu! Předám ji kolegům a ozveme se vám co nejdříve. Můžete mi prosím nechat své jméno a telefon nebo e-mail?",
-  en: "Thank you for your message! I'll pass it on to the team and we'll get back to you as soon as possible. Could you leave your name and a phone number or email?",
+  cs: "Děkujeme za zprávu! Podíváme se na to a ozveme se vám co nejdříve. Můžete nám prosím nechat své jméno a telefon nebo e-mail?",
+  en: "Thank you for your message! We'll look into it and get back to you as soon as possible. Could you leave us your name and a phone number or email?",
 };
 
 /** The standard reply when the AI is unavailable (no key, limit reached, outage…). */

@@ -216,21 +216,21 @@ export function ChatWidget({
       </header>
 
       <div className="flex-1 space-y-3 overflow-y-auto px-4 py-4" aria-live="polite">
-        <Bubble sender="ai" label={t("assistant")}>
+        <Bubble sender="ai" label={businessName}>
           {t("greeting", { business: businessName })}
         </Bubble>
         {messages.map((m) => (
           <Bubble
             key={m.id}
             sender={m.sender}
-            label={m.sender === "customer" ? t("you") : m.sender === "human" ? t("teamLabel", { business: businessName }) : t("assistant")}
+            label={m.sender === "customer" ? t("you") : m.sender === "human" ? t("teamLabel", { business: businessName }) : businessName}
             showLabel={m.sender === "human"}
           >
             <Linkified text={m.content} />
           </Bubble>
         ))}
         {sending ? (
-          <Bubble sender="ai" label={t("assistant")}>
+          <Bubble sender="ai" label={businessName}>
             <span className="inline-flex gap-1" aria-label={t("typing")}>
               <span className="size-2 animate-bounce rounded-full bg-(--w-muted) [animation-delay:-0.3s]" />
               <span className="size-2 animate-bounce rounded-full bg-(--w-muted) [animation-delay:-0.15s]" />
@@ -278,7 +278,7 @@ export function ChatWidget({
           </svg>
         </button>
       </form>
-      <p className="px-4 pb-3 text-center text-[11px] leading-tight text-(--w-muted)">{t("disclaimer")}</p>
+      <p className="px-4 pb-3 text-center text-[11px] leading-tight text-(--w-muted)">{t("disclaimer", { business: businessName })}</p>
     </div>
   );
 }
