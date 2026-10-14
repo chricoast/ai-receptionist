@@ -130,7 +130,27 @@
       "reset": "Default look",
       "saveAppearance": "Save appearance",
       "appearanceSaved": "Appearance saved. The preview below already uses it.",
-      "appearanceFailed": "Couldn't save the appearance. Please try again."
+      "appearanceFailed": "Couldn't save the appearance. Please try again.",
+      "check": {
+        "title": "Chat check",
+        "database": {
+          "ok": "The server can reach the chat (the Supabase secret key works).",
+          "missing_key": "SUPABASE_SECRET_KEY is missing in Vercel. The website chat can't work without it.",
+          "wrong_key": "SUPABASE_SECRET_KEY in Vercel is invalid. Paste the sb_secret_… key from Supabase again (Project Settings → API Keys → Secret keys) and redeploy.",
+          "error": "The server can't reach the chat because of an error (see below)."
+        },
+        "channel": {
+          "ok": "The chat is switched on.",
+          "not_found": "No chat with this key in the database.",
+          "disabled": "The chat is switched off. Switch it on above."
+        },
+        "ai": {
+          "set": "The Claude key (ANTHROPIC_API_KEY) is set.",
+          "missing": "ANTHROPIC_API_KEY is missing in Vercel: the receptionist can only pass messages to the team."
+        },
+        "detail": "Details: {detail}",
+        "key": "Your chat key: {key} (must match the code on your website)."
+      }
     }
   },
   "dashboard": {

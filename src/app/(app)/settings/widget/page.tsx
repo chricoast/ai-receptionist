@@ -5,6 +5,7 @@ import { Alert, buttonClass, Card } from "@/components/ui";
 import { requireBusiness } from "@/lib/business";
 import { setWidgetEnabled } from "@/lib/chat/actions";
 import { getOrCreateWebChat } from "@/lib/chat/channel";
+import { checkChat } from "@/lib/chat/service";
 import { parseWidgetTheme } from "@/lib/chat/theme";
 import { AppearanceForm } from "@/components/widget/appearance-form";
 import { getSiteUrl } from "@/lib/site-url";
@@ -26,6 +27,8 @@ export default async function WidgetSettingsPage() {
 
   const snippet = `<script src="${await getSiteUrl()}/widget.js" data-key="${channel.public_key}" async></script>`;
   const isOwner = current.role === "owner";
+  const check = isOwner ? await checkChat(channel.public_key) : null;
+  const checkOk = check && check.database === "ok" && check.channel === "ok" && check.ai === "set";
 
   return (
     <div className="space-y-6">
@@ -51,6 +54,21 @@ export default async function WidgetSettingsPage() {
           </form>
         ) : null}
       </Card>
+
+      {check ? (
+        <Card className={checkOk ? "space-y-2" : "space-y-2 bg-pink-tint"}>
+          <h2 className="text-lg font-semibold">{t("check.title")}</h2>
+          <ul className="space-y-1 text-sm">
+            <li>{check.database === "ok" ? "✓" : "✗"} {t(`check.database.${check.database}`)}</li>
+            {check.channel !== "unknown" ? (
+              <li>{check.channel === "ok" ? "✓" : "✗"} {t(`check.channel.${check.channel}`)}</li>
+            ) : null}
+            <li>{check.ai === "set" ? "✓" : "✗"} {t(`check.ai.${check.ai}`)}</li>
+          </ul>
+          {check.detail ? <p className="text-xs text-neutral-700">{t("check.detail", { detail: check.detail })}</p> : null}
+          <p className="text-xs text-neutral-600">{t("check.key", { key: channel.public_key })}</p>
+        </Card>
+      ) : null}
 
       <Card className="space-y-3">
         <h2 className="text-lg font-semibold">{t("snippetTitle")}</h2>

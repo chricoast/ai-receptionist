@@ -130,7 +130,27 @@
       "reset": "Výchozí vzhled",
       "saveAppearance": "Uložit vzhled",
       "appearanceSaved": "Vzhled uložen. Náhled níže už ho používá.",
-      "appearanceFailed": "Vzhled se nepodařilo uložit. Zkuste to prosím znovu."
+      "appearanceFailed": "Vzhled se nepodařilo uložit. Zkuste to prosím znovu.",
+      "check": {
+        "title": "Kontrola chatu",
+        "database": {
+          "ok": "Server se k chatu dostane (tajný klíč Supabase funguje).",
+          "missing_key": "Ve Vercelu chybí proměnná SUPABASE_SECRET_KEY. Bez ní chat na webu nefunguje.",
+          "wrong_key": "SUPABASE_SECRET_KEY ve Vercelu je neplatný. Vložte znovu klíč sb_secret_… ze Supabase (Project Settings → API Keys → Secret keys) a dejte Redeploy.",
+          "error": "Server se k chatu nedostane kvůli chybě (viz níže)."
+        },
+        "channel": {
+          "ok": "Chat je zapnutý.",
+          "not_found": "Chat s tímto klíčem v databázi není.",
+          "disabled": "Chat je vypnutý. Zapněte ho výše."
+        },
+        "ai": {
+          "set": "Klíč pro Clauda (ANTHROPIC_API_KEY) je nastavený.",
+          "missing": "Ve Vercelu chybí ANTHROPIC_API_KEY: recepční pak jen předává zprávy týmu."
+        },
+        "detail": "Podrobnosti: {detail}",
+        "key": "Klíč vašeho chatu: {key} (musí být stejný jako v kódu na webu)."
+      }
     }
   },
   "dashboard": {

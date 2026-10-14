@@ -295,3 +295,38 @@ export async function postCustomerMessage(input: {
 
   return { ok: true, conversationId: conversation.id, token: newToken, status: conversation.status, messages };
 }
+
+export type ChatCheck = {
+  /** Server can read the chat (the Supabase secret key works). */
+  database: "ok" | "missing_key" | "wrong_key" | "error";
+  /** The chat channel exists and is switched on. */
+  channel: "ok" | "not_found" | "disabled" | "unknown";
+  /** A Claude API key is set (it isn't called here, so this doesn't prove it's valid). */
+  ai: "set" | "missing";
+  detail: string;
+};
+
+/**
+ * Self-check for the owner (Settings → Website chat): does the public chat
+ * work end to end? Never reveals any key, only what is wrong.
+ */
+export async function checkChat(publicKey: string): Promise<ChatCheck> {
+  const ai = process.env.ANTHROPIC_API_KEY?.trim() ? "set" : "missing";
+  const secret = process.env.SUPABASE_SECRET_KEY?.trim() ?? "";
+  if (!secret) return { database: "missing_key", channel: "unknown", ai, detail: "" };
+  // A common mix-up: the public (publishable) key pasted as the secret one.
+  if (!secret.startsWith("sb_secret_") && !secret.startsWith("eyJ")) {
+    const hint = secret.startsWith("sb_publishable_") ? "SUPABASE_SECRET_KEY contains the publishable key (sb_publishable_…), not the secret one (sb_secret_…)." : "SUPABASE_SECRET_KEY doesn't look like a Supabase secret key (sb_secret_…).";
+    return { database: "wrong_key", channel: "unknown", ai, detail: hint };
+  }
+  try {
+    const channel = await findWidgetChannel(publicKey);
+    if (!channel) return { database: "ok", channel: "not_found", ai, detail: "" };
+    return { database: "ok", channel: channel.enabled ? "ok" : "disabled", ai, detail: "" };
+  } catch (error) {
+    const message = error && typeof error === "object" && "message" in error ? String(error.message) : String(error);
+    // An unknown key is treated like a visitor without rights: "permission denied".
+    const wrongKey = /invalid api key|jwt|unauthori[sz]ed|401|apikey|permission denied/i.test(message);
+    return { database: wrongKey ? "wrong_key" : "error", channel: "unknown", ai, detail: message.slice(0, 200) };
+  }
+}
